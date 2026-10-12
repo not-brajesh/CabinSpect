@@ -3,24 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>  — AI-Powered Industrial Cabinet Quality Control</title>
+<title>CabinSpect — AI-Powered Industrial Cabinet Quality Control</title>
 <style>
-/* ============================================================
-   RESET + TOKENS
-   ============================================================ */
+
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0B1220;
-  --sidebar:#111827;
-  --card:#172033;
-  --card2:#1C2740;
-  --border:#263449;
-  --text:#F8FAFC;
-  --muted:#94A3B8;
-  --pass:#22C55E;
-  --fail:#EF4444;
-  --review:#F59E0B;
-  --ai:#3B82F6;
+  --bg:#050A08;
+  --sidebar:#07110D;
+  --card:#0B1711;
+  --card2:#102219;
+  --border:#19382A;
+  --text:#F4FFF8;
+  --muted:#91A89A;
+  --pass:#18E58A;
+  --fail:#FF455D;
+  --review:#FFC247;
+  --ai:#18E58A;
   --radius:14px;
 }
 html,body{height:100%}
@@ -34,16 +32,13 @@ body{
   overflow-x:hidden;
 }
 ::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:#0B1220}
-::-webkit-scrollbar-thumb{background:#263449;border-radius:8px}
-::-webkit-scrollbar-thumb:hover{background:#33445f}
+::-webkit-scrollbar-track{background:#050A08}
+::-webkit-scrollbar-thumb{background:#19382A;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:#1F4A35}
 
-/* ============================================================
-   APP SHELL
-   ============================================================ */
+
 .app{display:flex;min-height:100vh}
 
-/* ---------- SIDEBAR ---------- */
 .sidebar{
   width:252px;flex-shrink:0;
   background:var(--sidebar);
@@ -59,25 +54,25 @@ body{
 }
 .brand-logo{
   width:38px;height:38px;flex-shrink:0;border-radius:10px;
-  background:linear-gradient(135deg,#3B82F6,#8B5CF6);
+  background:linear-gradient(135deg,#18E58A,#059669);
   display:grid;place-items:center;font-size:19px;
-  box-shadow:0 0 20px rgba(59,130,246,.35);
+  box-shadow:0 0 20px rgba(24,229,138,.4);
 }
 .brand-name{font-size:16px;font-weight:800;letter-spacing:.7px}
 .brand-sub{font-size:10.5px;color:var(--muted);line-height:1.35;margin-top:2px}
 
 .nav{flex:1;overflow-y:auto;padding:14px 10px}
-.nav-group{font-size:10px;letter-spacing:1.4px;color:#5B6B85;font-weight:700;padding:14px 12px 7px}
+.nav-group{font-size:10px;letter-spacing:1.4px;color:#4C6656;font-weight:700;padding:14px 12px 7px}
 .nav-item{
   display:flex;align-items:center;gap:11px;
   padding:10px 12px;border-radius:9px;cursor:pointer;
   color:var(--muted);font-size:13px;font-weight:500;
   transition:.16s;border:1px solid transparent;user-select:none;
 }
-.nav-item:hover{background:#182135;color:var(--text)}
+.nav-item:hover{background:#0F2418;color:var(--text)}
 .nav-item.active{
-  background:linear-gradient(90deg,rgba(59,130,246,.18),rgba(59,130,246,.04));
-  color:#fff;border-color:rgba(59,130,246,.35);font-weight:600;
+  background:linear-gradient(90deg,rgba(24,229,138,.18),rgba(24,229,138,.04));
+  color:#fff;border-color:rgba(24,229,138,.35);font-weight:600;
 }
 .nav-item .ni{width:17px;text-align:center;font-size:14px;opacity:.95}
 .nav-item .badge{
@@ -90,8 +85,8 @@ body{
 }
 .avatar{
   width:33px;height:33px;border-radius:50%;
-  background:linear-gradient(135deg,#3B82F6,#8B5CF6);
-  display:grid;place-items:center;font-weight:700;font-size:12px;
+  background:linear-gradient(135deg,#18E58A,#059669);
+  display:grid;place-items:center;font-weight:700;font-size:12px;color:#03150C;
 }
 .sf-name{font-size:12.5px;font-weight:600}
 .sf-role{font-size:10.5px;color:var(--muted)}
@@ -102,12 +97,11 @@ body{
 }
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* ---------- MAIN ---------- */
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
 .topbar{
   height:62px;flex-shrink:0;
   border-bottom:1px solid var(--border);
-  background:rgba(11,18,32,.88);
+  background:rgba(5,10,8,.88);
   backdrop-filter:blur(10px);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 26px;position:sticky;top:0;z-index:55;
@@ -117,19 +111,18 @@ body{
 .tb-right{display:flex;align-items:center;gap:12px}
 .pill{
   font-size:11.5px;font-weight:600;padding:5px 12px;border-radius:20px;
-  border:1px solid var(--border);background:#131c2e;color:var(--muted);
+  border:1px solid var(--border);background:#0D1E15;color:var(--muted);
   display:flex;align-items:center;
 }
-.pill.ok{color:var(--pass);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.08)}
+.pill.ok{color:var(--pass);border-color:rgba(24,229,138,.35);background:rgba(24,229,138,.08)}
+.pill.demo{color:#6EE7B7;border-color:rgba(24,229,138,.45);background:rgba(24,229,138,.06);font-weight:800;letter-spacing:.8px}
 
 .content{padding:26px;flex:1;max-width:1560px;width:100%;margin:0 auto}
 
-/* ---------- SCREENS ---------- */
 .screen{display:none;animation:fade .32s ease}
 .screen.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 
-/* ---------- GENERIC ---------- */
 h1.page-h{font-size:25px;font-weight:800;letter-spacing:-.4px}
 p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .card{
@@ -138,7 +131,7 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 }
 .card-h{
   font-size:11px;font-weight:800;letter-spacing:1.2px;
-  color:#7C8BA5;text-transform:uppercase;margin-bottom:13px;
+  color:#6B8474;text-transform:uppercase;margin-bottom:13px;
   display:flex;align-items:center;gap:8px;
 }
 .grid{display:grid;gap:16px}
@@ -150,122 +143,314 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
   padding:11px 20px;border-radius:10px;transition:.17s;
   display:inline-flex;align-items:center;gap:8px;justify-content:center;
 }
-.btn-primary{background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff;box-shadow:0 6px 20px -6px rgba(59,130,246,.7)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 26px -6px rgba(59,130,246,.85)}
-.btn-ghost{background:#1B2437;color:var(--text);border:1px solid var(--border)}
-.btn-ghost:hover{background:#233047;border-color:#38507a}
-.btn-pass{background:linear-gradient(135deg,#22C55E,#16A34A);color:#04220f}
+.btn-primary{background:linear-gradient(135deg,#18E58A,#10B981);color:#03150C;box-shadow:0 6px 20px -6px rgba(24,229,138,.7)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 26px -6px rgba(24,229,138,.85)}
+.btn-ghost{background:#0D1E15;color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:#14291C;border-color:#1F5A3E}
+.btn-pass{background:linear-gradient(135deg,#18E58A,#10B981);color:#03150C}
 .btn-pass:hover{transform:translateY(-1px)}
 .btn-sm{padding:7px 13px;font-size:11.5px;border-radius:8px}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
 
-/* ============================================================
-   DASHBOARD
-   ============================================================ */
+.loading-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:
+    radial-gradient(1000px 500px at 50% -20%,rgba(24,229,138,.13),transparent 65%),
+    radial-gradient(800px 400px at 50% 120%,rgba(5,150,105,.12),transparent 60%),
+    #030805;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .55s ease, visibility .55s ease;
+}
+.loading-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loading-content{
+  text-align:center;max-width:620px;padding:40px 24px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.loading-logo{
+  width:88px;height:88px;border-radius:22px;
+  background:linear-gradient(135deg,#18E58A,#059669);
+  display:grid;place-items:center;font-size:44px;
+  box-shadow:0 0 60px rgba(24,229,138,.5),0 0 120px rgba(24,229,138,.22);
+  animation:logoPulse 2.4s ease-in-out infinite;
+}
+@keyframes logoPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.05);opacity:.9}
+}
+.loading-brand{
+  font-size:24px;font-weight:900;letter-spacing:1.2px;margin-top:24px;
+  color:#fff;
+}
+.loading-brand span{color:#18E58A}
+.loading-title{
+  font-size:26px;font-weight:800;letter-spacing:-.4px;margin-top:26px;color:#fff;
+  line-height:1.2;
+}
+.loading-title span{
+  background:linear-gradient(100deg,#18E58A,#6EE7B7);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.loading-subtitle{
+  font-size:14px;color:#91A89A;margin-top:10px;
+}
+.loading-desc{
+  font-size:12px;color:#5E7568;margin-top:8px;letter-spacing:.5px;
+  text-transform:uppercase;font-weight:700;
+}
+.loading-progress{
+  width:340px;max-width:80vw;height:4px;border-radius:20px;
+  background:rgba(24,229,138,.12);margin-top:38px;overflow:hidden;
+  border:1px solid rgba(24,229,138,.18);
+}
+.loading-progress-bar{
+  display:block;height:100%;width:0;
+  background:linear-gradient(90deg,#18E58A,#6EE7B7);
+  box-shadow:0 0 18px rgba(24,229,138,.7);
+  transition:width .35s ease;
+}
+.loading-status{
+  font-size:10.5px;letter-spacing:2.6px;color:#91A89A;
+  margin-top:20px;font-weight:800;text-transform:uppercase;
+  min-height:18px;
+}
+.loading-start{
+  margin-top:34px;padding:14px 34px;border-radius:12px;
+  background:linear-gradient(135deg,#18E58A,#10B981);
+  color:#03150C;font-weight:900;font-size:13px;letter-spacing:1.6px;
+  border:none;cursor:pointer;font-family:inherit;
+  box-shadow:0 10px 40px -8px rgba(24,229,138,.6);
+  transition:.2s;animation:fadeInUp .5s ease;
+  display:none;
+}
+.loading-start:hover{transform:translateY(-2px);box-shadow:0 14px 46px -8px rgba(24,229,138,.85)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+
+.welcome-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(3,8,6,.82);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.welcome-overlay.show{display:flex;animation:fade .3s}
+.welcome-modal{
+  width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  background:linear-gradient(160deg,#0B1711,#07110D);
+  border:1px solid rgba(24,229,138,.3);border-radius:20px;
+  padding:34px 32px 30px;position:relative;
+  box-shadow:0 30px 90px -20px rgba(0,0,0,.9),0 0 60px -20px rgba(24,229,138,.35);
+  animation:pop .32s cubic-bezier(.2,.9,.3,1.3);
+}
+.welcome-icon{
+  width:56px;height:56px;border-radius:16px;
+  background:linear-gradient(135deg,#18E58A,#10B981);
+  display:grid;place-items:center;font-size:26px;color:#03150C;
+  box-shadow:0 0 40px rgba(24,229,138,.45);margin-bottom:20px;
+}
+.welcome-eyebrow{
+  font-size:10.5px;letter-spacing:2.4px;font-weight:800;
+  color:#18E58A;text-transform:uppercase;margin-bottom:10px;
+}
+.welcome-title{
+  font-size:26px;font-weight:900;letter-spacing:-.6px;line-height:1.15;
+  color:#fff;margin-bottom:12px;
+}
+.welcome-title span{
+  background:linear-gradient(100deg,#18E58A,#6EE7B7);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.welcome-sub{
+  font-size:13.5px;color:#91A89A;margin-bottom:18px;
+}
+.welcome-desc{
+  font-size:13px;color:#B7C5D9;line-height:1.65;margin-bottom:20px;
+}
+.welcome-features{
+  list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:9px 16px;
+  margin-bottom:22px;padding:16px;border-radius:12px;
+  background:rgba(24,229,138,.04);border:1px solid rgba(24,229,138,.14);
+}
+.welcome-features li{
+  font-size:12.5px;color:#CBD9CE;display:flex;gap:8px;align-items:flex-start;
+}
+.welcome-features li::before{
+  content:"✓";color:#18E58A;font-weight:900;flex-shrink:0;
+}
+.welcome-duration{
+  font-size:11.5px;color:#5E7568;letter-spacing:.6px;
+  margin-bottom:20px;display:flex;align-items:center;gap:8px;
+}
+.welcome-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.tour-overlay{
+  position:fixed;inset:0;z-index:400;display:none;
+  pointer-events:none;
+}
+.tour-overlay.show{display:block}
+.tour-spotlight{
+  position:fixed;
+  border:2px solid #18E58A;border-radius:12px;
+  box-shadow:0 0 0 9999px rgba(3,8,6,.78),0 0 40px rgba(24,229,138,.55);
+  transition:left .3s ease,top .3s ease,width .3s ease,height .3s ease;
+  pointer-events:none;z-index:401;
+  display:none;
+}
+.tour-card{
+  position:fixed;z-index:402;pointer-events:auto;
+  background:linear-gradient(160deg,#0E1D15,#08130D);
+  border:1px solid rgba(24,229,138,.34);border-radius:16px;
+  padding:22px 22px 20px;max-width:440px;
+  box-shadow:0 24px 60px -16px rgba(0,0,0,.9),0 0 50px -20px rgba(24,229,138,.5);
+  animation:pop .3s cubic-bezier(.2,.9,.3,1.3);
+  transition:left .3s ease,top .3s ease;
+}
+.tour-step-label{
+  font-size:10.5px;letter-spacing:2.2px;font-weight:800;
+  color:#18E58A;text-transform:uppercase;margin-bottom:9px;
+}
+.tour-title{
+  font-size:17px;font-weight:900;letter-spacing:-.3px;
+  color:#fff;margin-bottom:10px;line-height:1.25;
+}
+.tour-description{
+  font-size:13px;color:#B7C5D9;line-height:1.65;margin-bottom:16px;
+}
+.tour-description strong{color:#F4FFF8}
+.tour-description em{color:#6EE7B7;font-style:normal;font-weight:700}
+.tour-progress{
+  height:3px;border-radius:20px;background:rgba(24,229,138,.12);
+  overflow:hidden;margin-bottom:16px;
+}
+.tour-progress span{
+  display:block;height:100%;width:12.5%;
+  background:linear-gradient(90deg,#18E58A,#6EE7B7);
+  border-radius:20px;transition:width .3s ease;
+  box-shadow:0 0 12px rgba(24,229,138,.6);
+}
+.tour-actions{
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+}
+.tour-actions .tour-skip{
+  background:transparent;border:none;color:#5E7568;cursor:pointer;
+  font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.6px;
+  padding:8px 4px;margin-right:auto;
+}
+.tour-actions .tour-skip:hover{color:#FFC247}
+.tour-actions .tour-back{
+  background:#0F2418;color:#B7C5D9;border:1px solid #19382A;
+  padding:9px 16px;border-radius:9px;cursor:pointer;font-family:inherit;
+  font-size:12px;font-weight:700;transition:.16s;
+}
+.tour-actions .tour-back:hover:not(:disabled){background:#1A3A28;color:#fff}
+.tour-actions .tour-back:disabled{opacity:.35;cursor:not-allowed}
+.tour-actions .tour-next{
+  background:linear-gradient(135deg,#18E58A,#10B981);
+  color:#03150C;border:none;padding:10px 20px;border-radius:9px;
+  cursor:pointer;font-family:inherit;font-size:12px;font-weight:900;
+  letter-spacing:.8px;transition:.16s;
+  box-shadow:0 6px 20px -6px rgba(24,229,138,.7);
+}
+.tour-actions .tour-next:hover{transform:translateY(-1px);box-shadow:0 10px 26px -6px rgba(24,229,138,.85)}
+
 .hero{
   border-radius:18px;padding:34px 34px 30px;
   background:
-    radial-gradient(900px 300px at 12% -30%,rgba(59,130,246,.22),transparent 65%),
-    radial-gradient(700px 300px at 88% 120%,rgba(139,92,246,.18),transparent 60%),
-    linear-gradient(160deg,#141E33,#111827);
+    radial-gradient(900px 300px at 12% -30%,rgba(24,229,138,.22),transparent 65%),
+    radial-gradient(700px 300px at 88% 120%,rgba(5,150,105,.2),transparent 60%),
+    linear-gradient(160deg,#0E1D15,#07110D);
   border:1px solid var(--border);
   position:relative;overflow:hidden;margin-bottom:20px;
 }
 .hero::after{
   content:"";position:absolute;inset:0;
-  background-image:linear-gradient(rgba(59,130,246,.05) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(59,130,246,.05) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(24,229,138,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(24,229,138,.05) 1px,transparent 1px);
   background-size:44px 44px;pointer-events:none;
   mask-image:radial-gradient(circle at 75% 40%,#000,transparent 72%);
 }
 .hero h1{
   font-size:38px;font-weight:900;letter-spacing:-1.1px;line-height:1.1;
-  background:linear-gradient(100deg,#fff 15%,#7FB0FF 60%,#B79BFF 95%);
+  background:linear-gradient(100deg,#fff 15%,#6EE7B7 60%,#18E58A 95%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   position:relative;z-index:2;
 }
-.hero p{color:#9FB0C9;font-size:14.5px;margin-top:13px;max-width:660px;position:relative;z-index:2}
+.hero p{color:#9FB5A6;font-size:14.5px;margin-top:13px;max-width:660px;position:relative;z-index:2}
 .hero-btns{display:flex;gap:12px;margin-top:24px;position:relative;z-index:2;flex-wrap:wrap}
 
 .stat{
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
   padding:17px 18px;position:relative;overflow:hidden;transition:.2s;
 }
-.stat:hover{transform:translateY(-2px);border-color:#34507e}
+.stat:hover{transform:translateY(-2px);border-color:#1F5A3E}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
 .stat.s-total::before{background:var(--ai)}
 .stat.s-pass::before{background:var(--pass)}
 .stat.s-fail::before{background:var(--fail)}
 .stat.s-rev::before{background:var(--review)}
-.stat-l{font-size:10.5px;letter-spacing:1.2px;font-weight:700;color:#7C8BA5;text-transform:uppercase}
+.stat-l{font-size:10.5px;letter-spacing:1.2px;font-weight:700;color:#6B8474;text-transform:uppercase}
 .stat-v{font-size:31px;font-weight:900;margin-top:7px;letter-spacing:-1px}
 .stat-d{font-size:11.5px;color:var(--muted);margin-top:3px}
-.c-blue{color:#60A5FA}.c-green{color:var(--pass)}.c-red{color:var(--fail)}.c-amber{color:var(--review)}
+.c-blue{color:#34D399}.c-green{color:var(--pass)}.c-red{color:var(--fail)}.c-amber{color:var(--review)}
 
-/* ============================================================
-   NEW INSPECTION
-   ============================================================ */
+
 .upload-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px}
 .up-card{
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
   padding:18px;transition:.2s;cursor:pointer;position:relative;
 }
-.up-card:hover{border-color:#3B82F6;background:#1A2438}
-.up-card.loaded{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.045)}
+.up-card:hover{border-color:#18E58A;background:#102A1D}
+.up-card.loaded{border-color:rgba(24,229,138,.5);background:rgba(24,229,138,.05)}
 .up-head{display:flex;align-items:center;gap:9px;margin-bottom:14px}
 .up-ico{font-size:17px}
-.up-title{font-size:12px;font-weight:800;letter-spacing:1.1px;color:#8FA2BE;text-transform:uppercase}
+.up-title{font-size:12px;font-weight:800;letter-spacing:1.1px;color:#8FA89A;text-transform:uppercase}
 .dropzone{
-  border:2px dashed #2E3E58;border-radius:11px;padding:26px 16px;text-align:center;
-  transition:.2s;background:#131C2E;
+  border:2px dashed #1F4A35;border-radius:11px;padding:26px 16px;text-align:center;
+  transition:.2s;background:#0D1E15;
 }
-.up-card:hover .dropzone{border-color:#3B82F6;background:#16223a}
-.up-card.loaded .dropzone{border-style:solid;border-color:rgba(34,197,94,.45);background:rgba(34,197,94,.06);padding:16px}
+.up-card:hover .dropzone{border-color:#18E58A;background:#0F2418}
+.up-card.loaded .dropzone{border-style:solid;border-color:rgba(24,229,138,.45);background:rgba(24,229,138,.06);padding:16px}
 .dz-ico{font-size:26px;opacity:.7}
 .dz-t{font-size:13px;font-weight:600;margin-top:8px}
 .dz-s{font-size:11.5px;color:var(--muted);margin-top:3px}
 .up-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .chip{
   font-size:10.5px;font-weight:600;padding:3.5px 9px;border-radius:20px;
-  background:#1E293F;border:1px solid var(--border);color:var(--muted);
+  background:#122B1E;border:1px solid var(--border);color:var(--muted);
 }
-.chip.ok{color:var(--pass);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.08)}
-.chip.err{color:var(--fail);border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.08)}
+.chip.ok{color:var(--pass);border-color:rgba(24,229,138,.35);background:rgba(24,229,138,.08)}
+.chip.err{color:var(--fail);border-color:rgba(255,69,93,.35);background:rgba(255,69,93,.08)}
 .checklist-mini{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:4px}
 .cl-item{font-size:12px;color:#B7C5D9;display:flex;gap:7px;align-items:center}
 .cl-item i{color:var(--pass);font-style:normal;font-size:11px}
 
 .inspect-footer{
   margin-top:20px;padding:18px 20px;border-radius:var(--radius);
-  background:linear-gradient(100deg,#141E33,#172033);border:1px solid var(--border);
+  background:linear-gradient(100deg,#0E1D15,#0B1711);border:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
 }
 .iid{font-size:11px;color:var(--muted);letter-spacing:.8px}
-.iid b{color:#7FB0FF;font-family:ui-monospace,monospace;font-size:13px;letter-spacing:1px}
+.iid b{color:#6EE7B7;font-family:ui-monospace,monospace;font-size:13px;letter-spacing:1px}
 
-/* ============================================================
-   PROCESSING
-   ============================================================ */
+
 .proc-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:start;margin-top:22px}
 .proc-img{
   border-radius:16px;overflow:hidden;border:1px solid var(--border);
-  background:#0E1626;position:relative;
+  background:#08130D;position:relative;
 }
 .proc-img svg{display:block;width:100%}
 .scanline{
   position:absolute;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,transparent,#3B82F6,#7DD3FC,#3B82F6,transparent);
-  box-shadow:0 0 22px 5px rgba(59,130,246,.55);
+  background:linear-gradient(90deg,transparent,#18E58A,#6EE7B7,#18E58A,transparent);
+  box-shadow:0 0 22px 5px rgba(24,229,138,.55);
   animation:scan 2.4s ease-in-out infinite;
 }
 @keyframes scan{0%{top:4%}50%{top:94%}100%{top:4%}}
 .proc-overlay{
-  position:absolute;inset:0;background:rgba(11,18,32,.28);
+  position:absolute;inset:0;background:rgba(5,10,8,.28);
   display:grid;place-items:center;pointer-events:none;
 }
 .proc-ov-txt{
-  font-size:11px;font-weight:800;letter-spacing:3px;color:#7DD3FC;
-  text-transform:uppercase;text-shadow:0 0 18px rgba(59,130,246,.9);
+  font-size:11px;font-weight:800;letter-spacing:3px;color:#6EE7B7;
+  text-transform:uppercase;text-shadow:0 0 18px rgba(24,229,138,.9);
   animation:blink 1.6s infinite;
 }
 .pstep{
@@ -274,23 +459,21 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 }
 .pstep .ic{
   width:22px;height:22px;flex-shrink:0;border-radius:50%;
-  border:1.6px solid #33445F;display:grid;place-items:center;
-  font-size:10.5px;color:#4C5F7C;transition:.28s;
+  border:1.6px solid #1F4A35;display:grid;place-items:center;
+  font-size:10.5px;color:#4C6656;transition:.28s;
 }
-.pstep .tx{font-size:13px;color:#6C7E9B;transition:.28s}
-.pstep.active{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4)}
+.pstep .tx{font-size:13px;color:#5E7568;transition:.28s}
+.pstep.active{background:rgba(24,229,138,.12);border-color:rgba(24,229,138,.4)}
 .pstep.active .ic{border-color:var(--ai);color:var(--ai);animation:blink 1s infinite}
 .pstep.active .tx{color:#fff;font-weight:600}
-.pstep.done .ic{background:rgba(34,197,94,.16);border-color:var(--pass);color:var(--pass)}
+.pstep.done .ic{background:rgba(24,229,138,.16);border-color:var(--pass);color:var(--pass)}
 .pstep.done .tx{color:#B7C5D9}
-.pbar{height:7px;border-radius:20px;background:#1B2437;overflow:hidden;margin-top:18px}
-.pbar span{display:block;height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#3B82F6,#7DD3FC);transition:width .5s ease;box-shadow:0 0 14px rgba(59,130,246,.7)}
+.pbar{height:7px;border-radius:20px;background:#0F2418;overflow:hidden;margin-top:18px}
+.pbar span{display:block;height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#18E58A,#6EE7B7);transition:width .5s ease;box-shadow:0 0 14px rgba(24,229,138,.7)}
 .pmeta{display:flex;justify-content:space-between;margin-top:9px;font-size:11.5px;color:var(--muted)}
-.pmeta b{color:#7FB0FF}
+.pmeta b{color:#6EE7B7}
 
-/* ============================================================
-   STEPPER
-   ============================================================ */
+
 .stepper{
   display:flex;align-items:center;gap:0;overflow-x:auto;padding:14px 16px;
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
@@ -299,19 +482,16 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .stp{display:flex;align-items:center;flex-shrink:0}
 .stp-dot{
   width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
-  font-size:10.5px;font-weight:800;border:1.6px solid #33445F;color:#5C6E8B;
-  background:#131C2E;flex-shrink:0;
+  font-size:10.5px;font-weight:800;border:1.6px solid #1F4A35;color:#4C6656;
+  background:#0D1E15;flex-shrink:0;
 }
-.stp-lbl{font-size:10px;font-weight:800;letter-spacing:.9px;color:#5C6E8B;margin-left:7px;white-space:nowrap}
-.stp-line{width:34px;height:1.5px;background:#263449;margin:0 10px;flex-shrink:0}
-.stp.done .stp-dot{background:rgba(34,197,94,.16);border-color:var(--pass);color:var(--pass)}
-.stp.done .stp-lbl{color:#8FA2BE}
-.stp.cur .stp-dot{background:rgba(59,130,246,.2);border-color:var(--ai);color:#7DD3FC;box-shadow:0 0 0 4px rgba(59,130,246,.12)}
+.stp-lbl{font-size:10px;font-weight:800;letter-spacing:.9px;color:#4C6656;margin-left:7px;white-space:nowrap}
+.stp-line{width:34px;height:1.5px;background:#19382A;margin:0 10px;flex-shrink:0}
+.stp.done .stp-dot{background:rgba(24,229,138,.16);border-color:var(--pass);color:var(--pass)}
+.stp.done .stp-lbl{color:#8FA89A}
+.stp.cur .stp-dot{background:rgba(24,229,138,.2);border-color:var(--ai);color:#6EE7B7;box-shadow:0 0 0 4px rgba(24,229,138,.12)}
 .stp.cur .stp-lbl{color:#fff}
 
-/* ============================================================
-   RESULT
-   ============================================================ */
 .result-head{
   display:flex;align-items:center;justify-content:space-between;gap:18px;
   flex-wrap:wrap;margin-bottom:18px;
@@ -320,18 +500,25 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
   font-size:12.5px;font-weight:800;letter-spacing:1px;padding:8px 18px;border-radius:22px;
   display:inline-flex;align-items:center;gap:8px;
 }
-.sb-fail{background:rgba(239,68,68,.13);border:1px solid rgba(239,68,68,.45);color:#FCA5A5}
-.sb-pass{background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.45);color:#86EFAC}
-.sb-rev{background:rgba(245,158,11,.13);border:1px solid rgba(245,158,11,.45);color:#FCD34D}
+.sb-fail{background:rgba(255,69,93,.13);border:1px solid rgba(255,69,93,.45);color:#FFA6B4}
+.sb-pass{background:rgba(24,229,138,.13);border:1px solid rgba(24,229,138,.45);color:#6EE7B7}
+.sb-rev{background:rgba(255,194,71,.13);border:1px solid rgba(255,194,71,.45);color:#FFD67A}
+
+.demo-note{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.7px;
+  color:#6EE7B7;background:rgba(24,229,138,.07);
+  border:1px solid rgba(24,229,138,.25);border-radius:20px;
+  padding:5px 12px;margin-bottom:14px;
+}
 
 .sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
 .sum{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px}
-.sum-l{font-size:10.5px;letter-spacing:1.1px;font-weight:700;color:#7C8BA5;text-transform:uppercase}
+.sum-l{font-size:10.5px;letter-spacing:1.1px;font-weight:700;color:#6B8474;text-transform:uppercase}
 .sum-v{font-size:26px;font-weight:900;margin-top:5px;letter-spacing:-.8px}
 
 .result-body{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start}
 
-/* ---------- CABINET VIEWER ---------- */
 .viewer{
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
   padding:14px;position:sticky;top:80px;
@@ -339,46 +526,44 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .viewer-tabs{display:flex;gap:7px;margin-bottom:12px}
 .vtab{
   font-size:11.5px;font-weight:700;padding:6.5px 13px;border-radius:8px;
-  background:#131C2E;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:.16s;
+  background:#0D1E15;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:.16s;
 }
 .vtab:hover{color:#fff}
-.vtab.active{background:rgba(59,130,246,.16);border-color:rgba(59,130,246,.5);color:#93C5FD}
+.vtab.active{background:rgba(24,229,138,.16);border-color:rgba(24,229,138,.5);color:#6EE7B7}
 .cabinet-wrap{
   position:relative;border-radius:11px;overflow:hidden;
-  background:#0E1626;border:1px solid var(--border);
+  background:#08130D;border:1px solid var(--border);
 }
 .cabinet-wrap svg{display:block;width:100%;height:auto}
 .layer{position:absolute;inset:0;pointer-events:none}
 .layer.show{display:block!important}
 .layer{display:none}
 
-/* fault markers */
 .marker{
   position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;
-  border-radius:50%;background:rgba(239,68,68,.92);border:2.5px solid #fff;
+  border-radius:50%;background:rgba(255,69,93,.92);border:2.5px solid #fff;
   color:#fff;font-size:11.5px;font-weight:900;display:grid;place-items:center;
   cursor:pointer;pointer-events:auto;transition:.18s;z-index:5;
   animation:pulse 2.1s infinite;
 }
-.marker:hover{transform:scale(1.22);background:#DC2626;z-index:9}
+.marker:hover{transform:scale(1.22);background:#E11D48;z-index:9}
 @keyframes pulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.75)}
-  70%{box-shadow:0 0 0 14px rgba(239,68,68,0)}
+  0%,100%{box-shadow:0 0 0 0 rgba(255,69,93,.75)}
+  70%{box-shadow:0 0 0 14px rgba(255,69,93,0)}
 }
-.marker.ok{background:rgba(34,197,94,.9);animation:none;width:22px;height:22px;margin:-11px 0 0 -11px;font-size:10px}
+.marker.ok{background:rgba(24,229,138,.9);animation:none;width:22px;height:22px;margin:-11px 0 0 -11px;font-size:10px}
 
-/* detection boxes */
 .dbox{
-  position:absolute;border:1.6px solid rgba(59,130,246,.9);
-  background:rgba(59,130,246,.09);border-radius:3px;
+  position:absolute;border:1.6px solid rgba(24,229,138,.9);
+  background:rgba(24,229,138,.09);border-radius:3px;
 }
 .dbox span{
   position:absolute;top:-15px;left:-1px;font-size:9px;font-weight:800;
-  background:#3B82F6;color:#fff;padding:1px 5px;border-radius:3px;
+  background:#18E58A;color:#03150C;padding:1px 5px;border-radius:3px;
   letter-spacing:.5px;white-space:nowrap;
 }
-.dbox.bad{border-color:rgba(239,68,68,.95);background:rgba(239,68,68,.13)}
-.dbox.bad span{background:#EF4444}
+.dbox.bad{border-color:rgba(255,69,93,.95);background:rgba(255,69,93,.13)}
+.dbox.bad span{background:#FF455D;color:#fff}
 
 .viewer-legend{
   display:flex;gap:16px;flex-wrap:wrap;margin-top:11px;font-size:11px;color:var(--muted);
@@ -386,34 +571,32 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .lg{display:flex;align-items:center;gap:6px}
 .lg i{width:9px;height:9px;border-radius:50%;display:inline-block}
 
-/* ---------- ISSUE LIST ---------- */
 .issue{
   background:var(--card);border:1px solid var(--border);border-left:3px solid var(--fail);
   border-radius:11px;padding:14px 15px;margin-bottom:11px;cursor:pointer;transition:.18s;
 }
-.issue:hover{background:#1C2740;transform:translateX(3px);border-color:#3B82F6;border-left-color:var(--fail)}
+.issue:hover{background:#102A1D;transform:translateX(3px);border-color:#18E58A;border-left-color:var(--fail)}
 .issue-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .issue-t{font-size:13.5px;font-weight:700}
 .issue-s{font-size:11.5px;color:var(--muted);margin-top:3px}
 .conf{
   font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap;
-  background:rgba(239,68,68,.13);color:#FCA5A5;border:1px solid rgba(239,68,68,.3);
+  background:rgba(255,69,93,.13);color:#FFA6B4;border:1px solid rgba(255,69,93,.3);
 }
-.conf.mid{background:rgba(245,158,11,.13);color:#FCD34D;border-color:rgba(245,158,11,.3)}
-.conf.low{background:rgba(148,163,184,.13);color:#CBD5E1;border-color:rgba(148,163,184,.3)}
+.conf.mid{background:rgba(255,194,71,.13);color:#FFD67A;border-color:rgba(255,194,71,.3)}
+.conf.low{background:rgba(145,168,154,.13);color:#CBD5E1;border-color:rgba(145,168,154,.3)}
 
-/* ---------- AI INSIGHT ---------- */
 .insight{
   margin-top:18px;border-radius:var(--radius);padding:18px 20px;
-  background:linear-gradient(135deg,rgba(59,130,246,.10),rgba(139,92,246,.09));
-  border:1px solid rgba(99,102,241,.4);position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(24,229,138,.10),rgba(5,150,105,.09));
+  border:1px solid rgba(24,229,138,.4);position:relative;overflow:hidden;
 }
 .insight::before{
   content:"";position:absolute;top:-60px;right:-60px;width:180px;height:180px;
-  background:radial-gradient(circle,rgba(139,92,246,.32),transparent 70%);pointer-events:none;
+  background:radial-gradient(circle,rgba(24,229,138,.32),transparent 70%);pointer-events:none;
 }
 .insight-h{
-  font-size:11.5px;font-weight:900;letter-spacing:1.6px;color:#A5B4FC;
+  font-size:11.5px;font-weight:900;letter-spacing:1.6px;color:#6EE7B7;
   display:flex;align-items:center;gap:8px;margin-bottom:11px;
 }
 .insight ul{list-style:none;position:relative;z-index:2}
@@ -421,87 +604,81 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
   font-size:13px;color:#D6E0F0;padding:5px 0 5px 20px;position:relative;
 }
 .insight li::before{
-  content:"▸";position:absolute;left:2px;color:#818CF8;font-weight:900;
+  content:"▸";position:absolute;left:2px;color:#34D399;font-weight:900;
 }
-.insight .okline{color:#86EFAC}
+.insight .okline{color:#6EE7B7}
 .insight .okline::before{content:"✓";color:var(--pass)}
 
-/* ---------- TABLE ---------- */
 .tbl-wrap{overflow-x:auto;border-radius:11px;border:1px solid var(--border);margin-top:6px}
 table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:640px}
 thead th{
-  background:#141E33;text-align:left;padding:11px 14px;font-size:10.5px;
-  letter-spacing:1px;color:#7C8BA5;font-weight:800;text-transform:uppercase;
+  background:#0E1D15;text-align:left;padding:11px 14px;font-size:10.5px;
+  letter-spacing:1px;color:#6B8474;font-weight:800;text-transform:uppercase;
   border-bottom:1px solid var(--border);white-space:nowrap;
 }
-tbody td{padding:11px 14px;border-bottom:1px solid #1D283E;color:#CBD5E1;vertical-align:middle}
+tbody td{padding:11px 14px;border-bottom:1px solid #14291C;color:#CBD5E1;vertical-align:middle}
 tbody tr:last-child td{border-bottom:none}
-tbody tr:hover{background:#1A2338}
+tbody tr:hover{background:#102A1D}
 tbody tr.clickable{cursor:pointer}
-td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#93C5FD}
+td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#6EE7B7}
 .res-tag{
   font-size:10.5px;font-weight:800;padding:3.5px 10px;border-radius:20px;
   display:inline-block;letter-spacing:.4px;
 }
-.rt-pass{background:rgba(34,197,94,.14);color:#86EFAC;border:1px solid rgba(34,197,94,.35)}
-.rt-fail{background:rgba(239,68,68,.14);color:#FCA5A5;border:1px solid rgba(239,68,68,.35)}
-.rt-rev{background:rgba(245,158,11,.14);color:#FCD34D;border:1px solid rgba(245,158,11,.35)}
+.rt-pass{background:rgba(24,229,138,.14);color:#6EE7B7;border:1px solid rgba(24,229,138,.35)}
+.rt-fail{background:rgba(255,69,93,.14);color:#FFA6B4;border:1px solid rgba(255,69,93,.35)}
+.rt-rev{background:rgba(255,194,71,.14);color:#FFD67A;border:1px solid rgba(255,194,71,.35)}
 .strike{color:#64748B;text-decoration:line-through}
 
-/* ---------- CONFIDENCE ---------- */
-.conf-row{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid #1D283E}
+.conf-row{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid #14291C}
 .conf-row:last-child{border-bottom:none}
 .conf-name{width:190px;font-size:12.5px;color:#B7C5D9;flex-shrink:0}
-.conf-track{flex:1;height:6px;border-radius:20px;background:#1B2437;overflow:hidden}
-.conf-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#3B82F6,#7DD3FC);transition:width 1s ease}
-.conf-val{width:44px;text-align:right;font-size:12px;font-weight:800;color:#93C5FD}
+.conf-track{flex:1;height:6px;border-radius:20px;background:#0F2418;overflow:hidden}
+.conf-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#18E58A,#6EE7B7);transition:width 1s ease}
+.conf-val{width:44px;text-align:right;font-size:12px;font-weight:800;color:#6EE7B7}
 .conf-total{
   display:flex;justify-content:space-between;align-items:center;
   margin-top:12px;padding-top:13px;border-top:1px solid var(--border);
 }
-.conf-total .v{font-size:22px;font-weight:900;color:#7DD3FC}
+.conf-total .v{font-size:22px;font-weight:900;color:#6EE7B7}
 
-/* ---------- TECHNICIAN ---------- */
 .tech-item{
   display:flex;align-items:center;gap:14px;padding:13px 15px;
-  background:#131C2E;border:1px solid var(--border);border-radius:11px;margin-bottom:9px;
+  background:#0D1E15;border:1px solid var(--border);border-radius:11px;margin-bottom:9px;
   transition:.18s;
 }
-.tech-item:hover{border-color:#3B82F6;background:#182236}
+.tech-item:hover{border-color:#18E58A;background:#102A1D}
 .tech-n{
   width:29px;height:29px;flex-shrink:0;border-radius:8px;display:grid;place-items:center;
-  background:rgba(239,68,68,.14);color:#FCA5A5;font-weight:900;font-size:11.5px;
-  border:1px solid rgba(239,68,68,.3);
+  background:rgba(255,69,93,.14);color:#FFA6B4;font-weight:900;font-size:11.5px;
+  border:1px solid rgba(255,69,93,.3);
 }
-.tech-n.done{background:rgba(34,197,94,.14);color:#86EFAC;border-color:rgba(34,197,94,.3)}
+.tech-n.done{background:rgba(24,229,138,.14);color:#6EE7B7;border-color:rgba(24,229,138,.3)}
 .tech-txt{flex:1;font-size:13px;font-weight:600}
 .tech-sub{font-size:11px;color:var(--muted);font-weight:400;margin-top:2px}
 
-/* ============================================================
-   MODAL
-   ============================================================ */
 .modal-bg{
-  position:fixed;inset:0;background:rgba(5,9,17,.78);backdrop-filter:blur(5px);
+  position:fixed;inset:0;background:rgba(3,8,6,.78);backdrop-filter:blur(5px);
   z-index:200;display:none;align-items:center;justify-content:center;padding:24px;
 }
 .modal-bg.show{display:flex;animation:fade .2s}
 .modal{
   width:100%;max-width:760px;max-height:90vh;overflow-y:auto;
-  background:#141D30;border:1px solid #2E3E58;border-radius:18px;
+  background:#0E1D15;border:1px solid #1F4A35;border-radius:18px;
   box-shadow:0 30px 90px -20px rgba(0,0,0,.9);animation:pop .26s cubic-bezier(.2,.9,.3,1.3);
 }
 @keyframes pop{from{opacity:0;transform:scale(.94) translateY(14px)}to{opacity:1;transform:none}}
 .modal-h{
   display:flex;align-items:center;justify-content:space-between;
   padding:18px 22px;border-bottom:1px solid var(--border);
-  position:sticky;top:0;background:#141D30;z-index:5;border-radius:18px 18px 0 0;
+  position:sticky;top:0;background:#0E1D15;z-index:5;border-radius:18px 18px 0 0;
 }
-.modal-h h3{font-size:13px;letter-spacing:1.2px;color:#8FA2BE;font-weight:800}
+.modal-h h3{font-size:13px;letter-spacing:1.2px;color:#8FA89A;font-weight:800}
 .xbtn{
-  background:#1E293F;border:1px solid var(--border);color:var(--muted);
+  background:#122B1E;border:1px solid var(--border);color:var(--muted);
   width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px;transition:.16s;
 }
-.xbtn:hover{background:rgba(239,68,68,.18);color:#FCA5A5;border-color:rgba(239,68,68,.4)}
+.xbtn:hover{background:rgba(255,69,93,.18);color:#FFA6B4;border-color:rgba(255,69,93,.4)}
 .modal-b{padding:22px}
 .issue-type{
   font-size:17px;font-weight:900;letter-spacing:-.2px;margin-bottom:4px;
@@ -509,49 +686,46 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 .comp-name{font-size:12.5px;color:var(--muted);margin-bottom:18px}
 .ev-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}
 .ev-box{
-  background:#101828;border:1px solid var(--border);border-radius:11px;padding:13px;
+  background:#08130D;border:1px solid var(--border);border-radius:11px;padding:13px;
 }
-.ev-lbl{font-size:10px;letter-spacing:1.2px;font-weight:800;color:#7C8BA5;margin-bottom:8px;text-transform:uppercase}
+.ev-lbl{font-size:10px;letter-spacing:1.2px;font-weight:800;color:#6B8474;margin-bottom:8px;text-transform:uppercase}
 .ev-val{font-size:15px;font-weight:800;font-family:ui-monospace,monospace}
-.ev-val.bad{color:#FCA5A5}
-.ev-val.good{color:#86EFAC}
+.ev-val.bad{color:#FFA6B4}
+.ev-val.good{color:#6EE7B7}
 .why{
-  background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);
+  background:rgba(255,69,93,.07);border:1px solid rgba(255,69,93,.25);
   border-radius:11px;padding:14px;margin-bottom:18px;
 }
-.why-l{font-size:10px;letter-spacing:1.2px;font-weight:800;color:#FCA5A5;margin-bottom:7px}
+.why-l{font-size:10px;letter-spacing:1.2px;font-weight:800;color:#FFA6B4;margin-bottom:7px}
 .why p{font-size:13px;color:#D6E0F0}
 .zoom-box{
-  border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0E1626;
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#08130D;
   position:relative;margin-bottom:16px;
 }
 .zoom-box svg{display:block;width:100%;height:auto}
 .zoom-tag{
   position:absolute;left:12px;bottom:12px;font-size:10.5px;font-weight:800;
-  background:rgba(239,68,68,.9);color:#fff;padding:4px 10px;border-radius:20px;letter-spacing:.6px;
+  background:rgba(255,69,93,.9);color:#fff;padding:4px 10px;border-radius:20px;letter-spacing:.6px;
 }
 .order-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .o-chip{
   font-family:ui-monospace,monospace;font-size:12.5px;font-weight:800;
-  padding:6px 12px;border-radius:8px;background:#1E293F;border:1px solid var(--border);color:#93C5FD;
+  padding:6px 12px;border-radius:8px;background:#122B1E;border:1px solid var(--border);color:#6EE7B7;
 }
-.o-chip.bad{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.45);color:#FCA5A5}
-.o-arrow{color:#475569;font-weight:900}
+.o-chip.bad{background:rgba(255,69,93,.14);border-color:rgba(255,69,93,.45);color:#FFA6B4}
+.o-arrow{color:#2E4A3B;font-weight:900}
 
-/* ============================================================
-   RE-CHECK
-   ============================================================ */
 .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
 .recheck-item{
   display:flex;align-items:center;gap:12px;padding:12px 15px;
-  border-radius:11px;background:#131C2E;border:1px solid var(--border);margin-bottom:9px;
+  border-radius:11px;background:#0D1E15;border:1px solid var(--border);margin-bottom:9px;
 }
 .recheck-item .ri-ic{
   width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
   font-size:12px;font-weight:900;flex-shrink:0;
 }
-.ri-resolved .ri-ic{background:rgba(34,197,94,.16);color:#86EFAC;border:1px solid rgba(34,197,94,.4)}
-.ri-open .ri-ic{background:rgba(239,68,68,.16);color:#FCA5A5;border:1px solid rgba(239,68,68,.4)}
+.ri-resolved .ri-ic{background:rgba(24,229,138,.16);color:#6EE7B7;border:1px solid rgba(24,229,138,.4)}
+.ri-open .ri-ic{background:rgba(255,69,93,.16);color:#FFA6B4;border:1px solid rgba(255,69,93,.4)}
 .ri-name{flex:1;font-size:13px;font-weight:600}
 .ri-status{font-size:11px;font-weight:800;letter-spacing:.6px}
 .ri-resolved .ri-status{color:var(--pass)}
@@ -561,50 +735,47 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
   display:flex;flex-direction:column;align-items:center;gap:0;padding:8px 0;
 }
 .flow-node{
-  padding:11px 22px;border-radius:11px;background:#131C2E;border:1px solid var(--border);
+  padding:11px 22px;border-radius:11px;background:#0D1E15;border:1px solid var(--border);
   font-size:12.5px;font-weight:700;text-align:center;min-width:230px;
 }
-.flow-node.hi{border-color:rgba(59,130,246,.55);background:rgba(59,130,246,.1);color:#93C5FD}
-.flow-node.ok{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.09);color:#86EFAC}
-.flow-arrow{color:#33445F;font-size:17px;padding:5px 0;line-height:1}
+.flow-node.hi{border-color:rgba(24,229,138,.55);background:rgba(24,229,138,.1);color:#6EE7B7}
+.flow-node.ok{border-color:rgba(24,229,138,.5);background:rgba(24,229,138,.09);color:#6EE7B7}
+.flow-arrow{color:#1F4A35;font-size:17px;padding:5px 0;line-height:1}
 
-/* ---------- FINAL PASS ---------- */
 .final-wrap{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:60px 24px;min-height:60vh;
 }
 .final-circle{
   width:120px;height:120px;border-radius:50%;
-  background:radial-gradient(circle,rgba(34,197,94,.22),transparent 70%);
+  background:radial-gradient(circle,rgba(24,229,138,.22),transparent 70%);
   border:3px solid var(--pass);display:grid;place-items:center;
   font-size:56px;color:var(--pass);margin-bottom:26px;
-  box-shadow:0 0 60px rgba(34,197,94,.4);animation:pop .5s cubic-bezier(.2,.9,.3,1.3);
+  box-shadow:0 0 60px rgba(24,229,138,.4);animation:pop .5s cubic-bezier(.2,.9,.3,1.3);
 }
 .final-h{
   font-size:40px;font-weight:900;letter-spacing:-1.2px;
-  background:linear-gradient(100deg,#fff,#86EFAC);
+  background:linear-gradient(100deg,#fff,#6EE7B7);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.final-s{font-size:13.5px;letter-spacing:3px;color:#86EFAC;font-weight:800;margin-top:10px}
+.final-s{font-size:13.5px;letter-spacing:3px;color:#6EE7B7;font-weight:800;margin-top:10px}
 .final-checks{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:32px 0 30px;max-width:660px;width:100%}
 .fc{
-  padding:12px;border-radius:11px;background:rgba(34,197,94,.07);
-  border:1px solid rgba(34,197,94,.3);font-size:12.5px;font-weight:700;color:#86EFAC;
+  padding:12px;border-radius:11px;background:rgba(24,229,138,.07);
+  border:1px solid rgba(24,229,138,.3);font-size:12.5px;font-weight:700;color:#6EE7B7;
 }
 
-/* ---------- REPORTS ---------- */
 .filters{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
 .filter{
   padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;
-  background:#131C2E;border:1px solid var(--border);color:var(--muted);transition:.16s;
+  background:#0D1E15;border:1px solid var(--border);color:var(--muted);transition:.16s;
 }
-.filter:hover{color:#fff;border-color:#3B82F6}
-.filter.active{background:rgba(59,130,246,.16);border-color:rgba(59,130,246,.5);color:#93C5FD}
+.filter:hover{color:#fff;border-color:#18E58A}
+.filter.active{background:rgba(24,229,138,.16);border-color:rgba(24,229,138,.5);color:#6EE7B7}
 
-/* ---------- TOAST ---------- */
 .toast{
   position:fixed;bottom:26px;right:26px;z-index:500;
-  background:#141D30;border:1px solid rgba(34,197,94,.45);
+  background:#0E1D15;border:1px solid rgba(24,229,138,.45);
   border-left:3px solid var(--pass);border-radius:12px;padding:14px 20px;
   font-size:13px;font-weight:600;color:#D6E0F0;
   box-shadow:0 18px 50px -12px rgba(0,0,0,.85);
@@ -613,7 +784,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 }
 .toast.show{transform:none}
 
-/* ---------- RESPONSIVE ---------- */
 @media(max-width:1180px){
   .result-body{grid-template-columns:1fr}
   .viewer{position:static}
@@ -622,17 +792,115 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 @media(max-width:900px){
   .sidebar{display:none}
   .g4,.sum-grid{grid-template-columns:repeat(2,1fr)}
-  .upload-grid,.g2,.g3,.compare-grid,.ev-grid,.final-checks{grid-template-columns:1fr}
+  .upload-grid,.g2,.g3,.compare-grid,.ev-grid,.final-checks,.welcome-features{grid-template-columns:1fr}
   .content{padding:16px}
   .hero h1{font-size:27px}
+  .tour-card{max-width:calc(100vw - 32px)}
+}
+@media(prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
 }
 </style>
 </head>
 <body>
 
+<!-- ============================================================
+     LOADING SCREEN
+     ============================================================ -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-content">
+    <div class="loading-logo">🦅</div>
+    <div class="loading-brand">Cabin<span>Spect</span></div>
+    <h1 class="loading-title">This is <span>CabinSpect</span> Demo Version</h1>
+    <p class="loading-subtitle">Experience our demo version</p>
+    <p class="loading-desc">AI-Powered Industrial Cabinet Quality Control</p>
+    <div class="loading-progress"><span class="loading-progress-bar" id="loadingBar"></span></div>
+    <div class="loading-status" id="loadingStatus">INITIALIZING DEMO ENVIRONMENT...</div>
+    <button class="loading-start" id="loadingStart">START EXPERIENCE →</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     WELCOME POPUP
+     ============================================================ -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-modal">
+    <div class="welcome-icon">👋</div>
+    <div class="welcome-eyebrow">Welcome</div>
+    <h2 class="welcome-title">Welcome to <span>CabinSpect</span></h2>
+    <p class="welcome-sub">Your guided industrial inspection experience starts here.</p>
+    <p class="welcome-desc">
+      CabinSpect is designed to assist quality control engineers in inspecting industrial
+      electrical cabinets by organizing component checks, label verification, potential
+      assembly discrepancies and supporting evidence.
+    </p>
+    <ul class="welcome-features">
+      <li>Component detection &amp; verification</li>
+      <li>Label and wire identification</li>
+      <li>Expected-versus-found comparison</li>
+      <li>Inspection evidence &amp; findings</li>
+      <li>Corrective action &amp; re-check</li>
+      <li>Structured QC reporting</li>
+    </ul>
+    <div class="welcome-duration">⏱ Estimated tour duration: 2–3 minutes</div>
+    <div class="welcome-actions">
+      <button class="btn btn-primary" id="welcomeStartTour">START GUIDED TOUR →</button>
+      <button class="btn btn-ghost" id="welcomeSkip">SKIP FOR NOW</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOUR COMPLETION OVERLAY
+     ============================================================ -->
+<div class="welcome-overlay" id="tourCompleteOverlay">
+  <div class="welcome-modal">
+    <div class="welcome-icon">✓</div>
+    <div class="welcome-eyebrow">Tour Complete</div>
+    <h2 class="welcome-title">You've completed the <span>CabinSpect</span> demo</h2>
+    <p class="welcome-desc">
+      You've explored the inspection workflow from sample inputs to findings,
+      corrective action, re-check and QC reporting.
+    </p>
+    <ul class="welcome-features">
+      <li>Inspection inputs</li>
+      <li>Sample analysis pipeline</li>
+      <li>Findings &amp; visual evidence</li>
+      <li>Expected-versus-found comparison</li>
+      <li>Corrective action &amp; re-check</li>
+      <li>QC reporting</li>
+    </ul>
+    <div class="welcome-actions">
+      <button class="btn btn-primary" id="completeExplore">EXPLORE DEMO RESULTS</button>
+      <button class="btn btn-ghost" id="completeNew">START NEW INSPECTION</button>
+      <button class="btn btn-ghost" id="completeReplay">REPLAY GUIDED TOUR</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GUIDED TOUR OVERLAY
+     ============================================================ -->
+<div class="tour-overlay" id="tourOverlay">
+  <div class="tour-spotlight" id="tourSpotlight"></div>
+  <div class="tour-card" id="tourCard">
+    <div class="tour-step-label" id="tourStepLabel">STEP 1 OF 8</div>
+    <div class="tour-title" id="tourTitle">Welcome</div>
+    <div class="tour-description" id="tourDesc"></div>
+    <div class="tour-progress"><span id="tourProgressBar"></span></div>
+    <div class="tour-actions">
+      <button class="tour-skip" id="tourSkip">SKIP TOUR</button>
+      <button class="tour-back" id="tourBack">Back</button>
+      <button class="tour-next" id="tourNext">NEXT</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     APPLICATION
+     ============================================================ -->
 <div class="app">
 
-  <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <div class="brand">
       <div class="brand-logo">🦅</div>
@@ -657,7 +925,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 
       <div class="nav-group">SYSTEM</div>
       <div class="nav-item" data-go="dashboard"><span class="ni">⚙</span> Settings</div>
-      <div class="nav-item" data-go="dashboard"><span class="ni">?</span> Help</div>
+      <div class="nav-item" id="helpNav"><span class="ni">?</span> Help</div>
     </nav>
 
     <div class="sidebar-foot">
@@ -669,7 +937,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
     </div>
   </aside>
 
-  <!-- ================= MAIN ================= -->
   <div class="main">
     <header class="topbar">
       <div>
@@ -677,6 +944,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         <div class="tb-sub" id="tbSub">Overview of all cabinet inspections</div>
       </div>
       <div class="tb-right">
+        <span class="pill demo">DEMO MODE</span>
         <span class="pill ok"><span class="dot-online"></span> System Online</span>
         <span class="pill">Inspector: Admin</span>
       </div>
@@ -684,9 +952,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 
     <div class="content">
 
-      <!-- ============================================================
-           SCREEN 1 : DASHBOARD
-           ============================================================ -->
+      <!-- ============ SCREEN 1 : DASHBOARD ============ -->
       <section class="screen active" id="screen-dashboard">
         <div class="hero">
           <h1>Inspect. Detect. Prove. Fix. Re-check.</h1>
@@ -700,6 +966,8 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             <button class="btn btn-ghost" data-go="reports">View Previous Reports</button>
           </div>
         </div>
+
+        <div class="demo-note">⚡ Illustrative Sample Data — For demonstration purposes only</div>
 
         <div class="grid g4">
           <div class="stat s-total">
@@ -758,16 +1026,12 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 2 : NEW INSPECTION
-           ============================================================ -->
+      <!-- ============ SCREEN 2 : NEW INSPECTION ============ -->
       <section class="screen" id="screen-newInspection">
         <h1 class="page-h">Create New Inspection</h1>
         <p class="page-p">Upload all required engineering and physical inspection inputs.</p>
 
         <div class="upload-grid">
-
-          <!-- 1. Cabinet photo -->
           <div class="up-card" data-upload="photo">
             <div class="up-head"><span class="up-ico">📷</span><span class="up-title">Cabinet Photograph</span></div>
             <div class="dropzone">
@@ -781,7 +1045,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             </div>
           </div>
 
-          <!-- 2. GA drawing -->
           <div class="up-card" data-upload="ga">
             <div class="up-head"><span class="up-ico">📐</span><span class="up-title">Engineering / GA Drawing</span></div>
             <div class="dropzone">
@@ -795,7 +1058,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             </div>
           </div>
 
-          <!-- 3. Excel -->
           <div class="up-card" data-upload="excel">
             <div class="up-head"><span class="up-ico">📊</span><span class="up-title">Wire &amp; Label Data</span></div>
             <div class="dropzone">
@@ -809,7 +1071,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             </div>
           </div>
 
-          <!-- 4. QC checklist -->
           <div class="up-card" data-upload="qc">
             <div class="up-head"><span class="up-ico">☑</span><span class="up-title">QC Checklist</span></div>
             <div class="checklist-mini">
@@ -826,7 +1087,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
               <span class="chip ok">✓ 8 checks loaded</span>
             </div>
           </div>
-
         </div>
 
         <div class="inspect-footer">
@@ -838,12 +1098,12 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 3 : AI PROCESSING
-           ============================================================ -->
+      <!-- ============ SCREEN 3 : AI PROCESSING ============ -->
       <section class="screen" id="screen-processing">
-        <h1 class="page-h">ECabinSpect is analyzing the cabinet…</h1>
+        <h1 class="page-h">CabinSpect is analyzing the cabinet…</h1>
         <p class="page-p">Building machine-readable model from engineering intent and actual cabinet photo.</p>
+
+        <div class="demo-note" style="margin-top:14px">⚡ Demonstration of the proposed inspection pipeline</div>
 
         <div class="proc-wrap">
           <div class="proc-img">
@@ -874,12 +1134,8 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 4 : RESULT
-           ============================================================ -->
+      <!-- ============ SCREEN 4 : RESULT ============ -->
       <section class="screen" id="screen-result">
-
-        <!-- stepper -->
         <div class="stepper">
           <div class="stp done"><span class="stp-dot">✓</span><span class="stp-lbl">01 INPUT</span></div><div class="stp-line"></div>
           <div class="stp done"><span class="stp-dot">✓</span><span class="stp-lbl">02 ANALYZE</span></div><div class="stp-line"></div>
@@ -893,10 +1149,12 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         <div class="result-head">
           <div>
             <h1 class="page-h">Inspection Result</h1>
-            <p class="page-p">Inspection ID: <b style="color:#7FB0FF;font-family:ui-monospace,monospace">EAGLE-2026-00124</b> &nbsp;·&nbsp; Cabinet CAB-A102</p>
+            <p class="page-p">Inspection ID: <b style="color:#6EE7B7;font-family:ui-monospace,monospace">EAGLE-2026-00124</b> &nbsp;·&nbsp; Cabinet CAB-A102</p>
           </div>
           <span class="status-badge sb-fail">⚠ INSPECTION FAILED</span>
         </div>
+
+        <div class="demo-note">⚡ Illustrative Sample Data — Findings shown are preloaded for demonstration</div>
 
         <div class="sum-grid">
           <div class="sum"><div class="sum-l">Failed</div><div class="sum-v c-red">4</div></div>
@@ -906,8 +1164,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
 
         <div class="result-body">
-
-          <!-- LEFT : cabinet viewer -->
           <div>
             <div class="viewer">
               <div class="viewer-tabs">
@@ -919,7 +1175,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
               <div class="cabinet-wrap" id="cabinetWrap">
                 <div id="mainSvgHolder"></div>
 
-                <!-- detection boxes layer -->
                 <div class="layer" id="layerDetect">
                   <div class="dbox" style="left:8.75%;top:15%;width:16.25%;height:18.33%"><span>PS12 SLOT</span></div>
                   <div class="dbox" style="left:30%;top:15%;width:16.25%;height:18.33%"><span>PS11 99%</span></div>
@@ -935,7 +1190,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
                   <div class="dbox" style="left:8.75%;top:78.33%;width:62.5%;height:5.67%"><span>PE EARTH BAR 99%</span></div>
                 </div>
 
-                <!-- fault markers layer -->
                 <div class="layer" id="layerFaults">
                   <div class="marker" style="left:16.9%;top:24.2%" data-issue="0">1</div>
                   <div class="marker" style="left:39.4%;top:41.7%" data-issue="1">2</div>
@@ -945,15 +1199,14 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
               </div>
 
               <div class="viewer-legend">
-                <span class="lg"><i style="background:#EF4444"></i> Fault Detected</span>
-                <span class="lg"><i style="background:#22C55E"></i> Verified OK</span>
-                <span class="lg"><i style="background:#3B82F6"></i> AI Bounding Box</span>
-                <span class="lg" style="margin-left:auto;color:#5B6B85">Click a marker for evidence</span>
+                <span class="lg"><i style="background:#FF455D"></i> Fault Detected</span>
+                <span class="lg"><i style="background:#18E58A"></i> Verified OK</span>
+                <span class="lg"><i style="background:#18E58A"></i> AI Bounding Box</span>
+                <span class="lg" style="margin-left:auto;color:#4C6656">Click a marker for evidence</span>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT : issue list -->
           <div>
             <div class="card-h" style="margin-bottom:11px">❌ Critical Issues — 4 Found</div>
 
@@ -997,7 +1250,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
               </div>
             </div>
 
-            <!-- AI INSIGHT -->
             <div class="insight">
               <div class="insight-h">CabinSpect AI INSIGHT</div>
               <ul>
@@ -1012,20 +1264,19 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
           </div>
         </div>
 
-        <!-- EXPECTED VS FOUND -->
-        <div class="card" style="margin-top:20px">
+        <div class="card" style="margin-top:20px" id="expectedFoundSection">
           <div class="card-h">⇄ Expected vs Found</div>
 
           <div class="grid g2" style="margin-bottom:18px">
             <div class="ev-box">
               <div class="ev-lbl">Expected — Power Supply</div>
               <div class="ev-val good">PS12</div>
-              <div style="font-size:11.5px;color:#94A3B8;margin-top:5px">Power Supply Module · GA Rev-C</div>
+              <div style="font-size:11.5px;color:#91A89A;margin-top:5px">Power Supply Module · GA Rev-C</div>
             </div>
             <div class="ev-box">
               <div class="ev-lbl">Found — Power Supply</div>
               <div class="ev-val bad">NOT DETECTED</div>
-              <div style="font-size:11.5px;color:#94A3B8;margin-top:5px">Empty mounting slot · 98% confidence</div>
+              <div style="font-size:11.5px;color:#91A89A;margin-top:5px">Empty mounting slot · 98% confidence</div>
             </div>
           </div>
 
@@ -1046,13 +1297,12 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
                 <span class="o-chip">CB42</span><span class="o-arrow">→</span>
                 <span class="o-chip bad">CB44</span><span class="o-arrow">→</span>
                 <span class="o-chip bad">CB43</span>
-                <span style="color:#FCA5A5;font-size:11.5px;font-weight:800;margin-left:8px">❌ SWAPPED</span>
+                <span style="color:#FFA6B4;font-size:11.5px;font-weight:800;margin-left:8px">❌ SWAPPED</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- QC TABLE -->
         <div class="card" style="margin-top:20px">
           <div class="card-h">☑ QC Inspection Details</div>
           <div class="tbl-wrap">
@@ -1065,7 +1315,6 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
           </div>
         </div>
 
-        <!-- CONFIDENCE -->
         <div class="card" style="margin-top:20px">
           <div class="card-h">◎ AI Verification Confidence</div>
           <div class="conf-row"><span class="conf-name">Component Detection</span><span class="conf-track"><span class="conf-fill" style="width:97%"></span></span><span class="conf-val">97%</span></div>
@@ -1074,12 +1323,11 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
           <div class="conf-row"><span class="conf-name">Geometry Validation</span><span class="conf-track"><span class="conf-fill" style="width:94%"></span></span><span class="conf-val">94%</span></div>
           <div class="conf-row"><span class="conf-name">Engineering Rules</span><span class="conf-track"><span class="conf-fill" style="width:100%"></span></span><span class="conf-val">100%</span></div>
           <div class="conf-total">
-            <span style="font-size:12.5px;color:#94A3B8;font-weight:700">FINAL CONFIDENCE</span>
-            <span class="v">96% &nbsp;<span style="font-size:11.5px;color:#22C55E">🟢 HIGH CONFIDENCE</span></span>
+            <span style="font-size:12.5px;color:#91A89A;font-weight:700">FINAL CONFIDENCE</span>
+            <span class="v">96% &nbsp;<span style="font-size:11.5px;color:#18E58A">🟢 HIGH CONFIDENCE</span></span>
           </div>
         </div>
 
-        <!-- TECHNICIAN ACTION -->
         <div class="card" style="margin-top:20px">
           <div class="card-h">🔧 Technician Action Center — 4 Issues Found</div>
 
@@ -1109,12 +1357,9 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             <button class="btn btn-ghost" id="btnGenReport">▤ Generate QC Report</button>
           </div>
         </div>
-
       </section>
 
-      <!-- ============================================================
-           SCREEN 5 : RE-CHECK UPLOAD
-           ============================================================ -->
+      <!-- ============ SCREEN 5 : RE-CHECK UPLOAD ============ -->
       <section class="screen" id="screen-recheckUpload">
         <h1 class="page-h">Re-check Cabinet</h1>
         <p class="page-p">Upload a new cabinet photograph after technician repair.</p>
@@ -1159,9 +1404,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 6 : RE-CHECK PROCESSING
-           ============================================================ -->
+      <!-- ============ SCREEN 6 : RE-CHECK PROCESSING ============ -->
       <section class="screen" id="screen-recheckProcessing">
         <h1 class="page-h">Comparing new image…</h1>
         <p class="page-p">Aligning cabinet and re-evaluating previously failed regions.</p>
@@ -1192,9 +1435,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 7 : RE-CHECK RESULT
-           ============================================================ -->
+      <!-- ============ SCREEN 7 : RE-CHECK RESULT ============ -->
       <section class="screen" id="screen-recheckResult">
         <div class="stepper">
           <div class="stp done"><span class="stp-dot">✓</span><span class="stp-lbl">01 INPUT</span></div><div class="stp-line"></div>
@@ -1207,7 +1448,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
 
         <h1 class="page-h">Re-check Complete</h1>
-        <p class="page-p">Inspection ID: <b style="color:#7FB0FF;font-family:ui-monospace,monospace">EAGLE-2026-00124-R1</b></p>
+        <p class="page-p">Inspection ID: <b style="color:#6EE7B7;font-family:ui-monospace,monospace">EAGLE-2026-00124-R1</b></p>
 
         <div class="sum-grid" style="margin-top:20px">
           <div class="sum"><div class="sum-l">Issues Resolved</div><div class="sum-v c-green">3</div></div>
@@ -1226,11 +1467,11 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
           <div class="recheck-item ri-resolved"><span class="ri-ic">✓</span><span class="ri-name">Terminal X3</span><span class="ri-status">✓ PASS</span></div>
         </div>
 
-        <div class="card" style="margin-top:20px;border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.05)">
+        <div class="card" style="margin-top:20px;border-color:rgba(255,194,71,.4);background:rgba(255,194,71,.05)">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
             <div>
-              <div style="font-size:16px;font-weight:900;color:#FCD34D">⚠ FINAL STATUS: ACTION REQUIRED</div>
-              <div style="font-size:12.5px;color:#94A3B8;margin-top:4px">1 unresolved defect — ferrule missing on X3 wire termination.</div>
+              <div style="font-size:16px;font-weight:900;color:#FFD67A">⚠ FINAL STATUS: ACTION REQUIRED</div>
+              <div style="font-size:12.5px;color:#91A89A;margin-top:4px">1 unresolved defect — ferrule missing on X3 wire termination.</div>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
               <button class="btn btn-ghost" data-issue="3">View Evidence</button>
@@ -1240,9 +1481,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 8 : FINAL PASS
-           ============================================================ -->
+      <!-- ============ SCREEN 8 : FINAL PASS ============ -->
       <section class="screen" id="screen-finalPass">
         <div class="final-wrap">
           <div class="final-circle">✓</div>
@@ -1258,7 +1497,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             <div class="fc">✓ Connectivity</div>
           </div>
 
-          <div style="font-size:15px;font-weight:800;color:#86EFAC;margin-bottom:26px">6 / 6 Checks Passed</div>
+          <div style="font-size:15px;font-weight:800;color:#6EE7B7;margin-bottom:26px">6 / 6 Checks Passed</div>
 
           <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
             <button class="btn btn-pass" id="btnFinalReport">▤ Generate QC Report</button>
@@ -1267,9 +1506,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 9 : REPORTS
-           ============================================================ -->
+      <!-- ============ SCREEN 9 : REPORTS ============ -->
       <section class="screen" id="screen-reports">
         <h1 class="page-h">QC Reports</h1>
         <p class="page-p">Complete inspection history with evidence packages.</p>
@@ -1313,20 +1550,20 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-      <!-- ============================================================
-           SCREEN 10 : REPORT DETAIL
-           ============================================================ -->
+      <!-- ============ SCREEN 10 : REPORT DETAIL ============ -->
       <section class="screen" id="screen-reportDetail">
         <div class="result-head">
           <div>
             <h1 class="page-h">QC Inspection Report</h1>
             <p class="page-p">
-              ID: <b style="color:#7FB0FF;font-family:ui-monospace,monospace">EAGLE-2026-00124</b> &nbsp;·&nbsp;
+              ID: <b style="color:#6EE7B7;font-family:ui-monospace,monospace">EAGLE-2026-00124</b> &nbsp;·&nbsp;
               Cabinet: CAB-A102 &nbsp;·&nbsp; Inspector: Admin &nbsp;·&nbsp; 11 Oct 2026
             </p>
           </div>
           <span class="status-badge sb-fail">❌ FAILED</span>
         </div>
+
+        <div class="demo-note" style="margin-top:14px">⚡ Sample QC Report — Demonstration Data</div>
 
         <div class="grid g2" style="margin-top:20px">
           <div class="card">
@@ -1349,7 +1586,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
           </div>
         </div>
 
-        <div class="card" style="margin-top:18px">
+        <div class="card" style="margin-top:18px" id="faultSummaryCard">
           <div class="card-h">⚠ Fault Summary</div>
           <div class="tech-item"><span class="tech-n">01</span><div class="tech-txt">Missing Component — PS12</div><span class="conf">98%</span></div>
           <div class="tech-item"><span class="tech-n">02</span><div class="tech-txt">Wrong Component Order — CB43 / CB44</div><span class="conf">96%</span></div>
@@ -1380,9 +1617,9 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
         </div>
       </section>
 
-    </div><!-- /content -->
-  </div><!-- /main -->
-</div><!-- /app -->
+    </div>
+  </div>
+</div>
 
 <!-- ================= ISSUE MODAL ================= -->
 <div class="modal-bg" id="modalBg">
@@ -1395,13 +1632,11 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
   </div>
 </div>
 
-<!-- ================= TOAST ================= -->
+
 <div class="toast" id="toast"><span>✓</span><span id="toastMsg">Done</span></div>
 
 <script>
-/* ============================================================
-   1. CABINET SVG (used at multiple zoom levels)
-   ============================================================ */
+
 const CABINET_CONTENT = `
   <defs>
     <linearGradient id="metalG" x1="0" y1="0" x2="0" y2="1">
@@ -1414,18 +1649,14 @@ const CABINET_CONTENT = `
     </linearGradient>
   </defs>
 
-  <!-- enclosure -->
   <rect x="0" y="0" width="800" height="600" fill="#8f9aa8"/>
   <rect x="16" y="16" width="768" height="568" rx="6" fill="url(#metalG)" stroke="#7c8794" stroke-width="2"/>
 
-  <!-- corner screws -->
   <circle cx="34" cy="34" r="5" fill="#9aa5b1"/>
   <circle cx="766" cy="34" r="5" fill="#9aa5b1"/>
   <circle cx="34" cy="566" r="5" fill="#9aa5b1"/>
   <circle cx="766" cy="566" r="5" fill="#9aa5b1"/>
 
-  <!-- ===== ROW A : devices ===== -->
-  <!-- PS12 EMPTY SLOT -->
   <rect x="70" y="90" width="130" height="110" rx="5" fill="#eef2f7" stroke="#94a3b8" stroke-width="2" stroke-dasharray="9 6"/>
   <circle cx="86" cy="106" r="4" fill="#94a3b8"/>
   <circle cx="184" cy="106" r="4" fill="#94a3b8"/>
@@ -1433,7 +1664,6 @@ const CABINET_CONTENT = `
   <circle cx="184" cy="184" r="4" fill="#94a3b8"/>
   <text x="135" y="152" text-anchor="middle" fill="#a8b3c1" font-size="13" font-family="monospace" font-weight="bold">PS12 SLOT</text>
 
-  <!-- PS11 -->
   <rect x="240" y="90" width="130" height="110" rx="5" fill="url(#devG)" stroke="#1e293b" stroke-width="1.5"/>
   <rect x="256" y="106" width="98" height="30" rx="3" fill="#1e293b"/>
   <text x="305" y="127" text-anchor="middle" fill="#7DD3FC" font-size="12" font-family="monospace">24V DC</text>
@@ -1441,23 +1671,19 @@ const CABINET_CONTENT = `
   <circle cx="264" cy="188" r="4" fill="#22C55E"/>
   <circle cx="305" cy="188" r="4" fill="#22C55E"/>
 
-  <!-- KM1 -->
   <rect x="410" y="90" width="120" height="110" rx="5" fill="url(#devG)" stroke="#1e293b" stroke-width="1.5"/>
   <rect x="428" y="104" width="84" height="36" rx="3" fill="#1e293b"/>
   <text x="470" y="128" text-anchor="middle" fill="#94A3B8" font-size="11" font-family="monospace">CONTACTOR</text>
   <text x="470" y="176" text-anchor="middle" fill="#e2e8f0" font-size="16" font-family="monospace" font-weight="bold">KM1</text>
 
-  <!-- FU1 -->
   <rect x="570" y="90" width="110" height="110" rx="5" fill="url(#devG)" stroke="#1e293b" stroke-width="1.5"/>
   <rect x="586" y="110" width="78" height="48" rx="24" fill="#1e293b"/>
   <text x="625" y="141" text-anchor="middle" fill="#94A3B8" font-size="11" font-family="monospace">FUSE</text>
   <text x="625" y="182" text-anchor="middle" fill="#e2e8f0" font-size="15" font-family="monospace" font-weight="bold">FU1</text>
 
-  <!-- ===== DIN RAIL ===== -->
   <rect x="55" y="252" width="690" height="16" rx="3" fill="#7c8794"/>
   <rect x="55" y="256" width="690" height="4" fill="#64748b"/>
 
-  <!-- ===== BREAKERS (CB41, CB42, CB44, CB43, CB45) ===== -->
   ${[['CB41',70,false],['CB42',158,false],['CB44',246,true],['CB43',334,true],['CB45',422,false]]
     .map(([lbl,x,bad])=>`
       <rect x="${x}" y="200" width="80" height="108" rx="4"
@@ -1470,50 +1696,39 @@ const CABINET_CONTENT = `
             font-family="monospace">${bad?'⚠':'C32'}</text>
     `).join('')}
 
-  <!-- ===== ROW C : baseplate label + terminal X3 ===== -->
-  <!-- 1CBP03 LABEL PLATE (blank = missing) -->
   <rect x="70" y="360" width="200" height="70" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"/>
   <line x1="92" y1="382" x2="248" y2="382" stroke="#cbd5e1" stroke-width="2"/>
   <line x1="92" y1="400" x2="196" y2="400" stroke="#cbd5e1" stroke-width="2"/>
   <text x="170" y="420" text-anchor="middle" fill="#b6c1cf" font-size="10" font-family="monospace">NO LABEL</text>
 
-  <!-- TERMINAL X3 -->
   <rect x="300" y="360" width="200" height="70" rx="4" fill="#334155" stroke="#1e293b" stroke-width="1.5"/>
   <text x="400" y="400" text-anchor="middle" fill="#e2e8f0" font-size="15" font-family="monospace" font-weight="bold">X3</text>
   ${[0,1,2,3,4,5].map(i=>`<circle cx="${318+i*28}" cy="352" r="5" fill="#64748b"/>`).join('')}
 
-  <!-- wires into X3 -->
   <path d="M318 305 L318 352" stroke="#1e293b" stroke-width="3" fill="none"/>
   <path d="M346 305 L346 352" stroke="#1e293b" stroke-width="3" fill="none"/>
   <path d="M402 305 L402 352" stroke="#1e293b" stroke-width="3" fill="none"/>
   <path d="M458 305 L458 352" stroke="#ef4444" stroke-width="3" fill="none"/>
 
-  <!-- ferrule present (blue) on one wire -->
-  <rect x="341" y="336" width="10" height="17" rx="2" fill="#3B82F6"/>
-  <rect x="313" y="336" width="10" height="17" rx="2" fill="#3B82F6"/>
-  <!-- ferrule MISSING marker on wire at x=458 -->
+  <rect x="341" y="336" width="10" height="17" rx="2" fill="#18E58A"/>
+  <rect x="313" y="336" width="10" height="17" rx="2" fill="#18E58A"/>
   <circle cx="458" cy="344" r="17" fill="none" stroke="#EF4444" stroke-width="3" stroke-dasharray="6 4"/>
 
-  <!-- ===== ROW D : earth bar ===== -->
   <rect x="70" y="470" width="500" height="34" rx="4" fill="#b45309" stroke="#78350f" stroke-width="1.5"/>
   <text x="320" y="493" text-anchor="middle" fill="#fde68a" font-size="15" font-family="monospace" font-weight="bold">PE  ⏚  EARTH BAR</text>
   <path d="M120 470 L120 440 L318 440" stroke="#16A34A" stroke-width="3.5" fill="none"/>
 
-  <!-- bottom cable duct -->
   <rect x="60" y="528" width="680" height="30" rx="4" fill="#54606f" opacity="0.55"/>
   ${Array.from({length:22},(_,i)=>`<line x1="${72+i*30}" y1="530" x2="${72+i*30}" y2="556" stroke="#3f4a5a" stroke-width="3"/>`).join('')}
 `;
 
-/* create an SVG string with a given viewBox */
 function cabSVG(viewBox){
   return `<svg viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid slice"
             style="display:block;width:100%;height:auto">${CABINET_CONTENT}</svg>`;
 }
 
-/* ============================================================
-   2. DEMO DATA
-   ============================================================ */
+
 const CHECKS = [
   {n:'01', check:'Power Supply',   expected:'PS12',           found:'Missing',       result:'FAIL', conf:98, issue:0},
   {n:'02', check:'Breaker Order',  expected:'CB41-42-43-44',  found:'CB41-42-44-43', result:'FAIL', conf:96, issue:1},
@@ -1552,15 +1767,13 @@ const ISSUES = [
     id:'04', type:'❌ MISSING FERRULE', title:'X3 — Ferrule Missing on Wire',
     comp:'X3  ·  Terminal Block Wire Termination',
     expected:'Present', found:'Missing', conf:91,
-    why:'A wire entering terminal block X3 was detected without an identification ferrule sleeve. Neighbouring wires show blue ferrules with wire numbers; this termination is bare copper.',
+    why:'A wire entering terminal block X3 was detected without an identification ferrule sleeve. Neighbouring wires show green ferrules with wire numbers; this termination is bare copper.',
     zoom:'280 320 260 130',
     zoomTag:'ZOOMED REGION · 🔴 NO FERRULE'
   }
 ];
 
-/* ============================================================
-   3. NAVIGATION / SCREEN MANAGER
-   ============================================================ */
+
 const TITLES = {
   dashboard:        ['Dashboard','Overview of all cabinet inspections'],
   newInspection:    ['New Inspection','Upload engineering and physical inputs'],
@@ -1589,7 +1802,7 @@ function go(id){
 
   window.scrollTo({top:0,behavior:'smooth'});
 
-  if(id === 'processing')  runProcessing();
+  if(id === 'processing' && !tourSuppressProcessing)  runProcessing();
   if(id === 'recheckProcessing') runRecheckProcessing();
 }
 
@@ -1598,9 +1811,7 @@ document.addEventListener('click', e=>{
   if(t){ go(t.dataset.go); }
 });
 
-/* ============================================================
-   4. TOAST
-   ============================================================ */
+
 let toastTimer;
 function toast(msg){
   const el = document.getElementById('toast');
@@ -1610,34 +1821,11 @@ function toast(msg){
   toastTimer = setTimeout(()=>el.classList.remove('show'), 3200);
 }
 
-/* ============================================================
-   5. UPLOAD CARDS (simulated)
-   ============================================================ */
 const UPLOAD_META = {
-  photo: {
-    title:'cabinet.jpg',
-    sub:'4096 × 3072  ·  2.4 MB',
-    chips:['✓ Image loaded','✓ Quality: Good','✓ Cabinet detected'],
-    cls:'ok'
-  },
-  ga: {
-    title:'GA-DRAWING-CAB-A102.pdf',
-    sub:'Rev-C  ·  4 pages',
-    chips:['✓ Drawing detected','✓ Pages: 4','✓ 18 components parsed'],
-    cls:'ok'
-  },
-  excel: {
-    title:'WIRE-LABEL-DATA.xlsx',
-    sub:'Sheet1  ·  62 rows',
-    chips:['✓ Components: 18','✓ Wires: 24','✓ Labels: 16'],
-    cls:'ok'
-  },
-  qc: {
-    title:'QC-CHECKLIST.xlsx',
-    sub:'8 checks active',
-    chips:['✓ Checklist loaded'],
-    cls:'ok'
-  }
+  photo:{title:'cabinet.jpg',sub:'4096 × 3072  ·  2.4 MB',chips:['✓ Image loaded','✓ Quality: Good','✓ Cabinet detected']},
+  ga:{title:'GA-DRAWING-CAB-A102.pdf',sub:'Rev-C  ·  4 pages',chips:['✓ Drawing detected','✓ Pages: 4','✓ 18 components parsed']},
+  excel:{title:'WIRE-LABEL-DATA.xlsx',sub:'Sheet1  ·  62 rows',chips:['✓ Components: 18','✓ Wires: 24','✓ Labels: 16']},
+  qc:{title:'QC-CHECKLIST.xlsx',sub:'8 checks active',chips:['✓ Checklist loaded']}
 };
 
 function loadCard(key){
@@ -1647,11 +1835,10 @@ function loadCard(key){
   card.classList.add('loaded');
   const dz = card.querySelector('.dropzone');
   dz.innerHTML = `
-    <div class="dz-ico" style="color:#22C55E">✓</div>
+    <div class="dz-ico" style="color:#18E58A">✓</div>
     <div class="dz-t">${meta.title}</div>
     <div class="dz-s">${meta.sub}</div>`;
-  const metaBox = card.querySelector('.up-meta');
-  metaBox.innerHTML = meta.chips.map(c=>`<span class="chip ok">${c}</span>`).join('');
+  card.querySelector('.up-meta').innerHTML = meta.chips.map(c=>`<span class="chip ok">${c}</span>`).join('');
 }
 
 document.querySelectorAll('.up-card[data-upload]').forEach(card=>{
@@ -1664,10 +1851,9 @@ document.getElementById('btnDemoFill').addEventListener('click', e=>{
   toast('Demo data loaded — all 4 inputs ready');
 });
 
-/* ============================================================
-   6. PROCESSING ANIMATION
-   ============================================================ */
+
 let procRunning = false;
+let tourSuppressProcessing = false;
 
 const PROC_STATUS = [
   'Checking resolution and sharpness…',
@@ -1680,7 +1866,6 @@ const PROC_STATUS = [
   'Comparing expected vs found configuration…',
   'Validating QC checklist rules…'
 ];
-
 const PROC_TARGET = [
   'Analyzing CB41, CB42, CB43, CB44…',
   'Analyzing CB41, CB42, CB43, CB44…',
@@ -1709,7 +1894,6 @@ function runProcessing(){
   pctEl.textContent = '0%';
 
   let i = 0;
-
   function tick(){
     if(i >= steps.length){
       steps[steps.length-1].classList.remove('active');
@@ -1719,41 +1903,36 @@ function runProcessing(){
       pctEl.textContent = '100%';
       statEl.textContent = 'Analysis complete.';
       procRunning = false;
-      setTimeout(()=>go('result'), 700);
+      if(!tourActive){
+        setTimeout(()=>go('result'), 700);
+      }
       return;
     }
-
     if(i > 0){
       steps[i-1].classList.remove('active');
       steps[i-1].classList.add('done');
       steps[i-1].querySelector('.ic').textContent = '✓';
     }
-
     steps[i].classList.add('active');
     steps[i].querySelector('.ic').textContent = '●';
-
     const pct = Math.round(((i+1)/steps.length)*100);
     bar.style.width = pct + '%';
     pctEl.textContent = pct + '%';
     statEl.textContent = PROC_STATUS[i];
     if(PROC_TARGET[i] && i % 2 === 0) setTimeout(()=>{ statEl.textContent = PROC_TARGET[i]; }, 300);
-
     i++;
     setTimeout(tick, 620);
   }
-
   setTimeout(tick, 300);
 }
 
-/* ============================================================
-   7. RE-CHECK UPLOAD + PROCESSING
-   ============================================================ */
+
 const rcCard = document.getElementById('recheckUploadCard');
 rcCard.addEventListener('click', ()=>{
   if(rcCard.classList.contains('loaded')) return;
   rcCard.classList.add('loaded');
   rcCard.querySelector('.dropzone').innerHTML = `
-    <div class="dz-ico" style="color:#22C55E">✓</div>
+    <div class="dz-ico" style="color:#18E58A">✓</div>
     <div class="dz-t">cabinet_after_repair.jpg</div>
     <div class="dz-s">4096 × 3072  ·  2.6 MB</div>`;
   rcCard.querySelector('.up-meta').innerHTML =
@@ -1819,33 +1998,27 @@ function runRecheckProcessing(){
   setTimeout(tick, 300);
 }
 
-/* ============================================================
-   8. QC TABLE RENDERING
-   ============================================================ */
 function renderQcTable(tbodyId, checks){
   const tb = document.getElementById(tbodyId);
   if(!tb) return;
   tb.innerHTML = checks.map(c=>{
     const cls = c.result === 'PASS' ? 'rt-pass' : c.result === 'FAIL' ? 'rt-fail' : 'rt-rev';
     const icon = c.result === 'PASS' ? '✓' : c.result === 'FAIL' ? '❌' : '⚠';
-    const foundStyle = c.result === 'FAIL' ? 'style="color:#FCA5A5"' : '';
+    const foundStyle = c.result === 'FAIL' ? 'style="color:#FFA6B4"' : '';
     return `<tr ${c.issue!==null?`class="clickable" data-issue="${c.issue}"`:''}>
-      <td style="color:#64748B;font-weight:700">${c.n}</td>
+      <td style="color:#5E7568;font-weight:700">${c.n}</td>
       <td>${c.check}</td>
       <td><span class="mono">${c.expected}</span></td>
       <td ${foundStyle}><span class="mono" ${foundStyle}>${c.found}</span></td>
-      <td><span style="color:#93C5FD;font-weight:700">${c.conf}%</span></td>
+      <td><span style="color:#6EE7B7;font-weight:700">${c.conf}%</span></td>
       <td><span class="res-tag ${cls}">${icon} ${c.result}</span></td>
     </tr>`;
   }).join('');
 }
-
 renderQcTable('qcTableBody', CHECKS);
 renderQcTable('qcTableBody2', CHECKS);
 
-/* ============================================================
-   9. CABINET VIEWER TABS
-   ============================================================ */
+
 document.querySelectorAll('.vtab').forEach(tab=>{
   tab.addEventListener('click', ()=>{
     document.querySelectorAll('.vtab').forEach(t=>t.classList.remove('active'));
@@ -1856,9 +2029,7 @@ document.querySelectorAll('.vtab').forEach(tab=>{
   });
 });
 
-/* ============================================================
-   10. ISSUE MODAL
-   ============================================================ */
+
 const modalBg = document.getElementById('modalBg');
 const modalBody = document.getElementById('modalBody');
 const modalTitle = document.getElementById('mTitle');
@@ -1866,85 +2037,49 @@ const modalTitle = document.getElementById('mTitle');
 function openIssue(idx){
   const it = ISSUES[idx];
   if(!it) return;
-
   modalTitle.textContent = 'ISSUE #' + it.id;
   modalBody.innerHTML = `
-    <div class="issue-type" style="color:#FCA5A5">${it.type}</div>
+    <div class="issue-type" style="color:#FFA6B4">${it.type}</div>
     <div class="comp-name">${it.comp}</div>
-
     <div class="ev-grid">
-      <div class="ev-box">
-        <div class="ev-lbl">Expected</div>
-        <div class="ev-val good">${it.expected}</div>
-      </div>
-      <div class="ev-box">
-        <div class="ev-lbl">Found</div>
-        <div class="ev-val bad">${it.found}</div>
-      </div>
+      <div class="ev-box"><div class="ev-lbl">Expected</div><div class="ev-val good">${it.expected}</div></div>
+      <div class="ev-box"><div class="ev-lbl">Found</div><div class="ev-val bad">${it.found}</div></div>
     </div>
-
-    <div class="why">
-      <div class="why-l">WHY FAILED?</div>
-      <p>${it.why}</p>
-    </div>
-
+    <div class="why"><div class="why-l">WHY FAILED?</div><p>${it.why}</p></div>
     <div class="ev-lbl">Confidence Score</div>
     <div style="display:flex;align-items:center;gap:12px;margin:8px 0 20px">
       <div class="conf-track"><div class="conf-fill" style="width:${it.conf}%"></div></div>
-      <b style="color:#93C5FD;font-size:14px">${it.conf}%</b>
+      <b style="color:#6EE7B7;font-size:14px">${it.conf}%</b>
     </div>
-
     <div class="ev-lbl" style="margin-bottom:9px">Visual Evidence — Zoomed Region</div>
-    <div class="zoom-box">
-      ${cabSVG(it.zoom)}
-      <div class="zoom-tag">${it.zoomTag}</div>
-    </div>
-
+    <div class="zoom-box">${cabSVG(it.zoom)}<div class="zoom-tag">${it.zoomTag}</div></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn btn-primary" onclick="markTech(${idx})">🔧 Mark for Technician</button>
       <button class="btn btn-ghost" onclick="document.getElementById('modalBg').classList.remove('show')">Close</button>
-    </div>
-  `;
-
+    </div>`;
   modalBg.classList.add('show');
 }
-
 function markTech(idx){
   modalBg.classList.remove('show');
   toast('Issue #' + ISSUES[idx].id + ' marked for technician');
 }
-
 document.getElementById('modalClose').addEventListener('click', ()=>modalBg.classList.remove('show'));
 modalBg.addEventListener('click', e=>{ if(e.target === modalBg) modalBg.classList.remove('show'); });
-document.addEventListener('keydown', e=>{ if(e.key === 'Escape') modalBg.classList.remove('show'); });
-
 document.addEventListener('click', e=>{
+  if(e.target.closest('#tourOverlay')) return; 
   const m = e.target.closest('[data-issue]');
   if(m){ openIssue(parseInt(m.dataset.issue, 10)); }
 });
 
-/* ============================================================
-   11. REPORT EVIDENCE ZOOMS
-   ============================================================ */
+
 document.getElementById('repZoom1').innerHTML = cabSVG('40 60 220 175');
 document.getElementById('repZoom2').innerHTML = cabSVG('215 165 230 175');
 
-/* ============================================================
-   12. REPORT BUTTONS
-   ============================================================ */
-document.getElementById('btnGenReport').addEventListener('click', ()=>{
-  toast('QC Report generated successfully');
-});
-document.getElementById('btnExport').addEventListener('click', ()=>{
-  toast('QC Report exported — EAGLE-2026-00124.pdf');
-});
-document.getElementById('btnFinalReport').addEventListener('click', ()=>{
-  toast('Final QC Report generated — ALL CHECKS PASSED');
-});
 
-/* ============================================================
-   13. FILTERS (reports)
-   ============================================================ */
+document.getElementById('btnGenReport').addEventListener('click', ()=>toast('QC Report generated successfully'));
+document.getElementById('btnExport').addEventListener('click', ()=>toast('QC Report exported — EAGLE-2026-00124.pdf'));
+document.getElementById('btnFinalReport').addEventListener('click', ()=>toast('Final QC Report generated — ALL CHECKS PASSED'));
+
 document.querySelectorAll('.filter').forEach(f=>{
   f.addEventListener('click', ()=>{
     document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
@@ -1952,18 +2087,327 @@ document.querySelectorAll('.filter').forEach(f=>{
   });
 });
 
-/* ============================================================
-   14. START INSPECTION
-   ============================================================ */
-document.getElementById('btnStartInspection').addEventListener('click', ()=>{
-  go('processing');
-});
 
-/* ============================================================
-   15. INIT — render main cabinet + default view
-   ============================================================ */
+document.getElementById('btnStartInspection').addEventListener('click', ()=>go('processing'));
+
+
 document.getElementById('mainSvgHolder').innerHTML = cabSVG('0 0 800 600');
 document.getElementById('layerFaults').classList.add('show');
+
+
+const LOADING_STATES = [
+  {pct:22, text:'Initializing CabinSpect demo'},
+  {pct:48, text:'Preparing inspection workspace'},
+  {pct:72, text:'Loading demonstration data'},
+  {pct:92, text:'Preparing interactive walkthrough'},
+  {pct:100, text:'SYSTEM READY'}
+];
+let loadingIndex = 0;
+
+function runLoadingScreen(){
+  const bar = document.getElementById('loadingBar');
+  const status = document.getElementById('loadingStatus');
+  const startBtn = document.getElementById('loadingStart');
+
+  function tick(){
+    if(loadingIndex >= LOADING_STATES.length){
+      startBtn.style.display = 'inline-flex';
+      return;
+    }
+    const s = LOADING_STATES[loadingIndex];
+    bar.style.width = s.pct + '%';
+    status.textContent = s.text;
+    loadingIndex++;
+    setTimeout(tick, 560);
+  }
+  setTimeout(tick, 240);
+}
+
+document.getElementById('loadingStart').addEventListener('click', ()=>{
+  const ls = document.getElementById('loadingScreen');
+  ls.classList.add('hidden');
+  setTimeout(()=>{
+    ls.style.display = 'none';
+    let visited = false;
+    try { visited = !!localStorage.getItem('cabinspect_tour_completed'); } catch(e){}
+    if(!visited){
+      document.getElementById('welcomeOverlay').classList.add('show');
+    }
+  }, 620);
+});
+
+runLoadingScreen();
+
+document.getElementById('welcomeStartTour').addEventListener('click', ()=>{
+  document.getElementById('welcomeOverlay').classList.remove('show');
+  setTimeout(startTour, 320);
+});
+document.getElementById('welcomeSkip').addEventListener('click', ()=>{
+  document.getElementById('welcomeOverlay').classList.remove('show');
+  try { localStorage.setItem('cabinspect_tour_completed','1'); } catch(e){}
+  toast('You can replay the tour anytime from Help');
+});
+
+
+let tourActive = false;
+let tourStep = 0;
+let tourRestarting = false;
+const TOUR_TOTAL = 8;
+
+const TOUR_STEPS = [
+  {
+    screen: 'dashboard',
+    target: '#screen-dashboard .hero',
+    label: 'STEP 1 OF 8',
+    title: '01 — MEET CABINSPECT',
+    desc: 'CabinSpect is designed to assist industrial cabinet quality inspection by organizing visual checks, engineering comparisons and quality findings into a <strong>structured workflow</strong>.',
+    nextLabel: 'NEXT'
+  },
+  {
+    screen: 'dashboard',
+    target: '#screen-dashboard .grid.g4',
+    label: 'STEP 2 OF 8',
+    title: '02 — YOUR INSPECTION OVERVIEW',
+    desc: 'Review inspection summaries and access existing records from one central dashboard. The demo includes <em>illustrative sample records</em> to show how quality outcomes can be presented.',
+    nextLabel: 'NEXT'
+  },
+  {
+    screen: 'newInspection',
+    target: '#screen-newInspection .upload-grid',
+    label: 'STEP 3 OF 8',
+    title: '03 — PREPARE YOUR INSPECTION',
+    desc: 'An inspection workflow can use four types of inputs: <strong>cabinet photograph</strong>, <strong>GA drawing</strong>, <strong>component BOM &amp; wire data</strong>, and a <strong>QC checklist</strong>.',
+    nextLabel: 'NEXT'
+  },
+  {
+    screen: 'newInspection',
+    target: '#btnDemoFill',
+    label: 'STEP 4 OF 8',
+    title: '04 — EXPLORE THE SAMPLE WORKFLOW',
+    desc: 'Load the preconfigured sample inputs to explore the inspection interface without preparing your own engineering files.',
+    nextLabel: 'LOAD DEMO & CONTINUE',
+    onNext: () => {
+      const btn = document.getElementById('btnDemoFill');
+      if(btn) btn.click();
+    }
+  },
+  {
+    screen: 'processing',
+    target: '#procSteps',
+    label: 'STEP 5 OF 8',
+    title: '05 — UNDERSTAND THE INSPECTION PIPELINE',
+    desc: 'The demonstration pipeline presents stages of <strong>image preparation</strong>, <strong>component detection</strong>, <strong>label reading</strong>, <strong>position analysis</strong> and <strong>QC validation</strong>.',
+    nextLabel: 'VIEW SAMPLE RESULTS',
+    onEnter: () => { tourSuppressProcessing = true; },
+    onNext: () => { tourSuppressProcessing = false; }
+  },
+  {
+    screen: 'result',
+    target: '#cabinetWrap',
+    label: 'STEP 6 OF 8',
+    title: '06 — EXPLORE INSPECTION FINDINGS',
+    desc: 'Review sample findings, visual markers and expected-versus-found comparisons. Selecting a finding opens its associated <strong>evidence details</strong>.',
+    nextLabel: 'NEXT'
+  },
+  {
+    screen: 'recheckUpload',
+    target: '#screen-recheckUpload .flow-vert',
+    label: 'STEP 7 OF 8',
+    title: '07 — FROM FINDINGS TO RE-CHECK',
+    desc: 'The sample workflow connects identified discrepancies with technician actions and a subsequent <strong>re-check</strong>. After a corrective action, the updated cabinet condition is re-evaluated.',
+    nextLabel: 'NEXT'
+  },
+  {
+    screen: 'reportDetail',
+    target: '#faultSummaryCard',
+    label: 'STEP 8 OF 8',
+    title: '08 — REVIEW THE QC REPORT',
+    desc: 'The report screen organizes the inspection outcome, sample findings, expected-versus-found comparisons and evidence for <strong>quality review and documentation</strong>.',
+    nextLabel: 'FINISH TOUR'
+  }
+];
+
+function startTour(){
+  tourActive = true;
+  tourRestarting = false;
+  tourStep = 0;
+  document.getElementById('welcomeOverlay').classList.remove('show');
+  document.getElementById('tourCompleteOverlay').classList.remove('show');
+  document.getElementById('tourOverlay').classList.add('show');
+  showTourStep();
+}
+
+function showTourStep(){
+  const step = TOUR_STEPS[tourStep];
+  if(!step) return;
+
+  clearTourHighlight();
+
+  if(step.screen) go(step.screen);
+
+  setTimeout(()=>{
+    if(step.onEnter) step.onEnter();
+    setTimeout(()=>{
+      highlightTarget(step);
+      updateTourCard(step);
+    }, 120);
+  }, 160);
+}
+
+function highlightTarget(step){
+  const target = document.querySelector(step.target);
+  const spotlight = document.getElementById('tourSpotlight');
+
+  if(!target){
+    spotlight.style.display = 'none';
+    positionTourCard(null);
+    return;
+  }
+
+  spotlight.style.display = 'block';
+  target.scrollIntoView({behavior:'smooth', block:'center'});
+
+  setTimeout(()=>{
+    const r = target.getBoundingClientRect();
+    const pad = 8;
+    spotlight.style.left = (r.left - pad) + 'px';
+    spotlight.style.top = (r.top - pad) + 'px';
+    spotlight.style.width = (r.width + pad*2) + 'px';
+    spotlight.style.height = (r.height + pad*2) + 'px';
+    positionTourCard(r);
+  }, 320);
+}
+
+function positionTourCard(rect){
+  const card = document.getElementById('tourCard');
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const cardW = Math.min(440, vw - 40);
+  card.style.width = cardW + 'px';
+  const cardH = card.offsetHeight;
+  const margin = 22;
+
+  if(!rect || vw < 760){
+    card.style.left = ((vw - cardW)/2) + 'px';
+    card.style.top = (vh - cardH - margin) + 'px';
+    return;
+  }
+
+  let left = rect.left + rect.width/2 - cardW/2;
+  left = Math.max(margin, Math.min(left, vw - cardW - margin));
+
+  let top;
+  if(rect.bottom + margin + cardH + 16 < vh){
+    top = rect.bottom + margin;
+  } else if(rect.top - margin - cardH - 16 > 0){
+    top = rect.top - margin - cardH;
+  } else {
+    top = (vh - cardH) / 2;
+  }
+
+  card.style.left = left + 'px';
+  card.style.top = top + 'px';
+}
+
+function updateTourCard(step){
+  document.getElementById('tourStepLabel').textContent = step.label;
+  document.getElementById('tourTitle').textContent = step.title;
+  document.getElementById('tourDesc').innerHTML = step.desc;
+  document.getElementById('tourNext').textContent = step.nextLabel || 'NEXT';
+  document.getElementById('tourBack').disabled = tourStep === 0;
+  const pct = ((tourStep + 1) / TOUR_TOTAL) * 100;
+  document.getElementById('tourProgressBar').style.width = pct + '%';
+}
+
+function clearTourHighlight(){
+  const spotlight = document.getElementById('tourSpotlight');
+  if(spotlight) spotlight.style.display = 'none';
+}
+
+function nextTourStep(){
+  const step = TOUR_STEPS[tourStep];
+  if(step && step.onNext) step.onNext();
+
+  if(tourStep >= TOUR_TOTAL - 1){
+    finishTour();
+    return;
+  }
+  tourStep++;
+  showTourStep();
+}
+
+function previousTourStep(){
+  if(tourStep <= 0) return;
+  tourStep--;
+  showTourStep();
+}
+
+function skipTour(){
+  finishTour(true);
+}
+
+function finishTour(skipped){
+  tourActive = false;
+  tourSuppressProcessing = false;
+  clearTourHighlight();
+  document.getElementById('tourOverlay').classList.remove('show');
+  try { localStorage.setItem('cabinspect_tour_completed','1'); } catch(e){}
+
+  if(skipped){
+    toast('Tour skipped — replay from Help anytime');
+    return;
+  }
+  document.getElementById('tourCompleteOverlay').classList.add('show');
+}
+
+
+document.getElementById('tourNext').addEventListener('click', nextTourStep);
+document.getElementById('tourBack').addEventListener('click', previousTourStep);
+document.getElementById('tourSkip').addEventListener('click', skipTour);
+
+
+document.addEventListener('keydown', e=>{
+  if(!tourActive) return;
+  if(e.key === 'ArrowRight'){ nextTourStep(); e.preventDefault(); }
+  else if(e.key === 'ArrowLeft'){ previousTourStep(); e.preventDefault(); }
+  else if(e.key === 'Escape'){ skipTour(); e.preventDefault(); }
+});
+
+
+window.addEventListener('resize', ()=>{
+  if(!tourActive) return;
+  const step = TOUR_STEPS[tourStep];
+  if(!step) return;
+  highlightTarget(step);
+});
+
+
+document.getElementById('completeExplore').addEventListener('click', ()=>{
+  document.getElementById('tourCompleteOverlay').classList.remove('show');
+  go('result');
+});
+document.getElementById('completeNew').addEventListener('click', ()=>{
+  document.getElementById('tourCompleteOverlay').classList.remove('show');
+  go('newInspection');
+});
+document.getElementById('completeReplay').addEventListener('click', ()=>{
+  document.getElementById('tourCompleteOverlay').classList.remove('show');
+  setTimeout(startTour, 260);
+});
+
+
+document.getElementById('helpNav').addEventListener('click', (e)=>{
+  e.preventDefault();
+  e.stopPropagation();
+  startTour();
+});
+
+
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape' && !tourActive){
+    modalBg.classList.remove('show');
+  }
+});
 </script>
 </body>
 </html>
