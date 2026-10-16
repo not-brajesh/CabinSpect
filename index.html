@@ -3427,7 +3427,11 @@ function resetProgressUI(stepsId, barId, pctId, statusId, initialStatus) {
   if (status) status.textContent = initialStatus;
 }
 
-
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape' && !tourActive){
+    modalBg.classList.remove('show');
+  }
+});
 
 </script>
 </body>
