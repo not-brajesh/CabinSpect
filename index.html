@@ -117,6 +117,51 @@ body{
 .pill.ok{color:var(--pass);border-color:rgba(24,229,138,.35);background:rgba(24,229,138,.08)}
 .pill.demo{color:#6EE7B7;border-color:rgba(24,229,138,.45);background:rgba(24,229,138,.06);font-weight:800;letter-spacing:.8px}
 
+/* Clickable DEMO MODE button */
+button.pill.demo {
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .2s ease, border-color .2s ease,
+              transform .2s ease, box-shadow .2s ease;
+}
+button.pill.demo:hover {
+  background: rgba(24, 229, 138, .15);
+  border-color: #18E58A;
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px -4px rgba(24,229,138,.55);
+}
+button.pill.demo:active {
+  transform: translateY(0);
+}
+button.pill.demo:focus-visible {
+  outline: 2px solid #18E58A;
+  outline-offset: 3px;
+}
+
+/* Mobile menu button + backdrop (hidden on desktop) */
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+}
+.mobile-menu-btn:hover {
+  background: #102A1D;
+  border-color: #18E58A;
+}
+.sidebar-backdrop {
+  display: none;
+}
+
 .content{padding:26px;flex:1;max-width:1560px;width:100%;margin:0 auto}
 
 .screen{display:none;animation:fade .32s ease}
@@ -151,6 +196,17 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .btn-pass:hover{transform:translateY(-1px)}
 .btn-sm{padding:7px 13px;font-size:11.5px;border-radius:8px}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+
+/* Reset button styling */
+#btnResetAllTests {
+  border-color: rgba(255,69,93,.55) !important;
+  color: #FFA6B4 !important;
+}
+#btnResetAllTests:hover {
+  background: rgba(255,69,93,.08);
+  border-color: rgba(255,69,93,.85) !important;
+  color: #FFD1DA !important;
+}
 
 .loading-screen{
   position:fixed;inset:0;z-index:9999;
@@ -302,6 +358,10 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
   box-shadow:0 24px 60px -16px rgba(0,0,0,.9),0 0 50px -20px rgba(24,229,138,.5);
   animation:pop .3s cubic-bezier(.2,.9,.3,1.3);
   transition:left .3s ease,top .3s ease;
+  box-sizing:border-box;
+  max-height:calc(100dvh - 24px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
 }
 .tour-step-label{
   font-size:10.5px;letter-spacing:2.2px;font-weight:800;
@@ -329,6 +389,7 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .tour-actions{
   display:flex;gap:8px;align-items:center;flex-wrap:wrap;
 }
+.tour-actions button{min-height:40px}
 .tour-actions .tour-skip{
   background:transparent;border:none;color:#5E7568;cursor:pointer;
   font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.6px;
@@ -516,6 +577,13 @@ p.page-p{color:var(--muted);font-size:13.5px;margin-top:5px}
 .sum{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px}
 .sum-l{font-size:10.5px;letter-spacing:1.1px;font-weight:700;color:#6B8474;text-transform:uppercase}
 .sum-v{font-size:26px;font-weight:900;margin-top:5px;letter-spacing:-.8px}
+
+/* Report summary grid — overridable via media query */
+.report-summary-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
 
 .result-body{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start}
 
@@ -784,6 +852,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 }
 .toast.show{transform:none}
 
+/* Base existing media queries */
 @media(max-width:1180px){
   .result-body{grid-template-columns:1fr}
   .viewer{position:static}
@@ -799,6 +868,636 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 }
 @media(prefers-reduced-motion: reduce){
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+/* =========================================
+   CABINSPECT RESPONSIVE IMPROVEMENTS
+========================================= */
+
+/* Prevent content from forcing page overflow */
+html {
+  width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+}
+
+.app,
+.main,
+.content,
+.screen {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Make common grids shrink properly */
+.grid,
+.g2,
+.g3,
+.g4,
+.upload-grid,
+.proc-wrap,
+.result-body,
+.sum-grid,
+.compare-grid,
+.ev-grid {
+  min-width: 0;
+}
+
+.grid > *,
+.upload-grid > *,
+.proc-wrap > *,
+.result-body > *,
+.sum-grid > *,
+.compare-grid > *,
+.ev-grid > * {
+  min-width: 0;
+}
+
+/* Long labels and identifiers should wrap */
+.page-h,
+.page-p,
+.hero h1,
+.hero p,
+.stat-l,
+.stat-d,
+.issue-t,
+.issue-s,
+.tech-txt,
+.iid,
+.tb-title,
+.tb-sub {
+  overflow-wrap: anywhere;
+}
+
+/* Images and SVG diagrams should fit their containers */
+img,
+svg {
+  max-width: 100%;
+}
+
+.proc-img svg,
+.cabinet-wrap svg,
+.zoom-box svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Topbar should adapt to available space */
+.topbar {
+  min-width: 0;
+  gap: 12px;
+}
+
+.tb-right {
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Cards should not overflow */
+.card,
+.stat,
+.sum,
+.up-card,
+.viewer,
+.insight {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Buttons: avoid text clipping */
+.btn {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Tables scroll inside their own wrapper */
+.tbl-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tbl-wrap table {
+  min-width: 640px;
+}
+
+/* Keep modal content inside the viewport */
+.modal-bg,
+.welcome-overlay {
+  padding: 16px;
+}
+
+.modal,
+.welcome-modal {
+  width: 100%;
+  max-width: 760px;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+}
+
+.modal-b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Tour card should stay inside the visible screen */
+.tour-card {
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.tour-actions button { min-height: 40px; }
+
+/* Tap highlight & touch behaviours */
+button,
+.nav-item,
+.up-card,
+.filter,
+.vtab {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+.filter,
+.vtab {
+  touch-action: manipulation;
+}
+
+/* =========================================
+   TABLET: 768px and below
+========================================= */
+@media (max-width: 768px) {
+
+  .content {
+    padding: 16px;
+  }
+
+  .topbar {
+    height: auto;
+    min-height: 62px;
+    padding: 12px 16px;
+    align-items: flex-start;
+  }
+
+  .tb-right {
+    gap: 6px;
+  }
+
+  .pill {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+
+  .hero {
+    padding: 24px 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(25px, 5vw, 34px);
+    line-height: 1.15;
+  }
+
+  .stat {
+    padding: 14px;
+  }
+
+  .stat-v {
+    font-size: 27px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .stepper {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .viewer {
+    padding: 10px;
+  }
+
+  .viewer-tabs {
+    flex-wrap: wrap;
+  }
+
+  .vtab {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .tech-item {
+    flex-wrap: wrap;
+  }
+
+  .tech-txt {
+    flex-basis: calc(100% - 50px);
+  }
+
+  .final-h {
+    font-size: clamp(27px, 5vw, 38px);
+  }
+}
+
+/* Report summary grid — switch to 2 columns below 600px */
+@media (max-width: 600px) {
+  .report-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .btn,
+  .filter,
+  .vtab {
+    min-height: 40px;
+  }
+
+  .nav-item {
+    min-height: 44px;
+  }
+
+  .up-card {
+    padding: 14px;
+  }
+
+  .up-card .dropzone {
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* =========================================
+   MOBILE: 480px and below
+========================================= */
+@media (max-width: 480px) {
+
+  .content {
+    padding: 12px;
+  }
+
+  .topbar {
+    padding: 10px 12px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tb-right {
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .pill {
+    font-size: 9px;
+    padding: 4px 7px;
+    letter-spacing: 0;
+  }
+
+  h1.page-h {
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  p.page-p {
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .hero-btns .btn {
+    width: 100%;
+  }
+
+  .g4,
+  .sum-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .g2,
+  .g3,
+  .upload-grid,
+  .compare-grid,
+  .ev-grid,
+  .proc-wrap,
+  .result-body,
+  .welcome-features {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .stat {
+    padding: 12px;
+  }
+
+  .stat-l {
+    font-size: 9px;
+    letter-spacing: 0.6px;
+  }
+
+  .stat-v {
+    font-size: 25px;
+  }
+
+  .stat-d {
+    font-size: 10px;
+  }
+
+  .sum {
+    padding: 12px;
+  }
+
+  .sum-l {
+    font-size: 9px;
+    letter-spacing: 0.5px;
+  }
+
+  .sum-v {
+    font-size: 23px;
+  }
+
+  .card {
+    padding: 13px;
+  }
+
+  .dropzone {
+    padding: 22px 12px;
+  }
+
+  .checklist-mini {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inspect-footer {
+    padding: 14px;
+    align-items: stretch;
+  }
+
+  .inspect-footer > div:last-child {
+    width: 100%;
+  }
+
+  .inspect-footer .btn {
+    flex: 1 1 100%;
+  }
+
+  .status-badge {
+    font-size: 10px;
+    padding: 7px 10px;
+  }
+
+  .stepper {
+    padding: 12px;
+  }
+
+  .stp-lbl {
+    font-size: 9px;
+  }
+
+  .stp-line {
+    width: 20px;
+    margin: 0 6px;
+  }
+
+  .marker {
+    width: 25px;
+    height: 25px;
+    margin: -12.5px 0 0 -12.5px;
+    font-size: 10px;
+  }
+
+  .viewer-legend {
+    gap: 9px;
+    font-size: 10px;
+  }
+
+  .conf-row {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .conf-name {
+    width: 100%;
+    flex-shrink: 1;
+  }
+
+  .conf-track {
+    min-width: 0;
+  }
+
+  .conf-total .v {
+    font-size: 18px;
+  }
+
+  .tech-item {
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .tech-item .btn {
+    width: 100%;
+  }
+
+  .recheck-item {
+    gap: 8px;
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+
+  .ri-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .flow-node {
+    min-width: 0;
+    width: 100%;
+    padding: 11px 12px;
+  }
+
+  .welcome-modal {
+    padding: 24px 18px;
+  }
+
+  .welcome-title {
+    font-size: 24px;
+  }
+
+  .welcome-actions {
+    flex-direction: column;
+  }
+
+  .welcome-actions .btn {
+    width: 100%;
+  }
+
+  .modal-h {
+    padding: 14px;
+  }
+
+  .modal-b {
+    padding: 14px;
+  }
+
+  .toast {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
+    padding: 12px 14px;
+  }
+
+  .final-wrap {
+    padding: 35px 12px;
+  }
+
+  .final-circle {
+    width: 90px;
+    height: 90px;
+    font-size: 42px;
+  }
+
+  .final-checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .tour-card {
+    padding: 16px;
+  }
+
+  .tour-title {
+    font-size: 16px;
+  }
+
+  .tour-description {
+    font-size: 12px;
+  }
+
+  .tour-actions .tour-skip {
+    flex-basis: 100%;
+    text-align: left;
+  }
+}
+
+/* =========================================
+   VERY SMALL PHONES: 360px and below
+========================================= */
+@media (max-width: 360px) {
+
+  .content {
+    padding: 9px;
+  }
+
+  .hero h1 {
+    font-size: 23px;
+  }
+
+  .g4,
+  .sum-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tb-title {
+    font-size: 13px;
+  }
+
+  .pill {
+    font-size: 8.5px;
+  }
+
+  .btn {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .final-checks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =========================================
+   MOBILE NAVIGATION (hamburger + sliding sidebar)
+   IMPORTANT: This block must come after the
+   `@media(max-width:900px){ .sidebar{display:none} }`
+   rule above so it can override it.
+========================================= */
+@media (max-width: 900px) {
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .topbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .topbar > div:first-of-type {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tb-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .sidebar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(280px, 85vw);
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    transform: translateX(-105%);
+    transition: transform 0.25s ease;
+    z-index: 1001;
+    box-shadow: 12px 0 35px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop.show {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    z-index: 1000;
+  }
 }
 </style>
 </head>
@@ -901,7 +1600,9 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
      ============================================================ -->
 <div class="app">
 
-  <aside class="sidebar">
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <aside class="sidebar" id="appSidebar">
     <div class="brand">
       <div class="brand-logo">🦅</div>
       <div>
@@ -924,7 +1625,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
       <div class="nav-item" data-go="reports"><span class="ni">◷</span> Inspection History</div>
 
       <div class="nav-group">SYSTEM</div>
-      <div class="nav-item" data-go="dashboard"><span class="ni">⚙</span> Settings</div>
+      <div class="nav-item" data-go="settings"><span class="ni">⚙</span> Settings</div>
       <div class="nav-item" id="helpNav"><span class="ni">?</span> Help</div>
     </nav>
 
@@ -939,12 +1640,30 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
 
   <div class="main">
     <header class="topbar">
+      <button
+        type="button"
+        class="mobile-menu-btn"
+        id="mobileMenuBtn"
+        aria-label="Open navigation menu"
+        aria-controls="appSidebar"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
       <div>
         <div class="tb-title" id="tbTitle">Dashboard</div>
         <div class="tb-sub" id="tbSub">Overview of all cabinet inspections</div>
       </div>
       <div class="tb-right">
-        <span class="pill demo">DEMO MODE</span>
+        <button
+          type="button"
+          class="pill demo"
+          id="demoModeButton"
+          title="Restart the guided demo tour"
+          aria-label="Restart guided demo tour"
+        >
+          DEMO MODE
+        </button>
         <span class="pill ok"><span class="dot-online"></span> System Online</span>
         <span class="pill">Inspector: Admin</span>
       </div>
@@ -1577,7 +2296,7 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
           </div>
           <div class="card">
             <div class="card-h">📊 Inspection Summary</div>
-            <div class="sum-grid" style="grid-template-columns:repeat(4,1fr);gap:10px;margin:0">
+            <div class="sum-grid report-summary-grid">
               <div><div class="sum-l">Total</div><div class="sum-v" style="font-size:20px">6</div></div>
               <div><div class="sum-l">Passed</div><div class="sum-v c-green" style="font-size:20px">2</div></div>
               <div><div class="sum-l">Failed</div><div class="sum-v c-red" style="font-size:20px">4</div></div>
@@ -1615,6 +2334,53 @@ td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
             <button class="btn btn-ghost" data-go="recheckUpload">↻ Start Re-check</button>
           </div>
         </div>
+      </section>
+
+      <!-- ============ SCREEN 11 : SETTINGS ============ -->
+      <section class="screen" id="screen-settings">
+
+        <h1 class="page-h">Settings</h1>
+        <p class="page-p">
+          Manage your CabinSpect demo and restart the inspection workflow.
+        </p>
+
+        <div class="card" style="margin-top:22px;max-width:760px">
+
+          <div class="card-h">⚙ GENERAL SETTINGS</div>
+
+          <h2 style="font-size:18px;margin-bottom:8px">
+            Inspection Reset
+          </h2>
+
+          <p style="color:var(--muted);line-height:1.8;margin-bottom:18px">
+            Completed tests ko reset karke CabinSpect ko initial demo
+            state mein wapas lao. Iske baad tum saare inspection steps
+            dobara perform kar sakte ho.
+          </p>
+
+          <div style="
+            border:1px solid rgba(255,194,71,.3);
+            background:rgba(255,194,71,.05);
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:20px;
+          ">
+            <div style="color:var(--review);font-weight:800;margin-bottom:5px">
+              ⚠ Reset confirmation required
+            </div>
+            <div style="color:var(--muted);font-size:12px;line-height:1.7">
+              Reset karne par current demo progress, uploaded demo inputs
+              aur re-check progress clear ho jayega. Original sample
+              inspection data apni default state mein rahega.
+            </div>
+          </div>
+
+          <button class="btn btn-ghost" id="btnResetAllTests">
+            ↻ Reset All Tests
+          </button>
+
+        </div>
+
       </section>
 
     </div>
@@ -1784,7 +2550,8 @@ const TITLES = {
   recheckResult:    ['Re-check Result','EAGLE-2026-00124-R1'],
   finalPass:        ['Final QC','All checks verified'],
   reports:          ['QC Reports','Inspection history'],
-  reportDetail:     ['Report Detail','EAGLE-2026-00124']
+  reportDetail:     ['Report Detail','EAGLE-2026-00124'],
+  settings:         ['Settings','Manage demo and inspection reset']
 };
 
 function go(id){
@@ -1855,6 +2622,9 @@ document.getElementById('btnDemoFill').addEventListener('click', e=>{
 let procRunning = false;
 let tourSuppressProcessing = false;
 
+/* Global run ID used to cancel stale processing callbacks after reset */
+window.cabinSpectRunId = 0;
+
 const PROC_STATUS = [
   'Checking resolution and sharpness…',
   'Correcting lens & perspective distortion…',
@@ -1893,8 +2663,15 @@ function runProcessing(){
   bar.style.width = '0%';
   pctEl.textContent = '0%';
 
+  /* Capture current run token so stale callbacks abort on reset */
+  const runId = window.cabinSpectRunId || 0;
+
   let i = 0;
   function tick(){
+    if(runId !== (window.cabinSpectRunId || 0)){
+      procRunning = false;
+      return;
+    }
     if(i >= steps.length){
       steps[steps.length-1].classList.remove('active');
       steps[steps.length-1].classList.add('done');
@@ -1969,8 +2746,15 @@ function runRecheckProcessing(){
   const statEl = document.getElementById('recheckStatus');
   bar.style.width='0%'; pctEl.textContent='0%';
 
+  /* Capture run token for re-check as well */
+  const runId = window.cabinSpectRunId || 0;
+
   let i = 0;
   function tick(){
+    if(runId !== (window.cabinSpectRunId || 0)){
+      rcRunning = false;
+      return;
+    }
     if(i >= steps.length){
       steps[steps.length-1].classList.remove('active');
       steps[steps.length-1].classList.add('done');
@@ -2401,6 +3185,247 @@ document.getElementById('helpNav').addEventListener('click', (e)=>{
   e.stopPropagation();
   startTour();
 });
+
+
+/* ============================================================
+   DEMO MODE BUTTON — Restart guided tour from Step 1
+   ============================================================ */
+document.getElementById('demoModeButton').addEventListener('click', () => {
+  startTour();
+});
+
+
+/* ============================================================
+   MOBILE SIDEBAR — Hamburger menu open/close
+   ============================================================ */
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const appSidebar = document.getElementById('appSidebar');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+function openMobileMenu() {
+  appSidebar.classList.add('open');
+  sidebarBackdrop.classList.add('show');
+  mobileMenuBtn.setAttribute('aria-expanded', 'true');
+  mobileMenuBtn.setAttribute('aria-label', 'Close navigation menu');
+  mobileMenuBtn.textContent = '✕';
+}
+
+function closeMobileMenu() {
+  appSidebar.classList.remove('open');
+  sidebarBackdrop.classList.remove('show');
+  mobileMenuBtn.setAttribute('aria-expanded', 'false');
+  mobileMenuBtn.setAttribute('aria-label', 'Open navigation menu');
+  mobileMenuBtn.textContent = '☰';
+}
+
+mobileMenuBtn.addEventListener('click', () => {
+  const isOpen = appSidebar.classList.contains('open');
+  if (isOpen) {
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
+});
+
+sidebarBackdrop.addEventListener('click', closeMobileMenu);
+
+// Auto-close after nav item tap
+appSidebar.querySelectorAll('[data-go]').forEach(item => {
+  item.addEventListener('click', closeMobileMenu);
+});
+
+// Close on Escape
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeMobileMenu();
+  }
+});
+
+// Reset when resizing back to desktop
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) {
+    closeMobileMenu();
+  }
+});
+
+
+/* ========================================
+   CABINSPECT: RESET ALL TESTS
+   ======================================== */
+
+document.getElementById('btnResetAllTests').addEventListener('click', () => {
+
+  const confirmed = window.confirm(
+    'Reset all tests?\n\n' +
+    'Inspection progress and demo uploads will be cleared. ' +
+    'You can run the complete workflow again.\n\n' +
+    'Continue?'
+  );
+
+  if (!confirmed) return;
+
+  resetAllTests();
+
+});
+
+
+function resetAllTests() {
+
+  /* 1. Bump run token so any stale processing callbacks exit early */
+  window.cabinSpectRunId = (window.cabinSpectRunId || 0) + 1;
+
+  /* 2. Reset processing state flags */
+  procRunning = false;
+  rcRunning = false;
+  rcCount = 0;
+
+  tourSuppressProcessing = false;
+
+  /* 3. Reset demo upload cards */
+  document.querySelectorAll('.up-card[data-upload]').forEach(card => {
+
+    const key = card.dataset.upload;
+    const original = UPLOAD_META[key];
+
+    if (!original) return;
+
+    card.classList.remove('loaded');
+
+    const dz = card.querySelector('.dropzone');
+
+    if (dz) {
+      if (key === 'qc') {
+        dz.innerHTML = `
+          <div class="checklist-mini">
+            <div class="cl-item"><i>✓</i> Component Presence</div>
+            <div class="cl-item"><i>✓</i> Component Position</div>
+            <div class="cl-item"><i>✓</i> Component Order</div>
+            <div class="cl-item"><i>✓</i> Label Verification</div>
+            <div class="cl-item"><i>✓</i> Ferrule Verification</div>
+            <div class="cl-item"><i>✓</i> Wire Colour</div>
+            <div class="cl-item"><i>✓</i> Terminal Connection</div>
+            <div class="cl-item"><i>✓</i> Earthing</div>
+          </div>
+        `;
+      } else {
+        dz.innerHTML = `
+          <div class="dz-ico">⬆</div>
+          <div class="dz-t">${
+            key === 'photo' ? 'Upload Image' :
+            key === 'ga' ? 'Upload GA Drawing' :
+            'Upload Excel'
+          }</div>
+          <div class="dz-s">${
+            key === 'photo' ? 'Drag & drop here · JPG / PNG' :
+            key === 'ga' ? 'PDF supported · multi-page' :
+            'XLSX / CSV · BOM + wire list'
+          }</div>
+        `;
+      }
+    }
+
+    const meta = card.querySelector('.up-meta');
+
+    if (meta) {
+      if (key === 'qc') {
+        meta.innerHTML = '<span class="chip ok">✓ 8 checks loaded</span>';
+      } else {
+        meta.innerHTML = original.chips
+          .map(text => {
+            const cleanText = text.replace(/^✓\s*/, '');
+            return `<span class="chip">${cleanText}</span>`;
+          })
+          .slice(1, 3)
+          .join('');
+      }
+    }
+
+  });
+
+  /* 4. Reset re-check upload card */
+  const rcCardRef = document.getElementById('recheckUploadCard');
+
+  if (rcCardRef) {
+
+    rcCardRef.classList.remove('loaded');
+
+    rcCardRef.querySelector('.dropzone').innerHTML = `
+      <div class="dz-ico">⬆</div>
+      <div class="dz-t">Click to upload repaired cabinet image</div>
+      <div class="dz-s">JPG / PNG · High resolution</div>
+    `;
+
+    rcCardRef.querySelector('.up-meta').innerHTML = '';
+  }
+
+  /* 5. Disable re-check until new photo is loaded */
+  const recheckButton = document.getElementById('btnRunRecheck');
+
+  if (recheckButton) {
+    recheckButton.disabled = true;
+  }
+
+  /* 6. Reset processing UI */
+  resetProgressUI('procSteps', 'procBar', 'procPct', 'procStatus',
+                  'Initializing engine…');
+
+  resetProgressUI('recheckSteps', 'recheckBar', 'recheckPct',
+                  'recheckStatus', 'Aligning images…');
+
+  /* 7. Viewer back to Original + Faults layer */
+  document.querySelectorAll('.vtab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.view === 'original');
+  });
+
+  const layerDetect = document.getElementById('layerDetect');
+  const layerFaults = document.getElementById('layerFaults');
+  if (layerDetect) layerDetect.classList.remove('show');
+  if (layerFaults) layerFaults.classList.add('show');
+
+  /* 8. Close any open dialogs */
+  document.getElementById('modalBg').classList.remove('show');
+
+  /* 9. Reset guided tour state */
+  tourActive = false;
+  tourStep = 0;
+  tourRestarting = false;
+
+  document.getElementById('tourOverlay').classList.remove('show');
+  document.getElementById('welcomeOverlay').classList.remove('show');
+  document.getElementById('tourCompleteOverlay').classList.remove('show');
+
+  clearTourHighlight();
+
+  /* 10. Return to Dashboard */
+  go('dashboard');
+
+  /* 11. Notify user */
+  toast('All tests reset successfully. Ready for a new inspection!');
+}
+
+
+function resetProgressUI(stepsId, barId, pctId, statusId, initialStatus) {
+
+  const steps = document.querySelectorAll(`#${stepsId} .pstep`);
+
+  steps.forEach(step => {
+    step.className = 'pstep';
+
+    const icon = step.querySelector('.ic');
+
+    if (icon) {
+      icon.textContent = '○';
+    }
+  });
+
+  const bar = document.getElementById(barId);
+  const pct = document.getElementById(pctId);
+  const status = document.getElementById(statusId);
+
+  if (bar) bar.style.width = '0%';
+  if (pct) pct.textContent = '0%';
+  if (status) status.textContent = initialStatus;
+}
 
 
 document.addEventListener('keydown', e=>{
