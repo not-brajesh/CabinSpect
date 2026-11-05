@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CabinSpect | Intelligent Panel Inspection</title>
+
+<style>
+:root {
+    /* Premium Minimalist Black & White Theme */
+    --bg: #f7f9fa;          /* Off-white background */
+    --surface: #ffffff;     /* Pure white cards */
+    --surface2: #f3f4f6;    /* Light gray secondary surface */
+    --border: #e5e7eb;      /* Soft gray borders */
+    --text: #111827;        /* Near black text */
+    --muted: #6b7280;       /* Medium gray text */
+    
+    /* Primary brand colors shifted to grayscale */
+    --primary: #000000;     /* Pitch black */
+    --primary-hover: #374151; /* Dark gray */
+    
+    /* Muted semantic colors for professional look */
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.app { min-height: 100vh; display: flex; }
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 45px;
+}
+
+.brand-icon {
+    height: 42px;
+    width: 42px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: var(--primary);
+    font-weight: 900;
+    color: white;
+    font-size: 19px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.brand-name { font-size: 19px; font-weight: 800; letter-spacing: -.5px; color: var(--text); }
+.brand-sub { color: var(--muted); font-size: 10px; margin-top: 3px; letter-spacing: 1.5px; font-weight: 600;}
+
+.nav-label {
+    font-size: 10px; color: #9ca3af; font-weight: 700;
+    letter-spacing: 1.5px; margin: 10px 10px 12px;
+    text-transform: uppercase;
+}
+
+.nav-item {
+    padding: 12px 14px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    color: #4b5563;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: all .2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+
+.nav-item.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.nav-icon { font-size: 16px; display: inline-block; width: 18px; text-align: center; }
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    border-radius: 12px;
+}
+
+.online-dot {
+    display: inline-block; height: 8px; width: 8px;
+    background: var(--green); border-radius: 50%; margin-right: 8px;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.sidebar-bottom small { color: var(--muted); font-size: 11px; display: block; margin-top: 4px;}
+
+/* MAIN */
+
+.main { flex: 1; min-width: 0; padding: 35px 45px 60px; max-width: 1600px; margin: 0 auto; }
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.breadcrumb { color: var(--muted); font-size: 12px; font-weight: 500; }
+.top-right { display: flex; gap: 10px; align-items: center; }
+
+.server-status {
+    border: 1px solid #d1fae5; color: #065f46;
+    padding: 8px 14px; border-radius: 20px; font-size: 11px;
+    background: #ecfdf5;
+    font-weight: 600;
+}
+.server-status.offline { border-color: #fee2e2; color: #991b1b; background: #fef2f2; }
+
+/* VIEWS */
+
+.view { display: none; }
+.view.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.page-title {
+    font-size: clamp(26px, 3vw, 36px); font-weight: 800;
+    letter-spacing: -1.2px; margin: 0; color: var(--text);
+}
+
+.subtitle { color: var(--muted); font-size: 14px; margin-top: 8px; line-height: 1.6; max-width: 600px;}
+
+.section-heading {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 15px; margin: 35px 0 18px; border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+.section-heading h2 { font-size: 15px; margin: 0; color: var(--text); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+.section-heading span { color: var(--muted); font-size: 11px; font-weight: 600; }
+
+/* DASHBOARD CARDS */
+.dash-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+    margin-top: 25px;
+}
+.metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+.metric-title {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.metric-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    margin-top: 10px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.action-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.action-card:hover {
+    border-color: var(--primary);
+    background: var(--bg);
+}
+
+.action-card i {
+    font-size: 28px;
+    margin-bottom: 12px;
+    font-style: normal;
+}
+
+/* PROJECT DETAILS */
+
+.project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.field {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+    transition: border-color 0.2s ease;
+}
+.field:focus-within { border-color: var(--primary); }
+.field label { display: block; color: var(--muted); font-size: 10px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px;}
+.field input {
+    background: transparent; border: 0; outline: none;
+    width: 100%; color: var(--text); font-size: 14px; font-weight: 500;
+}
+.field input::placeholder { color: #9ca3af; font-weight: 400;}
+
+/* UPLOAD CARDS */
+
+.upload-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+.upload-card {
+    position: relative; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px; min-width: 0; transition: .2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.upload-card:hover { border-color: #d1d5db; box-shadow: 0 6px 16px rgba(0,0,0,0.04); }
+.upload-card.dragover { border-color: var(--primary); background: var(--surface2); }
+
+.upload-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.upload-icon {
+    width: 48px; height: 48px; display: grid; place-items: center;
+    border-radius: 10px; background: var(--surface2); color: var(--text);
+    font-size: 22px; font-weight: 700; border: 1px solid var(--border);
+}
+.step { font-size: 10px; color: var(--primary); font-weight: 800; letter-spacing: 1px; background: var(--surface2); padding: 4px 8px; border-radius: 6px; }
+.upload-card h3 { font-size: 15px; margin: 20px 0 8px; color: var(--text); font-weight: 700; }
+.upload-card p {
+    font-size: 12px; line-height: 1.6; color: var(--muted);
+    min-height: 38px; margin: 0 0 18px;
+}
+.file-types { color: #4b5563; font-size: 10px; margin-bottom: 15px; font-weight: 600; letter-spacing: 0.5px;}
+
+.drop-zone {
+    border: 1px dashed #d1d5db; border-radius: 8px;
+    padding: 18px 10px; text-align: center; cursor: pointer;
+    background: var(--bg); transition: .2s; display: block;
+}
+.drop-zone:hover { border-color: var(--text); background: var(--surface2); }
+.drop-zone strong { display: block; font-size: 12px; color: var(--text); font-weight: 600;}
+.drop-zone small { display: block; color: var(--muted); font-size: 11px; margin-top: 6px; }
+
+.file-input { display: none; }
+
+.file-info {
+    display: none; margin-top: 14px; padding: 12px;
+    border-radius: 8px; background: var(--bg);
+    border: 1px solid var(--border); font-size: 11px; overflow-wrap: anywhere;
+}
+.file-info.visible { display: block; }
+.file-info .filename { color: var(--text); font-weight: 700; font-size: 12px; }
+.file-info .filesize { color: var(--muted); margin-top: 6px; }
+
+.file-preview {
+    display: none; max-width: 100%; max-height: 200px;
+    margin-top: 14px; border-radius: 8px;
+    border: 1px solid var(--border);
+    object-fit: contain; background: var(--surface2);
+}
+.file-preview.visible { display: block; }
+
+/* ACTIONS */
+
+.action-panel {
+    margin-top: 24px; border: 1px solid var(--primary);
+    background: var(--surface);
+    padding: 24px; border-radius: 12px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+.action-panel h3 { font-size: 15px; margin: 0 0 6px; color: var(--text); font-weight: 700;}
+.action-panel p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+.primary-btn {
+    border: 1px solid var(--primary); border-radius: 8px;
+    background: var(--primary);
+    color: white; font-size: 13px; font-weight: 600;
+    padding: 14px 26px; cursor: pointer;
+    white-space: nowrap; transition: all .2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.primary-btn:hover { background: var(--primary-hover); border-color: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
+.primary-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; background: #9ca3af; border-color: #9ca3af;}
+
+.secondary-btn {
+    border: 1px solid var(--border); color: var(--text);
+    background: var(--surface); padding: 10px 16px;
+    border-radius: 8px; font-size: 12px; cursor: pointer;
+    transition: all .2s; font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.secondary-btn:hover { border-color: #9ca3af; background: var(--surface2); }
+
+.danger-btn {
+    border: 1px solid #fca5a5; color: var(--red);
+    background: #fef2f2; padding: 8px 14px;
+    border-radius: 8px; font-size: 11px; cursor: pointer;
+    font-weight: 600; transition: .15s;
+}
+.danger-btn:hover { background: #fee2e2; border-color: var(--red); }
+
+.progress-wrap { display: none; margin-top: 18px; }
+.progress-wrap.visible { display: block; }
+.progress-track { height: 6px; background: var(--border); border-radius: 10px; overflow: hidden; margin-top: 10px; }
+.progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width .2s ease; }
+.progress-text { color: var(--muted); font-size: 11px; font-weight: 600; }
+
+/* RESULTS */
+
+.results-section { margin-top: 35px; }
+
+.overall-status {
+    padding: 18px; border-radius: 10px; background: var(--surface);
+    border: 1px solid var(--border); font-size: 13px; margin-bottom: 18px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.result-summary {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 15px; margin: 18px 0;
+}
+
+.stat {
+    padding: 20px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.stat small { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 0.5px;}
+.stat strong { display: block; font-size: 28px; font-weight: 800; margin-top: 10px; color: var(--text); }
+.stat.pass strong { color: var(--green); }
+.stat.fail strong { color: var(--red); }
+.stat.review strong { color: var(--yellow); }
+
+.result-list { display: grid; gap: 12px; }
+
+.result-item {
+    padding: 16px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px;
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 15px;
+}
+.result-item strong { font-size: 13px; color: var(--text); font-weight: 700;}
+.result-item p { font-size: 12px; color: var(--muted); margin: 6px 0 0; line-height: 1.5; }
+
+.status-pill {
+    font-size: 10px; font-weight: 800; padding: 6px 12px;
+    border-radius: 20px; flex-shrink: 0; letter-spacing: .5px; border: 1px solid transparent;
+}
+.status-PASS, .status-MATCH { color: #065f46; background: #d1fae5; border-color: #a7f3d0; }
+.status-FAIL, .status-MISMATCH, .status-MISSING { color: #991b1b; background: #fee2e2; border-color: #fecaca; }
+.status-REVIEW { color: #92400e; background: #fef3c7; border-color: #fde68a;}
+.status-UNKNOWN { color: #374151; background: #f3f4f6; border-color: #e5e7eb;}
+
+/* COMPONENT TABLE */
+
+.component-table-wrap {
+    overflow-x: auto; border: 1px solid var(--border);
+    border-radius: 12px; background: var(--surface);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+}
+
+table.component-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.component-table th {
+    text-align: left; padding: 14px 16px;
+    color: var(--muted); font-size: 10px;
+    font-weight: 700; letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg); text-transform: uppercase;
+}
+table.component-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+}
+table.component-table tr:last-child td { border-bottom: 0; }
+table.component-table tr:hover td { background: var(--bg); }
+
+.thumb-mini {
+    width: 65px; height: 48px; object-fit: cover;
+    border-radius: 6px; border: 1px solid var(--border);
+    cursor: pointer; background: white; transition: 0.2s;
+}
+.thumb-mini:hover { border-color: var(--primary); transform: scale(1.05);}
+
+/* ISSUES */
+
+.issue-group { margin-top: 26px; }
+.issue-group h3 {
+    font-size: 14px; margin: 0 0 14px; color: var(--text);
+    display: flex; align-items: center; gap: 10px; font-weight: 700;
+}
+.issue-group h3 .badge {
+    font-size: 10px; padding: 4px 10px; border-radius: 20px;
+    background: var(--primary); color: #fff; font-weight: 700;
+}
+
+.issue-list { display: grid; gap: 10px; }
+
+.issue-item {
+    padding: 14px 16px; background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: 8px; font-size: 12px;
+    line-height: 1.6; color: var(--text);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.issue-item.warn { border-left-color: var(--muted); }
+.issue-item strong { color: var(--primary); font-weight: 700;}
+
+/* EVIDENCE GALLERY */
+
+.evidence-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.evidence-item {
+    position: relative; border-radius: 10px;
+    overflow: hidden; border: 1px solid var(--border);
+    background: var(--surface); cursor: pointer;
+    transition: .2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+.evidence-item:hover { border-color: var(--text); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
+.evidence-item img {
+    width: 100%; height: 120px; object-fit: cover; display: block;
+}
+.evidence-item .cap {
+    padding: 10px 12px; font-size: 11px;
+    color: var(--muted); background: var(--surface);
+    white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; font-weight: 600;
+    border-top: 1px solid var(--border);
+}
+
+/* MODAL */
+
+.modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000; padding: 30px;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(5px);
+}
+.modal.visible { display: flex; }
+
+.modal-inner {
+    max-width: 92vw; max-height: 92vh;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+.modal-header {
+    padding: 16px 20px; display: flex;
+    justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    gap: 12px;
+}
+.modal-header strong { font-size: 14px; color: var(--text); font-weight: 700; }
+.modal-header .close-btn {
+    border: 0; background: var(--bg); color: var(--text);
+    width: 32px; height: 32px; border-radius: 8px;
+    font-size: 18px; cursor: pointer; transition: .15s;
+    display: grid; place-items: center; border: 1px solid var(--border);
+}
+.modal-header .close-btn:hover { background: var(--border); }
+
+.modal-body {
+    flex: 1; overflow: auto; display: flex;
+    align-items: center; justify-content: center;
+    padding: 20px; min-width: 320px; min-height: 240px;
+    background: var(--surface2);
+}
+.modal-body img {
+    max-width: 100%; max-height: 70vh;
+    transition: transform .15s ease;
+    transform-origin: center center;
+    user-select: none; border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.modal-footer {
+    padding: 14px 20px; display: flex;
+    gap: 10px; justify-content: flex-end;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap; background: var(--surface);
+}
+
+/* REPORTS */
+
+.report-list { display: grid; gap: 12px; }
+
+.report-row {
+    padding: 18px 20px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 15px;
+    cursor: pointer; transition: .2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.report-row:hover { border-color: var(--text); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+.report-row .left { min-width: 0; }
+.report-row .title { font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--text); }
+.report-row .meta { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+
+.report-row .right { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+
+.empty-state {
+    padding: 50px 20px; text-align: center;
+    color: var(--muted); font-size: 13px; font-weight: 500;
+    border: 1px dashed #d1d5db; border-radius: 12px; background: var(--bg);
+}
+
+/* CONFIG */
+
+.config-section {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.config-section h3 { font-size: 14px; margin: 0 0 6px; color: var(--text); font-weight: 700; }
+.config-section > p { font-size: 12px; color: var(--muted); margin: 0 0 18px; }
+
+.config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.config-grid .field { background: var(--surface); box-shadow: none; border: 1px solid var(--border); }
+
+.tag-input-wrap {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    padding: 14px; border: 1px solid var(--border);
+    border-radius: 10px; background: var(--bg);
+}
+.tag-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--text);
+    font-size: 11px; color: var(--text); font-weight: 600;
+}
+.tag-chip button {
+    border: 0; background: transparent;
+    color: var(--muted); font-size: 14px; cursor: pointer;
+    padding: 0; line-height: 1; transition: .15s;
+}
+.tag-chip button:hover { color: var(--red); }
+
+.tag-add-row { display: flex; gap: 10px; margin-top: 12px; }
+.tag-add-row input {
+    flex: 1; padding: 10px 14px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-size: 13px; outline: none; transition: 0.2s;
+}
+.tag-add-row input:focus { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+
+.config-actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 15px; flex-wrap: wrap;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed; bottom: 30px; right: 30px;
+    max-width: 400px; background: var(--primary);
+    border: 1px solid var(--text); color: white;
+    border-radius: 8px; padding: 16px 20px;
+    font-size: 13px; display: none; z-index: 2000;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    line-height: 1.5; font-weight: 500;
+}
+.toast.visible { display: block; animation: fadeIn .2s; }
+.toast.error { background: #b91c1c; border-color: #7f1d1d; }
+
+.footer {
+    text-align: center; margin-top: 40px;
+    color: var(--muted); font-size: 11px; font-weight: 500;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .sidebar { width: 80px; padding: 20px 10px; }
+    .brand { justify-content: center; }
+    .brand-text, .nav-label, .nav-item span.nav-text, .sidebar-bottom { display: none; }
+    .nav-item { justify-content: center; }
+    .main { padding: 25px 20px; }
+    .dash-metrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 650px) {
+    .main { padding: 20px 15px; }
+    .dash-metrics { grid-template-columns: 1fr; }
+    .quick-actions { grid-template-columns: 1fr; }
+    .upload-grid, .project-grid, .config-grid { grid-template-columns: 1fr; }
+    .result-summary { grid-template-columns: repeat(2, 1fr); }
+    .action-panel { align-items: stretch; flex-direction: column; }
+    .primary-btn { width: 100%; }
+    .topbar { align-items: flex-start; flex-direction: column; }
+    .server-status { font-size: 10px; }
+    .report-row { flex-direction: column; align-items: flex-start; }
+    .report-row .right { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">C</div>
+            <div class="brand-text">
+                <div class="brand-name">CabinSpect</div>
+                <div class="brand-sub">INTELLIGENT SYSTEM</div>
+            </div>
+        </div>
+
+        <div class="nav-label">OVERVIEW</div>
+        
+        <div class="nav-item active" data-view="dashboard">
+            <span class="nav-icon">◱</span><span class="nav-text">Dashboard</span>
+        </div>
+
+        <div class="nav-label" style="margin-top:15px">WORKSPACE</div>
+
+        <div class="nav-item" data-view="new">
+            <span class="nav-icon">▦</span><span class="nav-text">New Inspection</span>
+        </div>
+        <div class="nav-item" data-view="results">
+            <span class="nav-icon">▤</span><span class="nav-text">Inspection Results</span>
+        </div>
+        <div class="nav-item" data-view="reports">
+            <span class="nav-icon">◷</span><span class="nav-text">Reports</span>
+        </div>
+
+        <div class="nav-label" style="margin-top:30px">SYSTEM</div>
+        <div class="nav-item" data-view="config">
+            <span class="nav-icon">⚙</span><span class="nav-text">Configuration</span>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div style="font-size:12px;font-weight:600;display:flex;align-items:center;">
+                <span class="online-dot"></span>Local System
+            </div>
+            <small>Core Engine v2.0</small>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+
+        <header class="topbar">
+            <div class="breadcrumb" id="breadcrumb">Overview / Dashboard</div>
+            <div class="top-right">
+                <div class="server-status" id="serverStatus">● Checking server...</div>
+            </div>
+        </header>
+        
+        <!-- =========================================================
+             VIEW 0 — DASHBOARD (NEW)
+        ========================================================== -->
+        <section class="view active" id="view-dashboard">
+            <h1 class="page-title">Dashboard</h1>
+            <p class="subtitle">Overview of your recent panel inspections and system metrics.</p>
+
+            <div class="dash-metrics">
+                <div class="metric-card">
+                    <div class="metric-title">Total Inspections</div>
+                    <div class="metric-value">142</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Passed QA</div>
+                    <div class="metric-value" style="color: var(--green);">128</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Needs Review</div>
+                    <div class="metric-value" style="color: var(--yellow);">11</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Failed</div>
+                    <div class="metric-value" style="color: var(--red);">3</div>
+                </div>
+            </div>
+
+            <div class="section-heading">
+                <h2>Quick Actions</h2>
+                <span>Shortcuts</span>
+            </div>
+
+            <div class="quick-actions">
+                <div class="action-card" onclick="switchView('new')">
+                    <i>+</i>
+                    <h3 style="margin: 0 0 5px; font-size: 15px;">Start New Inspection</h3>
+                    <p style="margin:0; font-size:12px; color:var(--muted)">Upload files to begin a new scan</p>
+                </div>
+                <div class="action-card" onclick="switchView('reports')">
+                    <i>◷</i>
+                    <h3 style="margin: 0 0 5px; font-size: 15px;">View History & Reports</h3>
+                    <p style="margin:0; font-size:12px; color:var(--muted)">Access past inspections and downloads</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 1 — NEW INSPECTION
+        ========================================================== -->
+        <section class="view" id="view-new">
+
+            <h1 class="page-title">New Panel Inspection</h1>
+            <p class="subtitle">
+                Upload your cabinet photograph, engineering drawing,
+                and QC checklist to initiate an inspection.
+            </p>
+
+            <div class="section-heading">
+                <h2>01 / Project Information</h2>
+                <span>Inspection configuration</span>
+            </div>
+
+            <div class="project-grid">
+                <div class="field">
+                    <label>PROJECT NAME</label>
+                    <input id="projectName" type="text"
+                        value="Control Panel Inspection"
+                        placeholder="Enter project name">
+                </div>
+                <div class="field">
+                    <label>INSPECTION REFERENCE</label>
+                    <input id="inspectionReference" type="text"
+                        placeholder="Optional reference ID">
+                </div>
+            </div>
+
+            <div class="section-heading">
+                <h2>02 / Inspection Inputs</h2>
+                <span>3 mandatory input files</span>
+            </div>
+
+            <div class="upload-grid">
+
+                <!-- CABINET PHOTO -->
+                <div class="upload-card" data-category="cabinet_image">
+                    <div class="upload-top">
+                        <div class="upload-icon">▧</div>
+                        <div class="step">INPUT 01</div>
+                    </div>
+                    <h3>Cabinet Photograph</h3>
+                    <p>Upload a clear front-facing photograph of the physically assembled electrical cabinet.</p>
+                    <div class="file-types">JPG · JPEG · PNG</div>
+                    <label class="drop-zone" for="cabinet_image">
+                        <strong>+ Choose Cabinet Image</strong>
+                        <small>Click to browse your files</small>
+                    </label>
+                    <input class="file-input" type="file" id="cabinet_image"
+                        accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                    <div class="file-info" id="info_cabinet_image"></div>
+                    <img class="file-preview" id="preview_cabinet_image" alt="">
+                </div>
+
+                <!-- ENGINEERING DRAWING -->
+                <div class="upload-card" data-category="engineering_drawing">
+                    <div class="upload-top">
+                        <div class="upload-icon">⌑</div>
+                        <div class="step">INPUT 02</div>
+                    </div>
+                    <h3>Engineering Drawing</h3>
+                    <p>Upload the approved panel layout, GA drawing or electrical engineering reference.</p>
+                    <div class="file-types">PDF only</div>
+                    <label class="drop-zone" for="engineering_drawing">
+                        <strong>+ Choose Engineering Drawing</strong>
+                        <small>Click to browse your files</small>
+                    </label>
+                    <input class="file-input" type="file" id="engineering_drawing"
+                        accept=".pdf,application/pdf">
+                    <div class="file-info" id="info_engineering_drawing"></div>
+                </div>
+
+                <!-- QC CHECKLIST -->
+                <div class="upload-card" data-category="qc_checklist">
+                    <div class="upload-top">
+                        <div class="upload-icon">☷</div>
+                        <div class="step">INPUT 03</div>
+                    </div>
+                    <h3>QC Checklist</h3>
+                    <p>Upload the quality inspection checklist containing the required inspection parameters.</p>
+                    <div class="file-types">JSON · CSV · XLSX</div>
+                    <label class="drop-zone" for="qc_checklist">
+                        <strong>+ Choose QC Checklist</strong>
+                        <small>Click to browse your files</small>
+                    </label>
+                    <input class="file-input" type="file" id="qc_checklist"
+                        accept=".json,.csv,.xlsx">
+                    <div class="file-info" id="info_qc_checklist"></div>
+                </div>
+
+            </div>
+
+            <div class="section-heading">
+                <h2>03 / Start Inspection</h2>
+                <span>Input validation required</span>
+            </div>
+
+            <div class="action-panel">
+                <div>
+                    <h3>Ready to inspect your control panel?</h3>
+                    <p>All three input files must be selected before the inspection process can begin.</p>
+                </div>
+                <button class="primary-btn" id="inspectBtn" disabled>Run Inspection →</button>
+            </div>
+
+            <div class="progress-wrap" id="progressWrap">
+                <div class="progress-text" id="progressText">Preparing inspection...</div>
+                <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+            </div>
+
+            <!-- Inline result preview -->
+            <div class="results-section" id="inlineResults" style="display:none;"></div>
+
+        </section>
+
+        <!-- =========================================================
+             VIEW 2 — INSPECTION RESULTS
+        ========================================================== -->
+        <section class="view" id="view-results">
+            <h1 class="page-title">Inspection Results</h1>
+            <p class="subtitle">
+                Component-level verification, evidence and OCR diagnostics for the selected inspection.
+            </p>
+            <div id="resultsDetail" style="margin-top:25px;"></div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 3 — REPORTS
+        ========================================================== -->
+        <section class="view" id="view-reports">
+            <h1 class="page-title">Inspection Reports</h1>
+            <p class="subtitle">
+                Open, download or re-inspect any previously generated inspection.
+            </p>
+
+            <div class="section-heading">
+                <h2>Report history</h2>
+                <button class="secondary-btn" id="refreshReports">↻ Refresh Data</button>
+            </div>
+
+            <div id="reportsList">
+                <div class="empty-state">Loading reports…</div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 4 — CONFIGURATION
+        ========================================================== -->
+        <section class="view" id="view-config">
+            <h1 class="page-title">Configuration</h1>
+            <p class="subtitle">
+                Component labels, expected positions, inspection thresholds and QC checklist settings.
+            </p>
+
+            <!-- Supported formats (read-only) -->
+            <div class="section-heading">
+                <h2>Supported File Formats</h2>
+                <span>Read-only</span>
+            </div>
+            <div class="config-section">
+                <h3>Inspection Inputs</h3>
+                <p>Accepted formats for each mandatory input.</p>
+                <div class="config-grid">
+                    <div class="field"><label>CABINET PHOTOGRAPH</label><div style="font-size:13px;font-weight:500;">JPG · JPEG · PNG</div></div>
+                    <div class="field"><label>ENGINEERING DRAWING</label><div style="font-size:13px;font-weight:500;">PDF only</div></div>
+                    <div class="field"><label>QC CHECKLIST</label><div style="font-size:13px;font-weight:500;">JSON · CSV · XLSX</div></div>
+                    <div class="field"><label>MAX FILE SIZE</label><div style="font-size:13px;font-weight:500;">25 MB per file</div></div>
+                </div>
+            </div>
+
+            <!-- Component labels -->
+            <div class="section-heading">
+                <h2>Component Labels</h2>
+                <span>Required components</span>
+            </div>
+            <div class="config-section">
+                <h3>Required Components</h3>
+                <p>Component labels that must be present in the inspected panel.</p>
+                <div class="tag-input-wrap" id="componentTags"></div>
+                <div class="tag-add-row">
+                    <input type="text" id="newComponentInput" placeholder="Add component label (e.g. MCB)">
+                    <button class="secondary-btn" id="addComponentBtn">+ Add Tag</button>
+                </div>
+            </div>
+
+            <!-- Thresholds -->
+            <div class="section-heading">
+                <h2>Inspection Thresholds</h2>
+                <span>Detection &amp; alignment</span>
+            </div>
+            <div class="config-section">
+                <h3>Confidence &amp; Tolerance</h3>
+                <p>Lower confidence values trigger REVIEW rather than FAIL.</p>
+                <div class="config-grid">
+                    <div class="field">
+                        <label>MIN OCR CONFIDENCE (0–1)</label>
+                        <input type="number" id="ocrConfidence" min="0" max="1" step="0.05" value="0.55">
+                    </div>
+                    <div class="field">
+                        <label>POSITION TOLERANCE (normalized)</label>
+                        <input type="number" id="positionTolerance" min="0" max="1" step="0.01" value="0.10">
+                    </div>
+                    <div class="field">
+                        <label>DETECTION CONFIDENCE (0–1)</label>
+                        <input type="number" id="detectionConfidence" min="0" max="1" step="0.05" value="0.50">
+                    </div>
+                    <div class="field">
+                        <label>MISSING COMPONENT SEVERITY</label>
+                        <select id="missingSeverity" style="background:transparent;border:0;outline:none;width:100%;font-size:14px;color:var(--text);font-weight:500;">
+                            <option value="FAIL">FAIL</option>
+                            <option value="REVIEW">REVIEW</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expected positions -->
+            <div class="section-heading">
+                <h2>Expected Component Positions</h2>
+                <span>Normalized (0–1)</span>
+            </div>
+            <div class="config-section">
+                <h3>Reference Positions</h3>
+                <p>Normalized coordinates relative to the panel frame. X increases right, Y increases down.</p>
+                <div id="positionsList"></div>
+                <div class="tag-add-row">
+                    <input type="text" id="newPosName" placeholder="Component (e.g. PLC)">
+                    <input type="number" id="newPosX" placeholder="X (0-1)" min="0" max="1" step="0.01" style="max-width:120px">
+                    <input type="number" id="newPosY" placeholder="Y (0-1)" min="0" max="1" step="0.01" style="max-width:120px">
+                    <button class="secondary-btn" id="addPosBtn">+ Add Position</button>
+                </div>
+            </div>
+
+            <div class="config-actions">
+                <button class="secondary-btn" id="resetConfig">Reset Defaults</button>
+                <button class="primary-btn" id="saveConfig">Save Changes</button>
+            </div>
+        </section>
+
+        <div class="footer">
+            CabinSpect · Intelligent Electrical Cabinet Inspection
+            <br><br>
+            Enterprise Local Processing Interface
+        </div>
+    </main>
+</div>
+
+<!-- ================= EVIDENCE MODAL ================= -->
+<div class="modal" id="evidenceModal">
+    <div class="modal-inner">
+        <div class="modal-header">
+            <strong id="evidenceTitle">Evidence</strong>
+            <button class="close-btn" id="evidenceClose">×</button>
+        </div>
+        <div class="modal-body">
+            <img id="evidenceImage" alt="Evidence">
+        </div>
+        <div class="modal-footer">
+            <button class="secondary-btn" id="zoomOut">− Zoom Out</button>
+            <button class="secondary-btn" id="zoomReset">100%</button>
+            <button class="secondary-btn" id="zoomIn">+ Zoom In</button>
+            <a class="primary-btn" id="evidenceDownload" download style="text-decoration:none; display:inline-block;">Download Image</a>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================
+   CONFIGURATION
+========================================= */
+const API_BASE =
+    window.location.protocol === "file:"
+        ? "http://127.0.0.1:8000"
+        : window.location.origin;
+
+const INPUTS = {
+    cabinet_image:       { label: "Cabinet Photograph",   extensions: ["jpg", "jpeg", "png"] },
+    engineering_drawing: { label: "Engineering Drawing",  extensions: ["pdf"] },
+    qc_checklist:        { label: "QC Checklist",         extensions: ["json", "csv", "xlsx"] }
+};
+
+const DEFAULT_COMPONENTS = ["MCB", "POWER SUPPLY", "PLC", "K1", "K2"];
+
+const DEFAULT_CONFIG = {
+    components: [...DEFAULT_COMPONENTS],
+    expected_positions: {
+        "MCB":          { x: 0.18, y: 0.22 },
+        "POWER SUPPLY": { x: 0.50, y: 0.22 },
+        "PLC":          { x: 0.82, y: 0.22 },
+        "K1":           { x: 0.18, y: 0.72 },
+        "K2":           { x: 0.50, y: 0.72 }
+    },
+    thresholds: {
+        ocr_confidence: 0.55,
+        position_tolerance: 0.10,
+        detection_confidence: 0.50,
+        missing_severity: "FAIL"
+    }
+};
+
+let currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+let currentInspectionId = null;
+let currentResults = null;
+let currentReportUrl = null;
+let inspectionHistory = [];   // session history
+let currentView = "dashboard";
+
+/* =========================================
+   HELPERS
+========================================= */
+function $(id) { return document.getElementById(id); }
+
+function showToast(message, isError = false) {
+    const t = $("toast");
+    t.textContent = message;
+    t.classList.toggle("error", !!isError);
+    t.classList.add("visible");
+    clearTimeout(showToast._h);
+    showToast._h = setTimeout(() => t.classList.remove("visible"), 3800);
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    }[c]));
+}
+
+function formatSize(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+}
+
+function getExtension(name) { return (name.split(".").pop() || "").toLowerCase(); }
+
+function setProgress(value, message) {
+    $("progressWrap").classList.add("visible");
+    $("progressBar").style.width = value + "%";
+    $("progressText").textContent = message;
+}
+
+function hideProgress() {
+    $("progressWrap").classList.remove("visible");
+}
+
+function statusClass(s) {
+    const v = String(s || "REVIEW").toUpperCase();
+    return ["PASS","FAIL","REVIEW","MATCH","MISMATCH","MISSING","UNKNOWN"].includes(v)
+        ? "status-" + v
+        : "status-REVIEW";
+}
+
+/* =========================================
+   VIEW NAVIGATION
+========================================= */
+function switchView(view) {
+    currentView = view;
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    document.querySelectorAll(".nav-item").forEach(n => n.classList.toggle("active", n.dataset.view === view));
+
+    const sectionMap = {
+        "dashboard": "view-dashboard",
+        "new": "view-new",
+        "results": "view-results",
+        "reports": "view-reports",
+        "config": "view-config"
+    };
+    const el = $(sectionMap[view]);
+    if (el) el.classList.add("active");
+
+    const titles = {
+        "dashboard": "Overview / Dashboard",
+        "new": "Workspace / New Inspection",
+        "results": "Workspace / Inspection Results",
+        "reports": "Workspace / Reports",
+        "config": "System / Configuration"
+    };
+    $("breadcrumb").textContent = titles[view] || "";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (view === "reports")  loadReports();
+    if (view === "config")   loadConfiguration();
+    if (view === "results")  renderResultsView();
+}
+
+document.querySelectorAll(".nav-item").forEach(item => {
+    item.addEventListener("click", () => switchView(item.dataset.view));
+});
+
+/* =========================================
+   SERVER HEALTH
+========================================= */
+async function checkServer() {
+    const s = $("serverStatus");
+    try {
+        const r = await fetch(API_BASE + "/api/health", { cache: "no-store" });
+        if (!r.ok) throw new Error();
+        s.textContent = "● Backend Connected";
+        s.classList.remove("offline");
+    } catch {
+        s.textContent = "● Backend Offline";
+        s.classList.add("offline");
+    }
+}
+checkServer();
+setInterval(checkServer, 30000);
+
+/* =========================================
+   FILE SELECTION & VALIDATION
+========================================= */
+Object.keys(INPUTS).forEach(category => {
+    const input = $(category);
+    const card  = document.querySelector(`[data-category="${category}"]`);
+    const dropZone = card.querySelector(".drop-zone");
+
+    input.addEventListener("change", () => {
+        const file = input.files[0];
+        if (!file) { updateReadyState(); return; }
+        if (!INPUTS[category].extensions.includes(getExtension(file.name))) {
+            input.value = "";
+            clearFile(category);
+            showToast("Invalid file format for " + INPUTS[category].label, true);
+            updateReadyState();
+            return;
+        }
+        if (file.size > 25 * 1024 * 1024) {
+            input.value = "";
+            clearFile(category);
+            showToast("Each file must be below 25 MB.", true);
+            updateReadyState();
+            return;
+        }
+        displayFile(category, file);
+        updateReadyState();
+    });
+
+    dropZone.addEventListener("dragover", e => { e.preventDefault(); card.classList.add("dragover"); });
+    dropZone.addEventListener("dragleave", () => card.classList.remove("dragover"));
+    dropZone.addEventListener("drop", e => {
+        e.preventDefault();
+        card.classList.remove("dragover");
+        const file = e.dataTransfer.files[0];
+        if (!file) return;
+
+        if (!INPUTS[category].extensions.includes(getExtension(file.name))) {
+            showToast("Invalid file format.", true); return;
+        }
+        if (file.size > 25 * 1024 * 1024) {
+            showToast("Each file must be below 25 MB.", true); return;
+        }
+
+        try {
+            const transfer = new DataTransfer();
+            transfer.items.add(file);
+            input.files = transfer.files;
+            displayFile(category, file);
+            updateReadyState();
+        } catch {
+            showToast("Your browser doesn't support drag-and-drop file assignment.", true);
+        }
+    });
+});
+
+function displayFile(category, file) {
+    const info = $("info_" + category);
+    info.innerHTML = `
+        <div class="filename">✓ ${escapeHTML(file.name)}</div>
+        <div class="filesize">${formatSize(file.size)} · File selected</div>
+        <button type="button" class="secondary-btn"
+            style="margin-top:10px;padding:6px 12px;font-size:10px;"
+            onclick="removeFile('${category}')">Remove file</button>
+    `;
+    info.classList.add("visible");
+
+    const preview = $("preview_" + category);
+    if (!preview) return;
+
+    if (category === "cabinet_image") {
+        preview.src = URL.createObjectURL(file);
+        preview.classList.add("visible");
+    } else {
+        preview.classList.remove("visible");
+        preview.removeAttribute("src");
+    }
+}
+
+function clearFile(category) {
+    $(category).value = "";
+    const info = $("info_" + category);
+    info.innerHTML = "";
+    info.classList.remove("visible");
+    const preview = $("preview_" + category);
+    if (preview) {
+        preview.classList.remove("visible");
+        preview.removeAttribute("src");
+    }
+}
+
+function removeFile(category) { clearFile(category); updateReadyState(); }
+
+function updateReadyState() {
+    const all = Object.keys(INPUTS).every(c => $(c).files.length > 0);
+    $("inspectBtn").disabled = !all;
+}
+
+/* =========================================
+   UPLOAD
+========================================= */
+function uploadFiles(formData) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", API_BASE + "/api/inspections/upload");
+
+        xhr.upload.onprogress = e => {
+            if (e.lengthComputable) {
+                const pct = Math.round((e.loaded / e.total) * 100);
+                setProgress(pct, "Uploading inspection inputs... " + pct + "%");
+            }
+        };
+
+        xhr.onload = () => {
+            let res;
+            try { res = JSON.parse(xhr.responseText); }
+            catch { reject(new Error("Invalid server response.")); return; }
+
+            if (xhr.status < 200 || xhr.status >= 300 || res.success === false) {
+                const errors = res.errors || [];
+                const details = errors.map(i => `${i.input || ""}: ${i.error || ""}`).join("\n");
+                reject(new Error(res.message || details || "Upload failed."));
+                return;
+            }
+            resolve(res);
+        };
+        xhr.onerror = () => reject(new Error("Cannot connect to backend. Check Flask server."));
+        xhr.send(formData);
+    });
+}
+
+/* =========================================
+   RUN INSPECTION
+========================================= */
+$("inspectBtn").addEventListener("click", async () => {
+    const btn = $("inspectBtn");
+
+    const formData = new FormData();
+    Object.keys(INPUTS).forEach(c => {
+        const f = $(c).files[0];
+        if (f) formData.append(c, f);
+    });
+    formData.append("project_name", $("projectName").value || "");
+    formData.append("inspection_reference", $("inspectionReference").value || "");
+
+    btn.disabled = true;
+    btn.textContent = "Processing System...";
+    $("inlineResults").style.display = "none";
+
+    try {
+        setProgress(0, "Starting file upload...");
+        const up = await uploadFiles(formData);
+        currentInspectionId = up.inspection_id;
+        if (!currentInspectionId) throw new Error("Upload response did not contain inspection ID.");
+
+        setProgress(100, "Files uploaded successfully.");
+        setProgress(100, "Running inspection engine...");
+
+        const r = await fetch(
+            API_BASE + "/api/inspections/" + encodeURIComponent(currentInspectionId) + "/inspect",
+            { method: "POST" }
+        );
+        const data = await r.json();
+
+        if (!r.ok || data.success === false) {
+            throw new Error(data.message || "Inspection processing failed.");
+        }
+
+        currentResults = data;
+        setProgress(100, "Inspection completed successfully.");
+        showToast("Inspection completed successfully.");
+
+        // Save into session history
+        inspectionHistory.unshift({
+            inspection_id: currentInspectionId,
+            project_name: $("projectName").value || "Control Panel Inspection",
+            reference: $("inspectionReference").value || "",
+            timestamp: new Date().toISOString(),
+            overall_status: data.overall_status || "REVIEW",
+            summary: data.summary || {}
+        });
+
+        // Render inline
+        const inline = $("inlineResults");
+        inline.style.display = "block";
+        inline.innerHTML = `
+            <div class="section-heading"><h2>04 / Results</h2>
+                <button class="secondary-btn" onclick="switchView('results')">Open in Results View →</button>
+            </div>
+            <div id="inlineRender"></div>
+        `;
+        renderResultsInto("inlineRender", data);
+
+        btn.textContent = "Inspection Completed";
+    } catch (err) {
+        console.error(err);
+        showToast(err.message, true);
+        setProgress(0, "Error: " + err.message);
+        btn.disabled = false;
+        btn.textContent = "Run Inspection →";
+    }
+});
+
+/* =========================================
+   RESULTS RENDERING
+========================================= */
+function renderResultsView() {
+    const el = $("resultsDetail");
+    if (!currentResults) {
+        el.innerHTML = `
+            <div class="empty-state">
+                No inspection has been run yet. Start a new inspection from
+                <strong>New Inspection</strong> to view detailed results here.
+            </div>`;
+        return;
+    }
+    el.innerHTML = `<div id="resultsDetailInner"></div>`;
+    renderResultsInto("resultsDetailInner", currentResults);
+}
+
+function renderResultsInto(containerId, data) {
+    const c = $(containerId);
+    if (!c) return;
+
+    const results = data.results || [];
+    const summary = data.summary || {};
+    const pass   = summary.passed ?? results.filter(r => (r.status||"").toUpperCase() === "PASS").length;
+    const fail   = summary.failed ?? results.filter(r => (r.status||"").toUpperCase() === "FAIL").length;
+    const review = summary.review ?? results.filter(r => (r.status||"").toUpperCase() === "REVIEW").length;
+    const total  = summary.total ?? results.length;
+
+    const overall = (data.overall_status || "REVIEW").toUpperCase();
+
+    /* --- overall banner --- */
+    let html = `
+        <div class="overall-status">
+            <strong style="color: var(--text);">Overall Status:</strong>
+            <span class="status-pill ${statusClass(overall)}" style="margin-left:10px">${escapeHTML(overall)}</span>
+            <br><br>
+            <span style="color:var(--muted); font-weight: 500;">${escapeHTML(data.message || "Inspection processing completed.")}</span>
+            <br>
+            <span style="color:var(--muted);font-size:10px;margin-top:8px;display:inline-block; font-weight:600;">
+                Inspection ID: ${escapeHTML(data.inspection_id || currentInspectionId || "—")}
+            </span>
+        </div>
+
+        <div class="result-summary">
+            <div class="stat"><small>TOTAL CHECKS</small><strong>${total}</strong></div>
+            <div class="stat pass"><small>PASS</small><strong>${pass}</strong></div>
+            <div class="stat fail"><small>FAIL</small><strong>${fail}</strong></div>
+            <div class="stat review"><small>REVIEW</small><strong>${review}</strong></div>
+        </div>
+    `;
+
+    /* --- component verification table --- */
+    if (results.length) {
+        html += `<div class="section-heading"><h2>Component Verification</h2>
+                 <span>${results.length} component(s)</span></div>`;
+        html += `<div class="component-table-wrap"><table class="component-table">
+            <thead><tr>
+                <th>COMPONENT</th><th>DRAWING</th><th>ACTUAL IMAGE</th>
+                <th>POSITION</th><th>STATUS</th>
+            </tr></thead><tbody>`;
+
+        results.forEach(r => {
+            const name = r.name || r.component || r.id || "—";
+            const status = (r.status || "REVIEW").toUpperCase();
+
+            const drawingPresence = r.drawing_present === true ? "Present"
+                : r.drawing_present === false ? "Missing" : "—";
+
+            let actual;
+            if (r.detected_present === true) {
+                actual = "Detected" + (r.confidence != null
+                    ? ` (${Number(r.confidence).toFixed(2)})` : "");
+            } else if (r.detected_present === false) {
+                actual = "Not detected";
+            } else {
+                actual = "—";
+            }
+
+            const posStatus = (r.position_status || "UNKNOWN").toUpperCase();
+            const posLabel = {
+                MATCH: "Match",
+                MISMATCH: "Mismatch",
+                MISSING: "Missing",
+                UNKNOWN: "Unknown"
+            }[posStatus] || posStatus;
+
+            // Small thumbnail in table if evidence available for this row
+            let thumbHTML = "—";
+            const rowEvidence = (r.evidence || []).find(e => e && (e.thumbnail || e.url));
+            if (rowEvidence) {
+                const src = rowEvidence.thumbnail || rowEvidence.url;
+                thumbHTML = `<img src="${escapeHTML(resolveEvidenceUrl(src))}" class="thumb-mini"
+                    onclick="openEvidence('${escapeHTML(resolveEvidenceUrl(rowEvidence.url || src))}','${escapeHTML(name)}')">`;
+            }
+
+            html += `<tr>
+                <td><strong style="color: var(--text);">${escapeHTML(name)}</strong></td>
+                <td>${escapeHTML(drawingPresence)}</td>
+                <td>${escapeHTML(actual)}</td>
+                <td>${escapeHTML(posLabel)}</td>
+                <td><span class="status-pill ${statusClass(status)}">${escapeHTML(status)}</span></td>
+            </tr>`;
+        });
+        html += `</tbody></table></div>`;
+    } else {
+        html += `<div class="overall-status">No individual inspection results were returned.</div>`;
+    }
+
+    /* --- issues: missing / swapped / position --- */
+    const missing  = data.missing_components || results.filter(r => (r.status||"").toUpperCase() === "FAIL"
+                        && (r.detected_present === false)).map(r => r.name || r.id);
+    const swapped  = data.swapped_components || results.filter(r =>
+                        (r.position_status||"").toUpperCase() === "MISMATCH" && r.swapped_with
+                      ).map(r => `${r.name} ⇄ ${r.swapped_with}`);
+    const position = results.filter(r =>
+                        (r.position_status||"").toUpperCase() === "MISMATCH" && !r.swapped_with
+                      );
+
+    if (missing.length) {
+        html += `<div class="issue-group"><h3>Missing Components
+                 <span class="badge">${missing.length}</span></h3><div class="issue-list">`;
+        missing.forEach(m => {
+            html += `<div class="issue-item">
+                <strong>${escapeHTML(typeof m === "string" ? m : (m.name || m.id || JSON.stringify(m)))}</strong>
+                &nbsp;— not detected in the cabinet image but present in the engineering drawing.
+            </div>`;
+        });
+        html += `</div></div>`;
+    }
+
+    if (swapped.length) {
+        html += `<div class="issue-group"><h3>Swapped Components
+                 <span class="badge">${swapped.length}</span></h3><div class="issue-list">`;
+        swapped.forEach(s => {
+            html += `<div class="issue-item">
+                <strong>${escapeHTML(String(s))}</strong> — appears swapped compared with the drawing.
+            </div>`;
+        });
+        html += `</div></div>`;
+    }
+
+    if (position.length) {
+        html += `<div class="issue-group"><h3>Position Mismatches
+                 <span class="badge">${position.length}</span></h3><div class="issue-list">`;
+        position.forEach(p => {
+            const nm = p.name || p.id || "Component";
+            const exp = p.expected_position ? `x=${(+p.expected_position.x).toFixed(2)}, y=${(+p.expected_position.y).toFixed(2)}` : "—";
+            const act = p.actual_position ? `x=${(+p.actual_position.x).toFixed(2)}, y=${(+p.actual_position.y).toFixed(2)}` : "—";
+            html += `<div class="issue-item warn">
+                <strong>${escapeHTML(nm)}</strong> — detected at ${escapeHTML(act)}, expected at ${escapeHTML(exp)}.
+                ${p.reason ? `<br><span style="color:var(--text); opacity:0.8">${escapeHTML(p.reason)}</span>` : ""}
+            </div>`;
+        });
+        html += `</div></div>`;
+    }
+
+    /* --- evidence gallery --- */
+    const evidence = collectEvidence(data);
+    if (evidence.length) {
+        html += `<div class="section-heading"><h2>Evidence Gallery</h2>
+                 <span>${evidence.length} image(s)</span></div>
+                 <div class="evidence-gallery">`;
+        evidence.forEach((ev, i) => {
+            const url = resolveEvidenceUrl(ev.url || ev.thumbnail);
+            const thumb = resolveEvidenceUrl(ev.thumbnail || ev.url);
+            html += `<div class="evidence-item" onclick="openEvidence('${escapeHTML(url)}','${escapeHTML(ev.label || "Evidence " + (i+1))}')">
+                <img src="${escapeHTML(thumb)}" alt="${escapeHTML(ev.label || "")}">
+                <div class="cap">${escapeHTML(ev.label || "Evidence " + (i+1))}</div>
+            </div>`;
+        });
+        html += `</div>`;
+    }
+
+    /* --- OCR details (collapsible) --- */
+    if (data.ocr_results && Object.keys(data.ocr_results).length) {
+        html += `<div class="section-heading"><h2>OCR Diagnostics</h2>
+                 <span>Raw text extraction</span></div>
+                 <div class="config-section">
+                 <pre style="font-size:11px;color:var(--muted);white-space:pre-wrap;overflow:auto;max-height:300px;margin:0;font-family:monospace">${
+                     escapeHTML(JSON.stringify(data.ocr_results, null, 2))
+                 }</pre></div>`;
+    }
+
+    /* --- action buttons --- */
+    html += `<div class="result-actions" style="display:flex;gap:12px;margin-top:25px;flex-wrap:wrap">
+        <button class="primary-btn" onclick="downloadReport()">Download PDF Report</button>
+        <button class="secondary-btn" onclick="downloadJSON()">Download JSON Results</button>
+    </div>`;
+
+    c.innerHTML = html;
+}
+
+function collectEvidence(data) {
+    const out = [];
+    const seen = new Set();
+
+    function push(ev) {
+        if (!ev) return;
+        const url = ev.url || ev.path || ev.thumbnail;
+        if (!url || seen.has(url)) return;
+        seen.add(url);
+        out.push({
+            url,
+            thumbnail: ev.thumbnail || ev.url || ev.path,
+            label: ev.label || ev.caption || ev.type || "Evidence"
+        });
+    }
+
+    (data.evidence || []).forEach(push);
+    (data.results || []).forEach(r => (r.evidence || []).forEach(push));
+    return out;
+}
+
+function resolveEvidenceUrl(u) {
+    if (!u) return "";
+    if (/^https?:\/\//i.test(u) || u.startsWith("data:") || u.startsWith("blob:")) return u;
+    if (u.startsWith("/")) return API_BASE + u;
+    return API_BASE + "/" + u;
+}
+
+/* =========================================
+   EVIDENCE MODAL
+========================================= */
+let evZoom = 1;
+
+function openEvidence(url, label) {
+    if (!url) return;
+    evZoom = 1;
+    $("evidenceImage").src = url;
+    $("evidenceImage").style.transform = "scale(1)";
+    $("evidenceTitle").textContent = label || "Evidence";
+    $("evidenceDownload").href = url;
+    $("evidenceDownload").setAttribute("download", "");
+    $("evidenceModal").classList.add("visible");
+}
+
+function closeEvidence() {
+    $("evidenceModal").classList.remove("visible");
+    $("evidenceImage").src = "";
+}
+
+$("evidenceClose").addEventListener("click", closeEvidence);
+$("evidenceModal").addEventListener("click", e => {
+    if (e.target.id === "evidenceModal") closeEvidence();
+});
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeEvidence();
+});
+
+$("zoomIn").addEventListener("click", () => {
+    evZoom = Math.min(evZoom + 0.25, 6);
+    $("evidenceImage").style.transform = `scale(${evZoom})`;
+});
+$("zoomOut").addEventListener("click", () => {
+    evZoom = Math.max(evZoom - 0.25, 0.25);
+    $("evidenceImage").style.transform = `scale(${evZoom})`;
+});
+$("zoomReset").addEventListener("click", () => {
+    evZoom = 1;
+    $("evidenceImage").style.transform = "scale(1)";
+});
+
+/* =========================================
+   REPORT DOWNLOAD / JSON
+========================================= */
+function downloadReport() {
+    if (!currentInspectionId) {
+        showToast("No inspection report available.", true);
+        return;
+    }
+    const url = API_BASE + "/api/inspections/" +
+        encodeURIComponent(currentInspectionId) + "/report";
+    window.open(url, "_blank");
+}
+
+async function downloadJSON() {
+    if (!currentInspectionId) {
+        showToast("No inspection available.", true);
+        return;
+    }
+    try {
+        const r = await fetch(API_BASE + "/api/inspections/" +
+            encodeURIComponent(currentInspectionId) + "/results");
+        if (!r.ok) throw new Error("Could not load JSON results.");
+        const data = await r.json();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = currentInspectionId + "_results.json";
+        a.click();
+        URL.revokeObjectURL(url);
+    } catch (e) {
+        showToast(e.message, true);
+    }
+}
+
+/* =========================================
+   REPORTS VIEW
+========================================= */
+async function loadReports() {
+    const list = $("reportsList");
+    list.innerHTML = `<div class="empty-state">Loading reports…</div>`;
+
+    let backendList = [];
+    try {
+        const r = await fetch(API_BASE + "/api/inspections", { cache: "no-store" });
+        if (r.ok) {
+            const d = await r.json();
+            if (Array.isArray(d)) backendList = d;
+            else if (Array.isArray(d.inspections)) backendList = d.inspections;
+            else if (Array.isArray(d.results)) backendList = d.results;
+        }
+    } catch { /* backend list endpoint may not exist */ }
+
+    const merged = mergeHistory(backendList, inspectionHistory);
+
+    if (!merged.length) {
+        list.innerHTML = `<div class="empty-state">
+            No reports found. Run a new inspection to create one.
+        </div>`;
+        return;
+    }
+
+    list.innerHTML = `<div class="report-list">${merged.map(renderReportRow).join("")}</div>`;
+}
+
+function mergeHistory(backend, session) {
+    const map = new Map();
+    [...session, ...backend].forEach(item => {
+        const id = item.inspection_id || item.id;
+        if (!id) return;
+        const existing = map.get(id) || {};
+        map.set(id, { ...existing, ...item, inspection_id: id });
+    });
+    return Array.from(map.values()).sort((a, b) => {
+        const ta = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+        const tb = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+        return tb - ta;
+    });
+}
+
+function renderReportRow(r) {
+    const id = r.inspection_id || r.id;
+    const name = r.project_name || r.projectName || "Control Panel Inspection";
+    const status = (r.overall_status || "REVIEW").toUpperCase();
+    const ts = r.timestamp || r.created_at || r.date || "";
+    const tsLabel = ts ? new Date(ts).toLocaleString() : "—";
+
+    return `<div class="report-row">
+        <div class="left">
+            <div class="title">${escapeHTML(name)}</div>
+            <div class="meta">${escapeHTML(id)} · ${escapeHTML(tsLabel)}</div>
+        </div>
+        <div class="right">
+            <span class="status-pill ${statusClass(status)}">${escapeHTML(status)}</span>
+            <button class="secondary-btn" onclick="openReportFromHistory(event,'${escapeHTML(id)}')">Open Report</button>
+            <a class="secondary-btn" href="${API_BASE}/api/inspections/${encodeURIComponent(id)}/report"
+               target="_blank" rel="noopener" onclick="event.stopPropagation()">PDF</a>
+        </div>
+    </div>`;
+}
+
+async function openReportFromHistory(evt, id) {
+    evt.stopPropagation();
+    try {
+        const r = await fetch(API_BASE + "/api/inspections/" + encodeURIComponent(id) + "/results");
+        if (!r.ok) throw new Error("Could not load inspection results.");
+        const data = await r.json();
+        currentInspectionId = id;
+        currentResults = data;
+        switchView("results");
+    } catch (e) {
+        showToast(e.message, true);
+    }
+}
+
+$("refreshReports").addEventListener("click", loadReports);
+
+/* =========================================
+   CONFIGURATION VIEW
+========================================= */
+async function loadConfiguration() {
+    // Try backend config
+    try {
+        const r = await fetch(API_BASE + "/api/config", { cache: "no-store" });
+        if (r.ok) {
+            const remote = await r.json();
+            if (remote && typeof remote === "object") {
+                currentConfig = normalizeConfig(remote);
+            }
+        }
+    } catch { /* backend not available — use defaults */ }
+
+    renderConfigUI();
+}
+
+function normalizeConfig(cfg) {
+    const base = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+    if (cfg.components && Array.isArray(cfg.components)) base.components = [...cfg.components];
+    if (cfg.expected_positions && typeof cfg.expected_positions === "object")
+        base.expected_positions = { ...cfg.expected_positions };
+    if (cfg.thresholds && typeof cfg.thresholds === "object")
+        base.thresholds = { ...base.thresholds, ...cfg.thresholds };
+    return base;
+}
+
+function renderConfigUI() {
+    /* component tags */
+    const wrap = $("componentTags");
+    wrap.innerHTML = currentConfig.components.map(name => `
+        <span class="tag-chip">
+            ${escapeHTML(name)}
+            <button type="button" onclick="removeComponentTag('${escapeHTML(name)}')" aria-label="Remove">×</button>
+        </span>
+    `).join("") || `<span style="color:var(--muted);font-size:11px">No components configured.</span>`;
+
+    /* thresholds */
+    $("ocrConfidence").value      = currentConfig.thresholds.ocr_confidence;
+    $("positionTolerance").value  = currentConfig.thresholds.position_tolerance;
+    $("detectionConfidence").value = currentConfig.thresholds.detection_confidence;
+    $("missingSeverity").value    = currentConfig.thresholds.missing_severity || "FAIL";
+
+    /* expected positions */
+    const list = $("positionsList");
+    const entries = Object.entries(currentConfig.expected_positions);
+    if (!entries.length) {
+        list.innerHTML = `<div class="empty-state">No positions configured.</div>`;
+    } else {
+        list.innerHTML = `<div class="component-table-wrap"><table class="component-table">
+            <thead><tr><th>COMPONENT</th><th>X (0–1)</th><th>Y (0–1)</th><th></th></tr></thead><tbody>
+            ${entries.map(([name, p]) => `
+                <tr>
+                    <td><strong style="color:var(--text)">${escapeHTML(name)}</strong></td>
+                    <td>${Number(p.x).toFixed(2)}</td>
+                    <td>${Number(p.y).toFixed(2)}</td>
+                    <td><button class="danger-btn" onclick="removePosition('${escapeHTML(name)}')">Remove</button></td>
+                </tr>`).join("")}
+            </tbody></table></div>`;
+    }
+}
+
+function removeComponentTag(name) {
+    currentConfig.components = currentConfig.components.filter(c => c !== name);
+    renderConfigUI();
+}
+function removePosition(name) {
+    delete currentConfig.expected_positions[name];
+    renderConfigUI();
+}
+
+$("addComponentBtn").addEventListener("click", () => {
+    const v = $("newComponentInput").value.trim();
+    if (!v) return;
+    if (!currentConfig.components.includes(v)) currentConfig.components.push(v);
+    $("newComponentInput").value = "";
+    renderConfigUI();
+});
+
+$("addPosBtn").addEventListener("click", () => {
+    const n = $("newPosName").value.trim();
+    const x = parseFloat($("newPosX").value);
+    const y = parseFloat($("newPosY").value);
+    if (!n || isNaN(x) || isNaN(y)) {
+        showToast("Provide component name, X and Y.", true); return;
+    }
+    if (x < 0 || x > 1 || y < 0 || y > 1) {
+        showToast("X and Y must be between 0 and 1.", true); return;
+    }
+    currentConfig.expected_positions[n] = { x, y };
+    $("newPosName").value = "";
+    $("newPosX").value = "";
+    $("newPosY").value = "";
+    renderConfigUI();
+});
+
+$("resetConfig").addEventListener("click", () => {
+    currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+    renderConfigUI();
+    showToast("Configuration reset to defaults. Click Save to persist.");
+});
+
+$("saveConfig").addEventListener("click", async () => {
+    // pull current threshold inputs
+    currentConfig.thresholds.ocr_confidence       = parseFloat($("ocrConfidence").value) || DEFAULT_CONFIG.thresholds.ocr_confidence;
+    currentConfig.thresholds.position_tolerance   = parseFloat($("positionTolerance").value) || DEFAULT_CONFIG.thresholds.position_tolerance;
+    currentConfig.thresholds.detection_confidence = parseFloat($("detectionConfidence").value) || DEFAULT_CONFIG.thresholds.detection_confidence;
+    currentConfig.thresholds.missing_severity     = $("missingSeverity").value;
+
+    try {
+        const r = await fetch(API_BASE + "/api/config", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(currentConfig)
+        });
+        if (!r.ok) throw new Error("Backend rejected configuration (" + r.status + ")");
+        showToast("Configuration saved successfully.");
+    } catch (e) {
+        // graceful fallback — persist locally
+        try { localStorage.setItem("cabinspec_config", JSON.stringify(currentConfig)); } catch {}
+        showToast("Backend config endpoint unavailable — saved locally.", true);
+    }
+});
+
+/* =========================================
+   INIT
+========================================= */
+(function init() {
+    try {
+        const raw = localStorage.getItem("cabinspec_config");
+        if (raw) {
+            currentConfig = normalizeConfig(JSON.parse(raw));
+        }
+    } catch { /* ignore */ }
+
+    updateReadyState();
+    checkServer();
+    // Default open dashboard view now
+    switchView("dashboard");
+})();
+</script>
+
+</body>
+</html>
