@@ -15,20 +15,24 @@ import numpy as np
 import pandas as pd
 import pymupdf
 
+# --- DUAL OCR INTEGRATION (Tesseract + EasyOCR) ---
 try:
     import pytesseract
     from pytesseract import Output as TESS_OUTPUT
     TESSERACT_OK = True
-    try:
-        pytesseract.get_tesseract_version()
-    except Exception:
-        TESSERACT_OK = False
-        logging.warning("Tesseract binary not found — OCR checks will return REVIEW")
 except Exception:
     pytesseract = None
     TESS_OUTPUT = None
     TESSERACT_OK = False
-    logging.warning("pytesseract not installed — OCR checks will return REVIEW")
+    logging.warning("Tesseract not installed — running only on EasyOCR")
+
+try:
+    import easyocr
+    EASYOCR_OK = True
+except Exception:
+    easyocr = None
+    EASYOCR_OK = False
+    logging.warning("EasyOCR not installed — running only on Tesseract")
 
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
@@ -38,18 +42,27 @@ from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
-# Optional AI model support
+# Optional AI model support - Enabled by default for max accuracy
 MODEL_LOCK = threading.RLock()
 _MODEL_STATE = {
-    "grounding_dino": {"enabled": os.getenv("CABINSPECT_ENABLE_DINO", "0") == "1",
+    "yolo_world": {"enabled": os.getenv("CABINSPECT_ENABLE_YOLO", "1") == "1",
                         "loaded": False, "error": None, "instance": None},
-    "florence2": {"enabled": os.getenv("CABINSPECT_ENABLE_FLORENCE", "0") == "1",
+    "florence2": {"enabled": os.getenv("CABINSPECT_ENABLE_FLORENCE", "1") == "1",
                    "loaded": False, "error": None, "processor": None, "instance": None},
 }
-# Optimized Models
-DINO_MODEL_ID = os.getenv("CABINSPECT_DINO_MODEL", "IDEA-Research/grounding-dino-base")
+# Optimized Models (Grounding DINO removed for better speed)
+YOLO_MODEL_ID = os.getenv("CABINSPECT_YOLO_MODEL", "yolov8m-world.pt")
 FLORENCE_MODEL_ID = os.getenv("CABINSPECT_FLORENCE_MODEL", "microsoft/Florence-2-large")
 
+_easyocr_reader = None
+OCR_LOCK = threading.Lock()
+
+def get_ocr_reader():
+    global _easyocr_reader
+    with OCR_LOCK:
+        if _easyocr_reader is None and EASYOCR_OK:
+            _easyocr_reader = easyocr.Reader(['en'], gpu=True)
+    return _easyocr_reader
 
 # ---------------------------------------------------------------------------
 # CONFIGURATION
@@ -92,9 +105,10 @@ DEFAULT_CONFIG = {
     "components": ["MCB", "POWER SUPPLY", "PLC", "K1", "K2"],
     "expected_positions": {},
     "thresholds": {
-        "ocr_confidence": 0.45,
+        "ocr_confidence": 0.35,  
         "position_tolerance": 0.25,
         "detection_confidence": 0.50,
+        "yolo_confidence": 0.15,
         "missing_severity": "FAIL",
     },
 }
@@ -110,7 +124,6 @@ def load_config():
         except Exception:
             logger.exception("Failed to read config.json — using defaults")
     return _merge_config({})
-
 
 def _merge_config(cfg):
     base = json.loads(json.dumps(DEFAULT_CONFIG))
@@ -130,13 +143,11 @@ def _merge_config(cfg):
             })
     return base
 
-
 def get_config():
     global _config_cache
     if _config_cache is None:
         _config_cache = load_config()
     return _config_cache
-
 
 def save_config(cfg):
     global _config_cache
@@ -145,7 +156,6 @@ def save_config(cfg):
         json.dump(merged, f, indent=2)
     _config_cache = merged
     return merged
-
 
 # ---------------------------------------------------------------------------
 # UTILITIES
@@ -196,13 +206,11 @@ def classify_region(x_norm, y_norm):
     v = "upper" if y_norm < 0.5 else "lower"
     return f"{v}-{h}"
 
-
 # ---------------------------------------------------------------------------
 # COMPONENT LABEL PATTERNS
 # ---------------------------------------------------------------------------
 
 DESIGNATOR_PATTERN = r"\b(?:QF|KM|KA|KT|SB|HL|SA|QS|PS|K|X|F|M|Q)\d{1,4}\b"
-
 COMPONENT_TERMS = [
     "MCB", "MCCB", "ELCB", "RCCB", "PLC", "POWER SUPPLY", "CONTACTOR",
     "RELAY", "TERMINAL BLOCK", "EARTHING", "PE", "FUSE", "INDICATOR",
@@ -282,7 +290,6 @@ def find_components_in_words(words, img_w, img_h, aliases, min_conf):
             "confidence": float(conf),
             "matched_text": best["text"],
         })
-
     return detected
 
 def _extract_dynamic_components(words, img_w, img_h, existing_names, min_conf):
@@ -316,7 +323,6 @@ def _extract_dynamic_components(words, img_w, img_h, existing_names, min_conf):
         existing_norm.add(t)
     return dynamic
 
-
 # ---------------------------------------------------------------------------
 # IMAGE PREPROCESSING HELPERS
 # ---------------------------------------------------------------------------
@@ -343,7 +349,6 @@ def _deskew(gray_img):
     except Exception:
         return gray_img, 0.0
 
-
 def _preprocess_drawing_image(img_color):
     gray = cv2.cvtColor(img_color, cv2.COLOR_BGR2GRAY)
     gray = cv2.fastNlMeansDenoising(gray, None, 10, 7, 21)
@@ -355,7 +360,6 @@ def _preprocess_drawing_image(img_color):
         cv2.THRESH_BINARY_INV, 31, 10,
     )
     return enhanced, binary
-
 
 def _detect_panel_boundary(img):
     try:
@@ -405,7 +409,6 @@ def _four_point_transform(img, pts):
     M = cv2.getPerspectiveTransform(rect, dst)
     warped = cv2.warpPerspective(img, M, (max_w, max_h))
     return warped, True
-
 
 def _find_enclosing_rect(binary_img, label_bbox, search_mult=3.0):
     try:
@@ -466,14 +469,14 @@ def _find_enclosing_rect(binary_img, label_bbox, search_mult=3.0):
 
 def model_status():
     return {
-        "grounding_dino": {k: v for k, v in _MODEL_STATE["grounding_dino"].items()
+        "yolo_world": {k: v for k, v in _MODEL_STATE["yolo_world"].items()
                            if k != "instance"},
         "florence2": {k: v for k, v in _MODEL_STATE["florence2"].items()
                       if k not in ("instance", "processor")},
     }
 
-def _load_dino():
-    state = _MODEL_STATE["grounding_dino"]
+def _load_yolo():
+    state = _MODEL_STATE["yolo_world"]
     if not state["enabled"]:
         return None
     with MODEL_LOCK:
@@ -482,20 +485,15 @@ def _load_dino():
         if state["error"]:
             return None
         try:
-            from transformers import pipeline
-            import torch
-            device = 0 if torch.cuda.is_available() else (torch.device("mps") if hasattr(torch.backends, "mps") and torch.backends.mps.is_available() else -1)
-            state["instance"] = pipeline(
-                task="zero-shot-object-detection",
-                model=DINO_MODEL_ID,
-                device=device,
-            )
+            from ultralytics import YOLOWorld
+            model = YOLOWorld(YOLO_MODEL_ID)
+            state["instance"] = model
             state["loaded"] = True
-            logger.info("Grounding DINO loaded: %s", DINO_MODEL_ID)
-            return state["instance"]
+            logger.info("YOLO-World loaded: %s", YOLO_MODEL_ID)
+            return model
         except Exception as exc:
             state["error"] = f"{type(exc).__name__}: {exc}"
-            logger.exception("Grounding DINO could not be loaded")
+            logger.exception("YOLO-World could not be loaded")
             return None
 
 
@@ -526,43 +524,36 @@ def _load_florence():
             logger.exception("Florence-2 could not be loaded")
             return None, None
 
-
-def run_grounding_dino(image_bgr, component_names, threshold=0.30):
-    detector = _load_dino()
+def run_yolo_world(image_bgr, component_names, threshold=0.10):
+    detector = _load_yolo()
     if detector is None:
         return []
     try:
-        from PIL import Image
-        import torch
-        rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
-        pil = Image.fromarray(rgb)
         labels = list(dict.fromkeys([str(n).strip().lower() for n in component_names if str(n).strip()]))
         if not labels:
             return []
         
-        # Inference Optimization
-        with torch.inference_mode():
-            predictions = detector(pil, candidate_labels=labels, threshold=float(threshold)) or []
-            
-        H, W = image_bgr.shape[:2]
+        detector.set_classes(labels)
+        results = detector.predict(image_bgr, conf=float(threshold), verbose=False)
+        
         output = []
-        for p in predictions:
-            box = p.get("box") or {}
-            x1 = max(0, min(W - 1, int(box.get("xmin", 0))))
-            y1 = max(0, min(H - 1, int(box.get("ymin", 0))))
-            x2 = max(x1 + 1, min(W, int(box.get("xmax", 0))))
-            y2 = max(y1 + 1, min(H, int(box.get("ymax", 0))))
-            output.append({
-                "label": str(p.get("label", "")).strip(),
-                "score": float(p.get("score", 0.0)),
-                "bbox": {"x": float(x1), "y": float(y1),
-                         "w": float(x2 - x1), "h": float(y2 - y1)},
-            })
+        if results and len(results) > 0:
+            boxes = results[0].boxes
+            for box in boxes:
+                x1, y1, x2, y2 = box.xyxy[0].tolist()
+                conf = float(box.conf[0])
+                cls_id = int(box.cls[0])
+                label = labels[cls_id]
+                output.append({
+                    "label": label,
+                    "score": conf,
+                    "bbox": {"x": float(x1), "y": float(y1),
+                             "w": float(x2 - x1), "h": float(y2 - y1)},
+                })
         return output
     except Exception:
-        logger.exception("Grounding DINO inference failed")
+        logger.exception("YOLO-World inference failed")
         return []
-
 
 def run_florence_caption(image_bgr):
     processor, model = _load_florence()
@@ -579,7 +570,6 @@ def run_florence_caption(image_bgr):
         inputs = processor(text=prompt, images=pil, return_tensors="pt")
         inputs = {k: (v.to(device) if hasattr(v, "to") else v) for k, v in inputs.items()}
         
-        # Optimization
         with torch.inference_mode():
             generated = model.generate(**inputs, max_new_tokens=180, num_beams=3)
         decoded = processor.batch_decode(generated, skip_special_tokens=False)[0]
@@ -602,9 +592,8 @@ def _canonical_model_label(label, component_names):
             return name
     return None
 
-
 # ---------------------------------------------------------------------------
-# IMAGE ANALYSIS (Phase 2)
+# IMAGE ANALYSIS (Phase 2) - DUAL OCR ENGINE
 # ---------------------------------------------------------------------------
 
 def analyse_image(path, cfg):
@@ -635,47 +624,52 @@ def analyse_image(path, cfg):
 
     scale = 2
     processed = cv2.resize(enhanced, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
-    processed = cv2.threshold(processed, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-
-    ocr_text = ""
+    
     words = []
+    
+    # --- 1. Tesseract (Fast CPU OCR Backup) ---
     if TESSERACT_OK:
         try:
-            best_text = ""
-            for psm in ("--psm 11", "--psm 6", "--psm 12"):
-                try:
-                    t = pytesseract.image_to_string(processed, config=psm) or ""
-                    if len(t.strip()) > len(best_text.strip()):
-                        best_text = t
-                except Exception:
-                    continue
-            ocr_text = best_text
-
-            data = pytesseract.image_to_data(
-                processed, config="--psm 11", output_type=TESS_OUTPUT.DICT
-            )
+            tess_processed = cv2.threshold(processed, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+            data = pytesseract.image_to_data(tess_processed, config="--psm 11", output_type=TESS_OUTPUT.DICT)
             for i, t in enumerate(data["text"]):
-                if not t.strip():
-                    continue
-                try:
-                    conf = float(data["conf"][i]) / 100.0
-                except Exception:
-                    continue
-                if conf < 0:
-                    continue
+                if not t.strip(): continue
+                conf = float(data["conf"][i]) / 100.0
+                if conf < 0.1: continue
                 x = data["left"][i] / scale
                 y = data["top"][i] / scale
                 w = data["width"][i] / scale
                 h = data["height"][i] / scale
                 words.append({
-                    "text": t.strip(), "x": x, "y": y, "w": w, "h": h,
-                    "cx": x + w / 2, "cy": y + h / 2, "conf": conf,
+                    "text": t.strip(), "x": float(x), "y": float(y), "w": float(w), "h": float(h),
+                    "cx": x + w / 2, "cy": y + h / 2, "conf": conf, "source": "tesseract"
+                })
+        except Exception as e:
+            logger.warning("Tesseract issue: %s", e)
+
+    # --- 2. EasyOCR (Primary GPU OCR) ---
+    if EASYOCR_OK:
+        try:
+            reader = get_ocr_reader()
+            data = reader.readtext(processed)
+            for (bbox, text, conf) in data:
+                if conf < 0.1 or not text.strip(): continue
+                x = min([p[0] for p in bbox]) / scale
+                y = min([p[1] for p in bbox]) / scale
+                w = (max([p[0] for p in bbox]) - x*scale) / scale
+                h = (max([p[1] for p in bbox]) - y*scale) / scale
+                words.append({
+                    "text": text.strip(), "x": float(x), "y": float(y), "w": float(w), "h": float(h),
+                    "cx": float(x + w / 2), "cy": float(y + h / 2), "conf": float(conf), "source": "easyocr"
                 })
         except Exception:
-            logger.exception("OCR failed for %s", path)
+            logger.exception("EasyOCR failed for %s", path)
+
+    # Combine all words - Our matching logic will naturally pick the highest confidence text from either OCR engine
+    ocr_text = " ".join([w["text"] for w in words])
 
     aliases = build_aliases(cfg)
-    min_conf = float(cfg.get("thresholds", {}).get("ocr_confidence", 0.45))
+    min_conf = float(cfg.get("thresholds", {}).get("ocr_confidence", 0.35))
     raw_components = find_components_in_words(words, W, H, aliases, min_conf)
 
     components = []
@@ -715,17 +709,18 @@ def analyse_image(path, cfg):
         components.append(d)
 
     component_names = list(aliases.keys())
-    dino_threshold = float(cfg.get("thresholds", {}).get("dino_confidence", 0.30))
-    dino_detections = run_grounding_dino(image, component_names, dino_threshold)
-    dino_used = []
-    dino_best = {}
-    for det in dino_detections:
+    yolo_threshold = float(cfg.get("thresholds", {}).get("yolo_confidence", 0.15))
+    yolo_detections = run_yolo_world(image, component_names, yolo_threshold)
+    yolo_used = []
+    yolo_best = {}
+    for det in yolo_detections:
         canonical = _canonical_model_label(det.get("label", ""), component_names)
         if not canonical:
             continue
-        if canonical not in dino_best or float(det.get("score", 0.0)) > float(dino_best[canonical].get("score", 0.0)):
-            dino_best[canonical] = det
-    for canonical, det in dino_best.items():
+        if canonical not in yolo_best or float(det.get("score", 0.0)) > float(yolo_best[canonical].get("score", 0.0)):
+            yolo_best[canonical] = det
+            
+    for canonical, det in yolo_best.items():
         existing = next((c for c in components if c.get("name") == canonical), None)
         box = det["bbox"]
         cx, cy = box["x"] + box["w"] / 2, box["y"] + box["h"] / 2
@@ -739,7 +734,7 @@ def analyse_image(path, cfg):
                 "confidence": float(det["score"]), "ocr_confidence": 0.0,
                 "matched_text": "", "region_bbox": region,
                 "region_confidence": float(det["score"]),
-                "detection_source": "grounding_dino_only",
+                "detection_source": "yolo_world_only",
             }
             components.append(existing)
         else:
@@ -750,9 +745,9 @@ def analyse_image(path, cfg):
             existing["position"] = {"x": cx / W, "y": cy / H}
             existing["region"] = classify_region(cx / W, cy / H)
             existing["region_confidence"] = float(det["score"])
-            existing["detection_source"] = "grounding_dino+ocr"
-            existing["dino_confidence"] = float(det["score"])
-        dino_used.append({"name": canonical, "score": float(det["score"]), "bbox": region})
+            existing["detection_source"] = "yolo_world+ocr"
+            existing["yolo_confidence"] = float(det["score"])
+        yolo_used.append({"name": canonical, "score": float(det["score"]), "bbox": region})
 
     aligned_path = path.parent / "analysis_image.jpg"
     cv2.imwrite(str(aligned_path), image, [cv2.IMWRITE_JPEG_QUALITY, 94])
@@ -767,11 +762,11 @@ def analyse_image(path, cfg):
         "detected_components": components,
         "detected_labels": [c["name"] for c in components],
         "image_quality": image_quality,
-        "ocr_available": TESSERACT_OK,
+        "ocr_available": (EASYOCR_OK or TESSERACT_OK),
         "alignment_mode": alignment_mode,
         "panel_confidence": panel_confidence,
-        "dino_available": _MODEL_STATE["grounding_dino"]["loaded"],
-        "dino_detections": dino_used,
+        "yolo_available": _MODEL_STATE["yolo_world"]["loaded"],
+        "yolo_detections": yolo_used,
         "florence_caption": florence_caption,
         "analysis_image": str(aligned_path),
     }
@@ -797,29 +792,36 @@ def _search_component_rect(page, comp_name):
 
 def _ocr_words_from_image(img_gray, scale=1.0):
     out = []
-    if not TESSERACT_OK:
-        return out
-    try:
-        data = pytesseract.image_to_data(
-            img_gray, config="--psm 11", output_type=TESS_OUTPUT.DICT
-        )
-    except Exception:
-        return out
-    for i, t in enumerate(data["text"]):
-        if not t.strip():
-            continue
+    
+    if TESSERACT_OK:
         try:
-            conf = float(data["conf"][i]) / 100.0
+            data = pytesseract.image_to_data(img_gray, config="--psm 11", output_type=TESS_OUTPUT.DICT)
+            for i, t in enumerate(data["text"]):
+                if not t.strip(): continue
+                conf = float(data["conf"][i]) / 100.0
+                if conf < 0.1: continue
+                x, y = data["left"][i] / scale, data["top"][i] / scale
+                w, h = data["width"][i] / scale, data["height"][i] / scale
+                out.append({"text": t.strip(), "x": x, "y": y, "w": w, "h": h,
+                            "cx": x + w / 2, "cy": y + h / 2, "conf": conf, "source": "tesseract"})
         except Exception:
-            continue
-        if conf < 0:
-            continue
-        x = data["left"][i] / scale
-        y = data["top"][i] / scale
-        w = data["width"][i] / scale
-        h = data["height"][i] / scale
-        out.append({"text": t.strip(), "x": x, "y": y, "w": w, "h": h,
-                    "cx": x + w / 2, "cy": y + h / 2, "conf": conf})
+            pass
+
+    if EASYOCR_OK:
+        try:
+            reader = get_ocr_reader()
+            data = reader.readtext(img_gray)
+            for (bbox, text, conf) in data:
+                if conf < 0.1 or not text.strip(): continue
+                x = min([p[0] for p in bbox]) / scale
+                y = min([p[1] for p in bbox]) / scale
+                w = (max([p[0] for p in bbox]) - x*scale) / scale
+                h = (max([p[1] for p in bbox]) - y*scale) / scale
+                out.append({"text": text.strip(), "x": x, "y": y, "w": w, "h": h,
+                            "cx": x + w / 2, "cy": y + h / 2, "conf": float(conf), "source": "easyocr"})
+        except Exception:
+            pass
+            
     return out
 
 def _analyse_pdf_page(page, page_index, aliases, min_conf):
@@ -929,13 +931,12 @@ def _analyse_pdf_page(page, page_index, aliases, min_conf):
         "components": components,
     }
 
-
 def analyse_pdf(path, cfg):
     doc = pymupdf.open(str(path))
     pages_data = []
     full_text = ""
     aliases = build_aliases(cfg)
-    min_conf = float(cfg.get("thresholds", {}).get("ocr_confidence", 0.45))
+    min_conf = float(cfg.get("thresholds", {}).get("ocr_confidence", 0.35))
     drawing_components = {}
 
     try:
@@ -1012,7 +1013,7 @@ def align_panel_images(drawing_data, image_data, cfg):
     return alignment
 
 # ---------------------------------------------------------------------------
-# CHECKLIST ANALYSIS (unchanged)
+# CHECKLIST ANALYSIS
 # ---------------------------------------------------------------------------
 
 def analyse_checklist(path):
@@ -1058,7 +1059,7 @@ def analyse_checklist(path):
     return normalized
 
 # ---------------------------------------------------------------------------
-# COMPONENT MATCHING + SPATIAL COMPARISON (Phase 4 + 5)
+# COMPONENT MATCHING + SPATIAL COMPARISON
 # ---------------------------------------------------------------------------
 
 def compute_relative_positions(components):
@@ -1081,7 +1082,6 @@ def compute_relative_positions(components):
                 "y": (c["position"]["y"] - min_y) / ry,
             }
     return components
-
 
 def detect_swaps(component_results, tolerance, min_conf):
     named = {}
@@ -1114,7 +1114,6 @@ def detect_swaps(component_results, tolerance, min_conf):
                 swaps.append((a, b))
     return swaps
 
-
 def compare_components(image_data, drawing_data, cfg, alignment=None):
     image_comps = {c["name"]: c for c in image_data.get("detected_components", [])}
     drawing_comps = {c["name"]: c for c in drawing_data.get("detected_components", [])}
@@ -1128,7 +1127,7 @@ def compare_components(image_data, drawing_data, cfg, alignment=None):
     drawing_comps = {c["name"]: c for c in drawing_list}
 
     thresh = cfg.get("thresholds", {})
-    min_ocr_conf = float(thresh.get("ocr_confidence", 0.45))
+    min_ocr_conf = float(thresh.get("ocr_confidence", 0.35))
     tolerance = float(thresh.get("position_tolerance", 0.25))
     missing_severity = str(thresh.get("missing_severity", "FAIL")).upper()
     align_ok = bool(alignment and alignment.get("comparable", True))
@@ -1210,9 +1209,9 @@ def compare_components(image_data, drawing_data, cfg, alignment=None):
             position_status = "UNKNOWN"
             position_reason = "Actual position not available."
 
-        if icomp.get("detection_source") == "grounding_dino_only":
+        if icomp.get("detection_source") == "yolo_world_only":
             status = "REVIEW"
-            reason = f"{name} object candidate detected by Grounding DINO, but its printed identity was not confirmed by OCR."
+            reason = f"{name} object candidate detected by YOLO-World, but its printed identity was not confirmed by OCR."
         elif confidence < min_ocr_conf:
             status = "REVIEW"
             reason = f"{name} label detected but OCR confidence is low ({confidence:.2f})."
@@ -1315,7 +1314,7 @@ def derive_qc_status(check, component_results, image_data, drawing_data, alignme
     if "PRESENCE" in text:
         failed = [c for c in component_results if c.get("detected_present") is False]
         passed = [c for c in component_results if c.get("detected_present") is True]
-        unverified = [c for c in passed if c.get("detection_source") == "grounding_dino_only"]
+        unverified = [c for c in passed if c.get("detection_source") == "yolo_world_only"]
         if failed:
             names = ", ".join(c["name"] for c in failed)
             return "FAIL", f"{len(failed)} drawing component(s) were not identified in the cabinet image: {names}. Confirm manually because OCR can miss labels."
@@ -1334,8 +1333,7 @@ def derive_qc_status(check, component_results, image_data, drawing_data, alignme
         if bad:
             names = ", ".join(c["name"] for c in bad)
             return "FAIL", f"{len(bad)} component(s) appear misplaced: {names}."
-        if good and len(good) == len([c for c in component_results
-                                      if c.get("detected_present")]):
+        if good and len(good) == len([c for c in component_results if c.get("detected_present")]):
             return "PASS", "All detected components are in the expected spatial regions."
         return "REVIEW", "Some components could not be spatially verified."
 
@@ -1346,8 +1344,7 @@ def derive_qc_status(check, component_results, image_data, drawing_data, alignme
             for c in swapped:
                 pairs.add(tuple(sorted([c["name"], c["swapped_with"]])))
             return "FAIL", f"Component swap(s): {', '.join(f'{a} ⇄ {b}' for a, b in pairs)}."
-        if len([c for c in component_results
-                if c.get("position_status") == "MATCH"]) >= 2:
+        if len([c for c in component_results if c.get("position_status") == "MATCH"]) >= 2:
             return "PASS", "Component ordering matches the drawing."
         return "REVIEW", "Component ordering could not be fully verified."
 
@@ -1355,7 +1352,7 @@ def derive_qc_status(check, component_results, image_data, drawing_data, alignme
         detected = [c for c in component_results if c.get("detected_present")]
         low = [c["name"] for c in detected
                if float(c.get("confidence", 0.0)) < 0.45
-               or c.get("detection_source") == "grounding_dino_only"]
+               or c.get("detection_source") == "yolo_world_only"]
         if not detected:
             return "REVIEW", "No component labels could be reliably read from the cabinet image."
         if low:
@@ -1390,7 +1387,7 @@ def derive_qc_status(check, component_results, image_data, drawing_data, alignme
     return "REVIEW", "No automated verification rule is configured for this checklist item."
 
 # ---------------------------------------------------------------------------
-# EVIDENCE GENERATION (Phase 7)
+# EVIDENCE GENERATION
 # ---------------------------------------------------------------------------
 
 def generate_evidence_images(inspection_id, image_path, component_results,
@@ -1553,9 +1550,8 @@ def generate_evidence_images(inspection_id, image_path, component_results,
 
     return evidence_list, per_result_evidence
 
-
 # ---------------------------------------------------------------------------
-# INSPECTION PIPELINE (Optimized with Multithreading)
+# INSPECTION PIPELINE
 # ---------------------------------------------------------------------------
 
 def process_inspection(inspection_id):
@@ -1566,7 +1562,6 @@ def process_inspection(inspection_id):
     pdf_path = find_input(folder, "engineering_drawing")
     checklist_path = find_input(folder, "qc_checklist")
 
-    # [OPTIMIZATION]: Parallel execution of Image and PDF analysis
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         future_image = executor.submit(analyse_image, image_path, cfg)
         future_drawing = executor.submit(analyse_pdf, pdf_path, cfg)
@@ -1575,7 +1570,6 @@ def process_inspection(inspection_id):
         drawing_data = future_drawing.result()
 
     checklist_data = analyse_checklist(checklist_path)
-
     if not checklist_data:
         checklist_data = [
             {"id": cid, "name": name, "section": "General",
@@ -1642,8 +1636,8 @@ def process_inspection(inspection_id):
             "ocr_available": image_data["ocr_available"],
             "alignment_mode": image_data.get("alignment_mode"),
             "panel_confidence": image_data.get("panel_confidence"),
-            "dino_available": image_data.get("dino_available", False),
-            "dino_detections": image_data.get("dino_detections", []),
+            "yolo_available": image_data.get("yolo_available", False),
+            "yolo_detections": image_data.get("yolo_detections", []),
             "florence_caption": image_data.get("florence_caption"),
         },
         "drawing": {
@@ -1704,9 +1698,8 @@ def process_inspection(inspection_id):
 
     return report
 
-
 # ---------------------------------------------------------------------------
-# PDF REPORT (Phase 8)
+# PDF REPORT
 # ---------------------------------------------------------------------------
 
 def _wrap_text(text, max_chars):
@@ -1841,7 +1834,6 @@ def create_pdf_report(data):
     c.save()
     return path
 
-
 # ---------------------------------------------------------------------------
 # FLASK ROUTES
 # ---------------------------------------------------------------------------
@@ -1858,9 +1850,9 @@ def health():
     return jsonify({
         "success": True,
         "application": "CabinSpect",
-        "version": "BEAST-ADVANCED-4.1-OPTIMIZED",
+        "version": "BEAST-SOTA-5.0",
         "status": "online",
-        "ocr_available": TESSERACT_OK,
+        "ocr_available": EASYOCR_OK or TESSERACT_OK,
         "models": model_status(),
     })
 
@@ -2055,10 +2047,10 @@ def get_evidence(inspection_id, filename):
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    logger.info("Starting CabinSpect BEAST ADVANCED 4.1 OPTIMIZED")
+    logger.info("Starting CabinSpect BEAST SOTA 5.0")
     logger.info("Upload folder: %s", UPLOAD_DIR)
     logger.info("Config file:   %s", CONFIG_FILE)
-    logger.info("OCR:           %s", "enabled" if TESSERACT_OK else "DISABLED")
-    logger.info("Grounding DINO enabled: %s", _MODEL_STATE["grounding_dino"]["enabled"])
-    logger.info("Florence-2 enabled: %s", _MODEL_STATE["florence2"]["enabled"])
+    logger.info("Dual OCR:      EasyOCR(%s) + Tesseract(%s)", EASYOCR_OK, TESSERACT_OK)
+    logger.info("YOLO-World:    %s", _MODEL_STATE["yolo_world"]["enabled"])
+    logger.info("Florence-2:    %s", _MODEL_STATE["florence2"]["enabled"])
     app.run(host="0.0.0.0", port=8000, debug=False)
