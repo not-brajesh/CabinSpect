@@ -313,13 +313,13 @@ button { cursor: pointer; }
 .file-types { font-family: var(--font-mono); color: #71717A; font-size: 10px; margin-bottom: 16px; letter-spacing: 1px; }
 
 .drop-zone {
-    border: 1px dashed #D4D4D8; border-radius: 12px; padding: 24px 16px;
+    border: 1px dashed #D4D4D8; border-radius: 12px; padding: 20px 16px;
     text-align: center; cursor: pointer; background: rgba(0,0,0,0.01);
     transition: .3s; display: block;
 }
 .drop-zone:hover { border-color: var(--primary); background: rgba(0,0,0,0.03); }
 .drop-zone strong { display: block; font-size: 13px; font-weight: 600; color: var(--primary); }
-.drop-zone small { display: block; color: var(--muted); font-size: 11px; margin-top: 8px; }
+.drop-zone small { display: block; color: var(--muted); font-size: 11px; margin-top: 6px; }
 
 .file-input { display: none; }
 .file-info { display: none; margin-top: 16px; padding: 14px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); overflow-wrap: anywhere; }
@@ -527,6 +527,11 @@ table.component-table tr:last-child td { border-bottom: 0; }
 .modal-body img { max-width: 100%; max-height: 70vh; transition: transform .2s ease; transform-origin: center center; user-select: none; border: 1px solid var(--border); box-shadow: var(--shadow-card); }
 .modal-footer { padding: 16px 24px; display: flex; gap: 12px; justify-content: flex-end; border-top: 1px solid var(--border); background: var(--surface2); }
 
+/* CAMERA MODAL SPECIFIC */
+.camera-container { position: relative; width: 100%; max-width: 640px; background: #000; border-radius: 8px; overflow: hidden; }
+.camera-container video { width: 100%; height: auto; display: block; }
+.camera-container canvas { display: none; }
+
 /* REPORTS & CONFIG */
 .report-row {
     padding: 20px 24px; background: var(--surface); border: 1px solid var(--border);
@@ -645,8 +650,6 @@ table.component-table tr:last-child td { border-bottom: 0; }
         <div class="nav-item" data-view="config">
             <span class="nav-icon">⚙</span><span class="nav-text">Configuration</span>
         </div>
-
-        
     </aside>
 
     <!-- ================= MAIN ================= -->
@@ -698,7 +701,7 @@ table.component-table tr:last-child td { border-bottom: 0; }
         <!-- NEW INSPECTION VIEW -->
         <section class="view" id="view-new">
             <h1 class="page-title">New Inspection</h1>
-            <p class="subtitle">Upload cabinet photograph, engineering blueprint, and quality checklist parameters.</p>
+            <p class="subtitle">Upload cabinet photograph via file or live camera, engineering blueprint, and quality checklist parameters.</p>
 
             <div class="section-heading">
                 <h2>01 / Project Metadata</h2>
@@ -731,10 +734,14 @@ table.component-table tr:last-child td { border-bottom: 0; }
                     <h3>Cabinet Photograph</h3>
                     <p>Front-facing visual capture of the physical electrical assembly.</p>
                     <div class="file-types">JPG · JPEG · PNG</div>
-                    <label class="drop-zone" for="cabinet_image">
-                        <strong>+ Select Image File</strong>
-                        <small>Drag & drop payload</small>
-                    </label>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <label class="drop-zone" for="cabinet_image" style="flex: 1; padding: 14px 10px;">
+                            <strong>📁 Upload File</strong>
+                        </label>
+                        <button type="button" class="secondary-btn" onclick="openCameraModal()" style="flex: 1; font-size: 12px; font-weight: 600;">📷 Use Camera</button>
+                    </div>
+
                     <input class="file-input" type="file" id="cabinet_image" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
                     <div class="file-info" id="info_cabinet_image"></div>
                     <img class="file-preview" id="preview_cabinet_image" alt="">
@@ -929,6 +936,26 @@ table.component-table tr:last-child td { border-bottom: 0; }
     </div>
 </div>
 
+<!-- CAMERA CAPTURE MODAL -->
+<div class="modal" id="cameraModal">
+    <div class="modal-inner">
+        <div class="modal-header">
+            <strong>LIVE CAMERA CAPTURE</strong>
+            <button class="close-btn" id="cameraClose">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="camera-container">
+                <video id="cameraVideo" autoplay playsinline></video>
+                <canvas id="cameraCanvas"></canvas>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="secondary-btn" id="cameraCancel">CANCEL</button>
+            <button class="primary-btn" id="captureBtn">📸 SNAP PHOTO</button>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -936,25 +963,14 @@ table.component-table tr:last-child td { border-bottom: 0; }
    VISUAL LOADER LOGIC (UI ONLY)
 ========================================= */
 window.addEventListener('load', () => {
-
     const loader = document.getElementById('startupLoader');
-
     if (!loader) return;
-
-    // Start closing animation
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-
             loader.classList.add('loaded');
-
-            // Remove loader after panel animation finishes
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 900);
-
+            setTimeout(() => { loader.style.display = 'none'; }, 900);
         });
     });
-
 });
 
 /* =========================================
@@ -995,6 +1011,7 @@ let currentInspectionId = null;
 let currentResults = null;
 let inspectionHistory = [];
 let currentView = "dashboard";
+let cameraStream = null;
 
 function $(id) { return document.getElementById(id); }
 
@@ -1039,6 +1056,62 @@ function statusClass(s) {
 }
 
 /* =========================================
+   CAMERA FUNCTIONALITY
+========================================= */
+async function openCameraModal() {
+    const modal = $("cameraModal");
+    const video = $("cameraVideo");
+    modal.classList.add("visible");
+    try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+        video.srcObject = cameraStream;
+    } catch (err) {
+        console.error(err);
+        showToast("Unable to access camera. Please check permissions.", true);
+        closeCameraModal();
+    }
+}
+
+function closeCameraModal() {
+    const modal = $("cameraModal");
+    modal.classList.remove("visible");
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+}
+
+$("cameraClose").addEventListener("click", closeCameraModal);
+$("cameraCancel").addEventListener("click", closeCameraModal);
+
+$("captureBtn").addEventListener("click", () => {
+    const video = $("cameraVideo");
+    const canvas = $("cameraCanvas");
+    if (!video.srcObject) return;
+
+    canvas.width = video.videoWidth || 1280;
+    canvas.height = video.videoHeight || 720;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    canvas.toBlob(blob => {
+        if (!blob) {
+            showToast("Failed to capture image from camera stream.", true);
+            return;
+        }
+        const file = new File([blob], "cabinet_capture_" + Date.now() + ".jpg", { type: "image/jpeg" });
+        const transfer = new DataTransfer();
+        transfer.items.add(file);
+        $("cabinet_image").files = transfer.files;
+
+        displayFile("cabinet_image", file);
+        updateReadyState();
+        closeCameraModal();
+        showToast("Cabinet photo snapped successfully!");
+    }, "image/jpeg", 0.95);
+});
+
+/* =========================================
    VIEW NAVIGATION & DATA RESET
 ========================================= */
 function switchView(view) {
@@ -1067,7 +1140,6 @@ function switchView(view) {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // Ensure completely fresh state when entering New Inspection view after an inspection has run
     if (view === "new" && currentInspectionId) {
         resetNewInspectionState();
     }
@@ -1088,6 +1160,7 @@ Object.keys(INPUTS).forEach(category => {
     const input = $(category);
     const card  = document.querySelector(`[data-category="${category}"]`);
     const dropZone = card.querySelector(".drop-zone");
+    if (!dropZone) return;
 
     input.addEventListener("change", () => {
         const file = input.files[0];
@@ -1396,7 +1469,6 @@ function renderResultsInto(containerId, data) {
 
     const missing  = data.missing_components || [];
     const swapped  = data.swapped_components || [];
-    const position = results.filter(r => (r.position_status||"").toUpperCase() === "MISMATCH" && !r.swapped_with);
 
     if (missing.length) {
         html += `<div class="issue-group"><h3>Missing Elements <span class="badge">${missing.length}</span></h3><div class="issue-list">`;
