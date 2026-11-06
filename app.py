@@ -2053,4 +2053,3 @@ if __name__ == "__main__":
     logger.info("YOLO-World:    %s", _MODEL_STATE["yolo_world"]["enabled"])
     logger.info("Florence-2:    %s", _MODEL_STATE["florence2"]["enabled"])
     app.run(host="0.0.0.0", port=8000, debug=False)
-
