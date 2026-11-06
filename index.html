@@ -12,6 +12,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
 
 :root {
+    /* Light/Minimalist Theme Palette (White, Gray, Black) */
     --bg: #F4F4F5;          
     --sidebar: #FFFFFF;     
     --surface: #FFFFFF;     
@@ -21,18 +22,21 @@
     --text: #18181B;        
     --muted: #71717A;       
     
-    --primary: #18181B;     
+    --primary: #18181B;     /* Black Accent */
     --primary-hover: #3F3F46;
     --secondary: #52525B;   
     
+    /* Semantic Colors kept for status readability */
     --green: #10B981;
     --red: #F43F5E;
     --yellow: #F59E0B;
     
+    /* Shadows & Glows */
     --glow-primary: 0 0 15px rgba(0, 0, 0, 0.05);
     --glow-primary-strong: 0 0 25px rgba(0, 0, 0, 0.1);
     --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.04);
     
+    /* Typography */
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
@@ -43,6 +47,7 @@
 body {
     margin: 0;
     background-color: var(--bg);
+    /* Subtle industrial grid background for light theme */
     background-image: 
         radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.03), transparent 40%),
         linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
@@ -59,7 +64,7 @@ button { cursor: pointer; }
 .app { min-height: 100vh; display: flex; }
 
 /* =========================================
-   STARTUP LOADER
+   STARTUP LOADER ANIMATION
 ========================================= */
 #startupLoader {
     position: fixed; inset: 0; z-index: 9999;
@@ -67,33 +72,66 @@ button { cursor: pointer; }
     pointer-events: none;
 }
 .loader-panel {
-    position: absolute; top: 0; height: 100%; width: 50%;
-    background: #FFFFFF; z-index: 1;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: #FFFFFF;
+    z-index: 1;
+
     transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
     will-change: transform;
 }
-.loader-panel.left { left: 0; }
-.loader-panel.right { right: 0; }
+.loader-panel.left {
+    left: 0;
+}
+.loader-panel.right {
+    right: 0;
+}
 
 #startupLoader.loaded .loader-panel.left { transform: translateX(-100%); }
 #startupLoader.loaded .loader-panel.right { transform: translateX(100%); }
 
 .loader-content {
-    position: relative; z-index: 2; text-align: center;
-    opacity: 1; visibility: visible; transform: scale(1);
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
+
+    will-change: opacity, transform;
 }
 #startupLoader.loaded .loader-content {
-    opacity: 0; visibility: hidden; transform: scale(0.96); pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96);
+    pointer-events: none;
 }
 
 .loader-brand-icon {
     font-family: var(--font-heading); font-size: 48px; font-weight: 800;
-    color: var(--primary); text-shadow: var(--glow-primary-strong); margin-bottom: 16px; display: inline-block;
+    color: var(--primary); text-shadow: var(--glow-primary-strong);
+    margin-bottom: 16px; display: inline-block;
 }
-.loader-brand-text { font-family: var(--font-heading); font-size: 28px; font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; }
-.loader-brand-sub { font-family: var(--font-mono); font-size: 11px; color: var(--primary); letter-spacing: 4px; margin-bottom: 40px; text-transform: uppercase; }
-.loader-bar-wrap { width: 240px; height: 2px; background: var(--surface2); margin: 0 auto 16px; position: relative; overflow: hidden; }
+.loader-brand-text {
+    font-family: var(--font-heading); font-size: 28px; font-weight: 700;
+    letter-spacing: 2px; margin-bottom: 8px;
+}
+.loader-brand-sub {
+    font-family: var(--font-mono); font-size: 11px; color: var(--primary);
+    letter-spacing: 4px; margin-bottom: 40px; text-transform: uppercase;
+}
+.loader-bar-wrap {
+    width: 240px; height: 2px; background: var(--surface2);
+    margin: 0 auto 16px; position: relative; overflow: hidden;
+}
 .loader-bar {
     position: absolute; top: 0; left: 0; height: 100%; width: 30%;
     background: var(--primary); box-shadow: var(--glow-primary);
@@ -104,8 +142,16 @@ button { cursor: pointer; }
     50% { width: 60%; }
     100% { left: 100%; width: 30%; }
 }
-#startupLoader.loaded .loader-bar-wrap { opacity: 0; transition: opacity 0.2s ease; }
-#startupLoader.loaded .loader-bar { animation: none; }
+
+#startupLoader.loaded .loader-bar-wrap {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#startupLoader.loaded .loader-bar {
+    animation: none;
+}
+
 .loader-status { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
 
 /* =========================================
@@ -147,9 +193,10 @@ button { cursor: pointer; }
 .nav-item.active {
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.03) 0%, transparent 100%);
     border-left: 2px solid var(--primary);
-    color: var(--primary); font-weight: 600;
+    color: var(--primary); 
+    font-weight: 600;
 }
-.nav-icon { font-size: 18px; display: inline-block; width: 20px; text-align: center; font-family: var(--font-mono); }
+.nav-icon { font-size: 18px; display: inline-block; width: 20px; text-align: center; font-family: var(--font-mono);}
 
 .sidebar-bottom {
     margin-top: auto; padding: 20px;
@@ -315,25 +362,67 @@ button { cursor: pointer; }
 .danger-btn:hover { background: rgba(244,63,94,0.15); border-color: var(--red); }
 
 /* =========================================
-   PROGRESS BAR
+   AESTHETIC PROGRESS BAR
 ========================================= */
 .progress-wrap { 
-    display: none; margin-top: 24px; padding: 24px 30px; 
-    background: var(--surface2); border: 1px solid var(--border); 
-    border-radius: 12px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+    display: none; 
+    margin-top: 24px; 
+    padding: 24px 30px; 
+    background: var(--surface2); 
+    border: 1px solid var(--border); 
+    border-radius: 12px; 
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
 }
-.progress-wrap.visible { display: block; animation: fadeIn 0.4s ease; }
+.progress-wrap.visible { 
+    display: block; 
+    animation: fadeIn 0.4s ease; 
+}
 .progress-text { 
-    font-family: var(--font-mono); color: var(--text); font-size: 12px; 
-    letter-spacing: 0.5px; font-weight: 600; display: flex; align-items: center;
+    font-family: var(--font-mono); 
+    color: var(--text); 
+    font-size: 12px; 
+    letter-spacing: 0.5px; 
+    font-weight: 600;
+    display: flex;
+    align-items: center;
 }
 .progress-text::before {
-    content: ''; display: inline-block; width: 8px; height: 8px;
-    background: var(--primary); border-radius: 50%; margin-right: 12px;
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    margin-right: 12px;
     animation: pulseDot 1.5s infinite;
 }
-.progress-track { height: 6px; background: rgba(0,0,0,0.06); border-radius: 8px; overflow: hidden; margin-top: 16px; position: relative; }
-.progress-bar { height: 100%; width: 0%; background: var(--primary); border-radius: 8px; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+.progress-track { 
+    height: 6px; 
+    background: rgba(0,0,0,0.06); 
+    border-radius: 8px; 
+    overflow: hidden; 
+    margin-top: 16px; 
+    position: relative;
+}
+.progress-bar { 
+    height: 100%; 
+    width: 0%; 
+    background: var(--primary); 
+    border-radius: 8px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 1.5s infinite linear;
+}
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
 @keyframes pulseDot {
     0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(24, 24, 27, 0.2); }
     70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(24, 24, 27, 0); }
@@ -341,7 +430,7 @@ button { cursor: pointer; }
 }
 
 /* =========================================
-   RESULTS & DIAGNOSTICS VIEWS
+   RESULTS & TABLES
 ========================================= */
 .overall-status {
     padding: 24px 30px; border-radius: 12px; background: var(--surface);
@@ -370,7 +459,7 @@ button { cursor: pointer; }
 
 .component-table-wrap {
     overflow-x: auto; border: 1px solid var(--border);
-    border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-card); margin-bottom: 24px;
+    border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-card);
 }
 table.component-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.component-table th {
@@ -400,6 +489,7 @@ table.component-table tr:last-child td { border-bottom: 0; }
     padding: 16px 20px; background: var(--surface2); border: 1px solid var(--border);
     border-left: 4px solid var(--red); border-radius: 8px; font-size: 13px; margin-bottom: 12px;
 }
+.issue-item.warn { border-left-color: var(--yellow); }
 .issue-item strong { color: var(--text); font-family: var(--font-mono); font-size: 12px;}
 
 .evidence-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
@@ -480,6 +570,7 @@ table.component-table tr:last-child td { border-bottom: 0; }
 
 .footer { text-align: center; margin-top: 60px; color: var(--muted); font-size: 11px; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
 
+/* RESPONSIVE DESIGN */
 @media (max-width: 1024px) {
     .sidebar { width: 240px; padding: 24px 16px; }
     .main { padding: 30px 40px 60px; }
@@ -496,6 +587,13 @@ table.component-table tr:last-child td { border-bottom: 0; }
     .upload-grid { grid-template-columns: 1fr; }
     .project-grid, .config-grid { grid-template-columns: 1fr; }
     .result-summary { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+    .dash-metrics { grid-template-columns: 1fr; }
+    .quick-actions { grid-template-columns: 1fr; }
+    .action-panel { align-items: stretch; flex-direction: column; }
+    .primary-btn { width: 100%; }
 }
 </style>
 </head>
@@ -537,7 +635,7 @@ table.component-table tr:last-child td { border-bottom: 0; }
             <span class="nav-icon">▦</span><span class="nav-text">New Inspection</span>
         </div>
         <div class="nav-item" data-view="results">
-            <span class="nav-icon">▤</span><span class="nav-text">Diagnostics & Results</span>
+            <span class="nav-icon">▤</span><span class="nav-text">Diagnostics</span>
         </div>
         <div class="nav-item" data-view="reports">
             <span class="nav-icon">◷</span><span class="nav-text">Reports</span>
@@ -548,23 +646,11 @@ table.component-table tr:last-child td { border-bottom: 0; }
             <span class="nav-icon">⚙</span><span class="nav-text">Configuration</span>
         </div>
 
-        <div class="sidebar-bottom">
-            <div style="font-size:11px;font-weight:600;display:flex;align-items:center;color:var(--text);font-family:var(--font-mono);">
-                <span class="online-dot"></span>SYS_ONLINE
-            </div>
-            <small>Engine v2.0</small>
-        </div>
+        
     </aside>
 
     <!-- ================= MAIN ================= -->
     <main class="main">
-
-        <header class="topbar">
-            <div class="breadcrumb" id="breadcrumb">Overview / Dashboard</div>
-            <div class="top-right">
-                <div class="server-status" id="serverStatus">● CHK_SERVER...</div>
-            </div>
-        </header>
         
         <!-- DASHBOARD VIEW -->
         <section class="view active" id="view-dashboard">
@@ -574,19 +660,19 @@ table.component-table tr:last-child td { border-bottom: 0; }
             <div class="dash-metrics">
                 <div class="metric-card">
                     <div class="metric-title">Total Scans</div>
-                    <div class="metric-value" id="dashTotal">--</div>
+                    <div class="metric-value">142</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-title">Passed QA</div>
-                    <div class="metric-value" id="dashPassed" style="color: var(--green);">--</div>
+                    <div class="metric-value" style="color: var(--green);">128</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-title">Pending Review</div>
-                    <div class="metric-value" id="dashReview" style="color: var(--yellow);">--</div>
+                    <div class="metric-value" style="color: var(--yellow);">11</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-title">Failed QA</div>
-                    <div class="metric-value" id="dashFailed" style="color: var(--red);">--</div>
+                    <div class="metric-value" style="color: var(--red);">3</div>
                 </div>
             </div>
 
@@ -690,8 +776,8 @@ table.component-table tr:last-child td { border-bottom: 0; }
             </div>
 
             <div class="section-heading">
-                <h2>03 / Execution Stage Pipeline</h2>
-                <span>1. Preprocessing → 2. AI Detection → 3. OCR Recognition → 4. Engineering Verification → 5. Report</span>
+                <h2>03 / Execution</h2>
+                <span>Validation required</span>
             </div>
 
             <div class="action-panel">
@@ -710,15 +796,11 @@ table.component-table tr:last-child td { border-bottom: 0; }
             <div class="results-section" id="inlineResults" style="display:none;"></div>
         </section>
 
-        <!-- DIAGNOSTICS & RESULTS VIEW -->
+        <!-- RESULTS VIEW -->
         <section class="view" id="view-results">
-            <h1 class="page-title">Diagnostic Results & AI Analysis</h1>
-            <p class="subtitle">Complete component verification logic, OCR recognition, engineering comparison, and visual evidence.</p>
-            <div id="resultsDetail" style="margin-top:30px;">
-                <div class="empty-state">
-                    No active inspection loaded. Please execute a new inspection or load a previous report from System Logs.
-                </div>
-            </div>
+            <h1 class="page-title">Diagnostic Results</h1>
+            <p class="subtitle">Component verification logic, visual evidence, and OCR diagnostic output.</p>
+            <div id="resultsDetail" style="margin-top:30px;"></div>
         </section>
 
         <!-- REPORTS VIEW -->
@@ -778,11 +860,11 @@ table.component-table tr:last-child td { border-bottom: 0; }
                 <div class="config-grid">
                     <div class="field">
                         <label>MIN_OCR_CONF (0–1)</label>
-                        <input type="number" id="ocrConfidence" min="0" max="1" step="0.05" value="0.35">
+                        <input type="number" id="ocrConfidence" min="0" max="1" step="0.05" value="0.55">
                     </div>
                     <div class="field">
                         <label>POS_TOLERANCE (norm)</label>
-                        <input type="number" id="positionTolerance" min="0" max="1" step="0.01" value="0.25">
+                        <input type="number" id="positionTolerance" min="0" max="1" step="0.01" value="0.10">
                     </div>
                     <div class="field">
                         <label>DETECTION_CONF (0–1)</label>
@@ -795,6 +877,22 @@ table.component-table tr:last-child td { border-bottom: 0; }
                             <option value="REVIEW">REVIEW</option>
                         </select>
                     </div>
+                </div>
+            </div>
+
+            <div class="section-heading">
+                <h2>Spatial Map Coordinates</h2>
+                <span>Normalized Matrix (0–1)</span>
+            </div>
+            <div class="config-section">
+                <h3>Reference Positions</h3>
+                <p>X/Y axes relative to the physical chassis dimensions.</p>
+                <div id="positionsList"></div>
+                <div class="tag-add-row">
+                    <input type="text" id="newPosName" placeholder="Component ID">
+                    <input type="number" id="newPosX" placeholder="X (0-1)" min="0" max="1" step="0.01" style="max-width:120px">
+                    <input type="number" id="newPosY" placeholder="Y (0-1)" min="0" max="1" step="0.01" style="max-width:120px">
+                    <button class="secondary-btn" id="addPosBtn">+ ADD COORD</button>
                 </div>
             </div>
 
@@ -835,23 +933,37 @@ table.component-table tr:last-child td { border-bottom: 0; }
 
 <script>
 /* =========================================
-   VISUAL LOADER LOGIC
+   VISUAL LOADER LOGIC (UI ONLY)
 ========================================= */
 window.addEventListener('load', () => {
+
     const loader = document.getElementById('startupLoader');
+
     if (!loader) return;
+
+    // Start closing animation
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+
             loader.classList.add('loaded');
-            setTimeout(() => { loader.style.display = 'none'; }, 900);
+
+            // Remove loader after panel animation finishes
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 900);
+
         });
     });
+
 });
 
 /* =========================================
-   STATE & API CONFIG
+   CONFIGURATION & ORIGINAL JS
 ========================================= */
-const API_BASE = window.location.protocol === "file:" ? "http://127.0.0.1:8000" : window.location.origin;
+const API_BASE =
+    window.location.protocol === "file:"
+        ? "http://127.0.0.1:8000"
+        : window.location.origin;
 
 const INPUTS = {
     cabinet_image:       { label: "Cabinet Photograph",   extensions: ["jpg", "jpeg", "png"] },
@@ -859,12 +971,20 @@ const INPUTS = {
     qc_checklist:        { label: "QC Checklist",         extensions: ["json", "csv", "xlsx"] }
 };
 
+const DEFAULT_COMPONENTS = ["MCB", "POWER SUPPLY", "PLC", "K1", "K2"];
+
 const DEFAULT_CONFIG = {
-    components: ["MCB", "POWER SUPPLY", "PLC", "K1", "K2"],
-    expected_positions: {},
+    components: [...DEFAULT_COMPONENTS],
+    expected_positions: {
+        "MCB":          { x: 0.18, y: 0.22 },
+        "POWER SUPPLY": { x: 0.50, y: 0.22 },
+        "PLC":          { x: 0.82, y: 0.22 },
+        "K1":           { x: 0.18, y: 0.72 },
+        "K2":           { x: 0.50, y: 0.72 }
+    },
     thresholds: {
-        ocr_confidence: 0.35,
-        position_tolerance: 0.25,
+        ocr_confidence: 0.55,
+        position_tolerance: 0.10,
         detection_confidence: 0.50,
         missing_severity: "FAIL"
     }
@@ -919,7 +1039,7 @@ function statusClass(s) {
 }
 
 /* =========================================
-   NAVIGATION
+   VIEW NAVIGATION & DATA RESET
 ========================================= */
 function switchView(view) {
     currentView = view;
@@ -939,7 +1059,7 @@ function switchView(view) {
     const titles = {
         "dashboard": "Overview / Command Center",
         "new": "Workspace / New Inspection",
-        "results": "Workspace / Diagnostics & AI Results",
+        "results": "Workspace / Diagnostic Results",
         "reports": "Workspace / System Logs",
         "config": "System / Configuration"
     };
@@ -947,11 +1067,14 @@ function switchView(view) {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    if (view === "dashboard") loadDashboardStats();
-    if (view === "new" && currentInspectionId) resetNewInspectionState();
-    if (view === "reports") loadReports();
-    if (view === "config") loadConfiguration();
-    if (view === "results") renderResultsView();
+    // Ensure completely fresh state when entering New Inspection view after an inspection has run
+    if (view === "new" && currentInspectionId) {
+        resetNewInspectionState();
+    }
+
+    if (view === "reports")  loadReports();
+    if (view === "config")   loadConfiguration();
+    if (view === "results")  renderResultsView();
 }
 
 document.querySelectorAll(".nav-item").forEach(item => {
@@ -959,42 +1082,7 @@ document.querySelectorAll(".nav-item").forEach(item => {
 });
 
 /* =========================================
-   SERVER & DASHBOARD STATS FETCHING
-========================================= */
-async function checkServer() {
-    const s = $("serverStatus");
-    try {
-        const r = await fetch(API_BASE + "/api/health", { cache: "no-store" });
-        if (!r.ok) throw new Error();
-        s.textContent = "● SYS_ONLINE";
-        s.classList.remove("offline");
-        loadDashboardStats();
-    } catch {
-        s.textContent = "● SYS_OFFLINE";
-        s.classList.add("offline");
-    }
-}
-
-async function loadDashboardStats() {
-    try {
-        const r = await fetch(API_BASE + "/api/dashboard", { cache: "no-store" });
-        if (r.ok) {
-            const data = await r.json();
-            const stats = data.statistics || {};
-            $("dashTotal").textContent = stats.total_inspections ?? 0;
-            $("dashPassed").textContent = stats.passed ?? 0;
-            $("dashReview").textContent = stats.review ?? 0;
-            $("dashFailed").textContent = stats.failed ?? 0;
-        }
-    } catch {
-        // Fallback or ignore if offline
-    }
-}
-checkServer();
-setInterval(checkServer, 30000);
-
-/* =========================================
-   FILE SELECTION
+   FILE SELECTION & CLEARING
 ========================================= */
 Object.keys(INPUTS).forEach(category => {
     const input = $(category);
@@ -1029,12 +1117,14 @@ Object.keys(INPUTS).forEach(category => {
         card.classList.remove("dragover");
         const file = e.dataTransfer.files[0];
         if (!file) return;
+
         if (!INPUTS[category].extensions.includes(getExtension(file.name))) {
             showToast("Invalid file format.", true); return;
         }
         if (file.size > 25 * 1024 * 1024) {
             showToast("Each file must be below 25 MB.", true); return;
         }
+
         try {
             const transfer = new DataTransfer();
             transfer.items.add(file);
@@ -1052,12 +1142,15 @@ function displayFile(category, file) {
     info.innerHTML = `
         <div class="filename">✓ ${escapeHTML(file.name)}</div>
         <div class="filesize">${formatSize(file.size)} · Data loaded</div>
-        <button type="button" class="secondary-btn" style="margin-top:12px;padding:6px 12px;font-size:10px;" onclick="removeFile('${category}')">Clear payload</button>
+        <button type="button" class="secondary-btn"
+            style="margin-top:12px;padding:6px 12px;font-size:10px;"
+            onclick="removeFile('${category}')">Clear payload</button>
     `;
     info.classList.add("visible");
 
     const preview = $("preview_" + category);
     if (!preview) return;
+
     if (category === "cabinet_image") {
         preview.src = URL.createObjectURL(file);
         preview.classList.add("visible");
@@ -1102,7 +1195,7 @@ function updateReadyState() {
 }
 
 /* =========================================
-   UPLOAD & INSPECTION EXECUTION
+   UPLOAD & INSPECTION PROCESS
 ========================================= */
 function uploadFiles(formData) {
     return new Promise((resolve, reject) => {
@@ -1112,7 +1205,7 @@ function uploadFiles(formData) {
         xhr.upload.onprogress = e => {
             if (e.lengthComputable) {
                 const pct = Math.round((e.loaded / e.total) * 100);
-                setProgress(pct, "Stage 1/5: Transmitting telemetry inputs... " + pct + "%");
+                setProgress(pct, "Transmitting inputs... " + pct + "%");
             }
         };
 
@@ -1120,6 +1213,7 @@ function uploadFiles(formData) {
             let res;
             try { res = JSON.parse(xhr.responseText); }
             catch { reject(new Error("Invalid server response.")); return; }
+
             if (xhr.status < 200 || xhr.status >= 300 || res.success === false) {
                 const errors = res.errors || [];
                 const details = errors.map(i => `${i.input || ""}: ${i.error || ""}`).join("\n");
@@ -1135,6 +1229,7 @@ function uploadFiles(formData) {
 
 $("inspectBtn").addEventListener("click", async () => {
     const btn = $("inspectBtn");
+
     const formData = new FormData();
     Object.keys(INPUTS).forEach(c => {
         const f = $(c).files[0];
@@ -1144,31 +1239,30 @@ $("inspectBtn").addEventListener("click", async () => {
     formData.append("inspection_reference", $("inspectionReference").value || "");
 
     btn.disabled = true;
-    btn.textContent = "AI ENGINE RUNNING...";
+    btn.textContent = "ENGINE PROCESSING...";
     $("inlineResults").style.display = "none";
 
     try {
-        setProgress(10, "Stage 1: Preprocessing image and PDF schematic...");
+        setProgress(0, "Initiating transmission...");
         const up = await uploadFiles(formData);
         currentInspectionId = up.inspection_id;
         if (!currentInspectionId) throw new Error("Missing inspection UID in response.");
 
-        setProgress(40, "Stage 2: AI Component Detection (YOLO-World)...");
-        await new Promise(r => setTimeout(r, 600));
+        setProgress(100, "Transmission complete.");
+        setProgress(100, "AI Engine running heuristics...");
 
-        setProgress(65, "Stage 3: OCR Label Recognition (Tesseract & EasyOCR)...");
-        const r = await fetch(API_BASE + "/api/inspections/" + encodeURIComponent(currentInspectionId) + "/inspect", { method: "POST" });
+        const r = await fetch(
+            API_BASE + "/api/inspections/" + encodeURIComponent(currentInspectionId) + "/inspect",
+            { method: "POST" }
+        );
         const data = await r.json();
 
         if (!r.ok || data.success === false) {
             throw new Error(data.message || "Engine failure during scan.");
         }
 
-        setProgress(90, "Stage 4 & 5: Engineering Validation & QC Report Generation...");
-        await new Promise(r => setTimeout(r, 500));
-
         currentResults = data;
-        setProgress(100, "Inspection scan successfully completed.");
+        setProgress(100, "Process completed successfully.");
         showToast("Scan logged successfully.");
 
         inspectionHistory.unshift({
@@ -1183,15 +1277,14 @@ $("inspectBtn").addEventListener("click", async () => {
         const inline = $("inlineResults");
         inline.style.display = "block";
         inline.innerHTML = `
-            <div class="section-heading"><h2>04 / Output Matrix Summary</h2>
-                <button class="secondary-btn" onclick="switchView('results')">View Full Diagnostics →</button>
+            <div class="section-heading"><h2>04 / Output Matrix</h2>
+                <button class="secondary-btn" onclick="switchView('results')">Expand Diagnostics →</button>
             </div>
             <div id="inlineRender"></div>
         `;
         renderResultsInto("inlineRender", data);
 
-        btn.disabled = false;
-        btn.textContent = "SCAN COMPLETED ✓";
+        btn.textContent = "PROCESS TERMINATED";
         
     } catch (err) {
         console.error(err);
@@ -1203,7 +1296,7 @@ $("inspectBtn").addEventListener("click", async () => {
 });
 
 /* =========================================
-   RESULTS & DIAGNOSTICS RENDERING
+   RESULTS RENDERING
 ========================================= */
 function renderResultsView() {
     const el = $("resultsDetail");
@@ -1211,7 +1304,7 @@ function renderResultsView() {
         el.innerHTML = `
             <div class="empty-state">
                 No active execution found. Navigate to 
-                <strong style="color:var(--text);">New Inspection</strong> to initiate a scan or load from System Logs.
+                <strong style="color:var(--text);">New Inspection</strong> to initiate.
             </div>`;
         return;
     }
@@ -1233,7 +1326,7 @@ function renderResultsInto(containerId, data) {
 
     let html = `
         <div class="overall-status">
-            <strong style="color: var(--primary); font-family: var(--font-mono); font-size:12px;">INSPECTION STATUS:</strong>
+            <strong style="color: var(--primary); font-family: var(--font-mono); font-size:12px;">SYSTEM STATUS:</strong>
             <span class="status-pill ${statusClass(overall)}" style="margin-left:10px">${escapeHTML(overall)}</span>
             <br><br>
             <span style="color:var(--text); font-weight: 500;">${escapeHTML(data.message || "Process execution completed.")}</span>
@@ -1244,21 +1337,20 @@ function renderResultsInto(containerId, data) {
         </div>
 
         <div class="result-summary">
-            <div class="stat"><small>TOTAL CHECKS</small><strong>${total}</strong></div>
-            <div class="stat pass"><small>PASSED</small><strong>${pass}</strong></div>
-            <div class="stat fail"><small>FAILED</small><strong>${fail}</strong></div>
+            <div class="stat"><small>TOTAL VECTORS</small><strong>${total}</strong></div>
+            <div class="stat pass"><small>PASS</small><strong>${pass}</strong></div>
+            <div class="stat fail"><small>FAIL</small><strong>${fail}</strong></div>
             <div class="stat review"><small>REVIEW</small><strong>${review}</strong></div>
         </div>
     `;
 
-    // 1. Engineering Comparison & Component Verification Table
     if (results.length) {
-        html += `<div class="section-heading"><h2>01 / Engineering Verification & Component Map</h2>
-                 <span>${results.length} verified items</span></div>`;
+        html += `<div class="section-heading"><h2>Component Map</h2>
+                 <span>${results.length} nodes</span></div>`;
         html += `<div class="component-table-wrap"><table class="component-table">
             <thead><tr>
-                <th>COMPONENT / NODE</th><th>DRAWING SCHEMA</th><th>DETECTED VISUAL</th>
-                <th>SPATIAL CHECK</th><th>EVIDENCE</th><th>FINAL STATUS</th>
+                <th>NODE_ID</th><th>SCHEMATIC</th><th>ACTUAL_VISUAL</th>
+                <th>SPATIAL</th><th>STATUS</th>
             </tr></thead><tbody>`;
 
         results.forEach(r => {
@@ -1280,8 +1372,7 @@ function renderResultsInto(containerId, data) {
                 MATCH: "Match",
                 MISMATCH: "Mismatch",
                 MISSING: "Missing",
-                UNKNOWN: "Unknown",
-                UNEXPECTED: "Unexpected"
+                UNKNOWN: "Unknown"
             }[posStatus] || posStatus;
 
             let thumbHTML = "—";
@@ -1293,60 +1384,39 @@ function renderResultsInto(containerId, data) {
             }
 
             html += `<tr>
-                <td><strong style="color: var(--primary); font-family: var(--font-mono);">${escapeHTML(name)}</strong><br><small style="color:var(--muted);">${escapeHTML(r.reason || '')}</small></td>
+                <td><strong style="color: var(--primary); font-family: var(--font-mono);">${escapeHTML(name)}</strong></td>
                 <td>${escapeHTML(drawingPresence)}</td>
                 <td>${escapeHTML(actual)}</td>
                 <td>${escapeHTML(posLabel)}</td>
-                <td>${thumbHTML}</td>
                 <td><span class="status-pill ${statusClass(status)}">${escapeHTML(status)}</span></td>
             </tr>`;
         });
         html += `</tbody></table></div>`;
     }
 
-    // 2. OCR Results Table Breakdown
-    const ocrData = data.ocr_results || {};
-    const imgOcrComps = (ocrData.image && ocrData.image.detected_components) || [];
-    if (imgOcrComps.length) {
-        html += `<div class="section-heading"><h2>02 / OCR & Text Recognition Diagnostics</h2>
-                 <span>${imgOcrComps.length} labels extracted</span></div>`;
-        html += `<div class="component-table-wrap"><table class="component-table">
-            <thead><tr><th>DETECTED LABEL / TEXT</th><th>CONFIDENCE</th><th>REGION</th><th>SOURCE</th></tr></thead><tbody>`;
-        imgOcrComps.forEach(ic => {
-            html += `<tr>
-                <td><strong style="color:var(--primary);">${escapeHTML(ic.name || ic.matched_text || "—")}</strong></td>
-                <td>${ic.confidence != null ? Number(ic.confidence).toFixed(2) : "—"}</td>
-                <td>${escapeHTML(ic.region || "—")}</td>
-                <td><span class="status-pill status-PASS">${escapeHTML(ic.detection_source || "ocr_match")}</span></td>
-            </tr>`;
-        });
-        html += `</tbody></table></div>`;
-    }
-
-    // 3. Missing / Mismatched components cards
     const missing  = data.missing_components || [];
     const swapped  = data.swapped_components || [];
+    const position = results.filter(r => (r.position_status||"").toUpperCase() === "MISMATCH" && !r.swapped_with);
 
     if (missing.length) {
         html += `<div class="issue-group"><h3>Missing Elements <span class="badge">${missing.length}</span></h3><div class="issue-list">`;
         missing.forEach(m => {
-            html += `<div class="issue-item"><strong>${escapeHTML(m)}</strong> &nbsp;— required by engineering drawing but not detected in visual capture.</div>`;
+            html += `<div class="issue-item"><strong>${escapeHTML(m)}</strong> &nbsp;— not detected in capture.</div>`;
         });
         html += `</div></div>`;
     }
 
     if (swapped.length) {
-        html += `<div class="issue-group"><h3>Swapped / Misplaced Nodes <span class="badge">${swapped.length}</span></h3><div class="issue-list">`;
+        html += `<div class="issue-group"><h3>Swapped Nodes <span class="badge">${swapped.length}</span></h3><div class="issue-list">`;
         swapped.forEach(s => {
-            html += `<div class="issue-item"><strong>${escapeHTML(String(s))}</strong> — spatial arrangement discrepancy detected.</div>`;
+            html += `<div class="issue-item"><strong>${escapeHTML(String(s))}</strong> — spatial discrepancy detected.</div>`;
         });
         html += `</div></div>`;
     }
 
-    // 4. Evidence Gallery
     const evidence = collectEvidence(data);
     if (evidence.length) {
-        html += `<div class="section-heading"><h2>03 / Visual Evidence & Annotated Artifacts</h2><span>${evidence.length} files</span></div>
+        html += `<div class="section-heading"><h2>Visual Artifacts</h2><span>${evidence.length} files</span></div>
                  <div class="evidence-gallery">`;
         evidence.forEach((ev, i) => {
             const url = resolveEvidenceUrl(ev.url || ev.thumbnail);
@@ -1360,8 +1430,8 @@ function renderResultsInto(containerId, data) {
     }
 
     html += `<div class="result-actions" style="display:flex;gap:16px;margin-top:35px;flex-wrap:wrap">
-        <button class="primary-btn" onclick="downloadReport()">DOWNLOAD PDF REPORT</button>
-        <button class="secondary-btn" onclick="downloadJSON()">DOWNLOAD JSON RAW</button>
+        <button class="primary-btn" onclick="downloadReport()">EXTRACT PDF</button>
+        <button class="secondary-btn" onclick="downloadJSON()">EXTRACT JSON RAW</button>
     </div>`;
 
     c.innerHTML = html;
@@ -1431,9 +1501,6 @@ async function downloadJSON() {
     } catch (e) { showToast(e.message, true); }
 }
 
-/* =========================================
-   REPORTS LOGS
-========================================= */
 async function loadReports() {
     const list = $("reportsList");
     list.innerHTML = `<div class="empty-state">Querying database...</div>`;
@@ -1493,9 +1560,7 @@ async function openReportFromHistory(evt, id) {
 
 $("refreshReports").addEventListener("click", loadReports);
 
-/* =========================================
-   CONFIGURATION
-========================================= */
+/* CONFIGURATION */
 async function loadConfiguration() {
     try {
         const r = await fetch(API_BASE + "/api/config", { cache: "no-store" });
@@ -1523,15 +1588,32 @@ function renderConfigUI() {
     $("positionTolerance").value = currentConfig.thresholds.position_tolerance;
     $("detectionConfidence").value = currentConfig.thresholds.detection_confidence;
     $("missingSeverity").value = currentConfig.thresholds.missing_severity || "FAIL";
+
+    const entries = Object.entries(currentConfig.expected_positions);
+    $("positionsList").innerHTML = !entries.length ? `<div class="empty-state">No coordinate matrices set.</div>` :
+        `<div class="component-table-wrap"><table class="component-table"><thead><tr><th>NODE_ID</th><th>X_COORD</th><th>Y_COORD</th><th></th></tr></thead><tbody>
+        ${entries.map(([n, p]) => `<tr><td><strong style="color:var(--primary);">${escapeHTML(n)}</strong></td><td>${Number(p.x).toFixed(2)}</td><td>${Number(p.y).toFixed(2)}</td><td><button class="danger-btn" onclick="removePosition('${escapeHTML(n)}')">DEL</button></td></tr>`).join("")}
+        </tbody></table></div>`;
 }
 
 function removeComponentTag(name) { currentConfig.components = currentConfig.components.filter(c => c !== name); renderConfigUI(); }
+function removePosition(name) { delete currentConfig.expected_positions[name]; renderConfigUI(); }
 
 $("addComponentBtn").addEventListener("click", () => {
     const v = $("newComponentInput").value.trim();
     if (!v) return;
     if (!currentConfig.components.includes(v)) currentConfig.components.push(v);
     $("newComponentInput").value = "";
+    renderConfigUI();
+});
+
+$("addPosBtn").addEventListener("click", () => {
+    const n = $("newPosName").value.trim();
+    const x = parseFloat($("newPosX").value);
+    const y = parseFloat($("newPosY").value);
+    if (!n || isNaN(x) || isNaN(y)) { showToast("Invalid coordinate data.", true); return; }
+    currentConfig.expected_positions[n] = { x, y };
+    $("newPosName").value = $("newPosX").value = $("newPosY").value = "";
     renderConfigUI();
 });
 
@@ -1542,8 +1624,8 @@ $("resetConfig").addEventListener("click", () => {
 });
 
 $("saveConfig").addEventListener("click", async () => {
-    currentConfig.thresholds.ocr_confidence = parseFloat($("ocrConfidence").value) || 0.35;
-    currentConfig.thresholds.position_tolerance = parseFloat($("positionTolerance").value) || 0.25;
+    currentConfig.thresholds.ocr_confidence = parseFloat($("ocrConfidence").value) || 0.55;
+    currentConfig.thresholds.position_tolerance = parseFloat($("positionTolerance").value) || 0.10;
     currentConfig.thresholds.detection_confidence = parseFloat($("detectionConfidence").value) || 0.50;
     currentConfig.thresholds.missing_severity = $("missingSeverity").value;
     try {
@@ -1553,7 +1635,7 @@ $("saveConfig").addEventListener("click", async () => {
         if (!r.ok) throw new Error();
         showToast("Config variables synced.");
     } catch {
-        showToast("Variables stored locally.", true);
+        showToast("Variables stored locally (SYS offline).", true);
     }
 });
 
