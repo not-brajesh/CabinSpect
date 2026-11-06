@@ -72,22 +72,48 @@ button { cursor: pointer; }
     pointer-events: none;
 }
 .loader-panel {
-    position: absolute; top: 0; height: 100%; width: 50%;
-    background: #FFFFFF; z-index: 1;
-    transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: #FFFFFF;
+    z-index: 1;
+
+    transition: transform 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
 }
-.loader-panel.left { left: 0; border-right: 1px solid rgba(0, 0, 0, 0.1); }
-.loader-panel.right { right: 0; border-left: 1px solid rgba(0, 0, 0, 0.1); }
+.loader-panel.left {
+    left: 0;
+}
+.loader-panel.right {
+    right: 0;
+}
 
 #startupLoader.loaded .loader-panel.left { transform: translateX(-100%); }
 #startupLoader.loaded .loader-panel.right { transform: translateX(100%); }
 
 .loader-content {
-    position: relative; z-index: 2; text-align: center;
-    animation: fadeIn 0.4s ease forwards;
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
+
+    will-change: opacity, transform;
 }
-#startupLoader.loaded .loader-content { opacity: 0; transform: scale(1.05); }
+#startupLoader.loaded .loader-content {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96);
+    pointer-events: none;
+}
 
 .loader-brand-icon {
     font-family: var(--font-heading); font-size: 48px; font-weight: 800;
@@ -116,6 +142,16 @@ button { cursor: pointer; }
     50% { width: 60%; }
     100% { left: 100%; width: 30%; }
 }
+
+#startupLoader.loaded .loader-bar-wrap {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#startupLoader.loaded .loader-bar {
+    animation: none;
+}
+
 .loader-status { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
 
 /* =========================================
@@ -912,13 +948,25 @@ table.component-table tr:last-child td { border-bottom: 0; }
    VISUAL LOADER LOGIC (UI ONLY)
 ========================================= */
 window.addEventListener('load', () => {
-    // Artificial sequence for industrial premium feel
-    setTimeout(() => {
-        document.getElementById('startupLoader').classList.add('loaded');
-        setTimeout(() => {
-            document.getElementById('startupLoader').style.display = 'none';
-        }, 800); // Waits for sliding doors animation to finish
-    }, 1200); 
+
+    const loader = document.getElementById('startupLoader');
+
+    if (!loader) return;
+
+    // Start closing animation
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+
+            loader.classList.add('loaded');
+
+            // Remove loader after panel animation finishes
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 900);
+
+        });
+    });
+
 });
 
 /* =========================================
