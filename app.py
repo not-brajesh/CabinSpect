@@ -2046,7 +2046,6 @@ def get_evidence(inspection_id, filename):
 # MAIN
 
 
-
 if __name__ == "__main__":
     logger.info("Starting CabinSpect BEAST SOTA 5.0")
     logger.info("Upload folder: %s", UPLOAD_DIR)
