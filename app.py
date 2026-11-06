@@ -64,9 +64,9 @@ def get_ocr_reader():
             _easyocr_reader = easyocr.Reader(['en'], gpu=True)
     return _easyocr_reader
 
-# ---------------------------------------------------------------------------
+ 
 # CONFIGURATION
-# ---------------------------------------------------------------------------
+ 
 
 BASE_DIR = Path(__file__).resolve().parent
 UPLOAD_DIR = BASE_DIR / "uploads"
@@ -157,9 +157,9 @@ def save_config(cfg):
     _config_cache = merged
     return merged
 
-# ---------------------------------------------------------------------------
+ 
 # UTILITIES
-# ---------------------------------------------------------------------------
+ 
 
 def generate_inspection_id():
     return "CSP-" + datetime.now().strftime("%Y%m%d") + "-" + uuid.uuid4().hex[:6].upper()
@@ -206,9 +206,9 @@ def classify_region(x_norm, y_norm):
     v = "upper" if y_norm < 0.5 else "lower"
     return f"{v}-{h}"
 
-# ---------------------------------------------------------------------------
+ 
 # COMPONENT LABEL PATTERNS
-# ---------------------------------------------------------------------------
+ 
 
 DESIGNATOR_PATTERN = r"\b(?:QF|KM|KA|KT|SB|HL|SA|QS|PS|K|X|F|M|Q)\d{1,4}\b"
 COMPONENT_TERMS = [
@@ -323,9 +323,9 @@ def _extract_dynamic_components(words, img_w, img_h, existing_names, min_conf):
         existing_norm.add(t)
     return dynamic
 
-# ---------------------------------------------------------------------------
+ 
 # IMAGE PREPROCESSING HELPERS
-# ---------------------------------------------------------------------------
+ 
 
 def _deskew(gray_img):
     try:
@@ -463,9 +463,9 @@ def _find_enclosing_rect(binary_img, label_bbox, search_mult=3.0):
         return None, 0.0
 
 
-# ---------------------------------------------------------------------------
+ 
 # OPTIONAL AI MODEL MANAGER
-# ---------------------------------------------------------------------------
+ 
 
 def model_status():
     return {
@@ -592,9 +592,9 @@ def _canonical_model_label(label, component_names):
             return name
     return None
 
-# ---------------------------------------------------------------------------
+ 
 # IMAGE ANALYSIS (Phase 2) - DUAL OCR ENGINE
-# ---------------------------------------------------------------------------
+ 
 
 def analyse_image(path, cfg):
     image = cv2.imread(str(path))
@@ -771,9 +771,9 @@ def analyse_image(path, cfg):
         "analysis_image": str(aligned_path),
     }
 
-# ---------------------------------------------------------------------------
+ 
 # PDF / DRAWING ANALYSIS (Phase 1)
-# ---------------------------------------------------------------------------
+ 
 
 def _search_component_rect(page, comp_name):
     flags = getattr(pymupdf, "TEXT_IGNORECASE", 0)
@@ -972,9 +972,9 @@ def analyse_pdf(path, cfg):
         "text_extracted": bool(full_text.strip()),
     }
 
-# ---------------------------------------------------------------------------
+ 
 # ALIGNMENT (Phase 3)
-# ---------------------------------------------------------------------------
+ 
 
 def align_panel_images(drawing_data, image_data, cfg):
     alignment = {
@@ -1012,9 +1012,9 @@ def align_panel_images(drawing_data, image_data, cfg):
         )
     return alignment
 
-# ---------------------------------------------------------------------------
+ 
 # CHECKLIST ANALYSIS
-# ---------------------------------------------------------------------------
+ 
 
 def analyse_checklist(path):
     ext = extension(path.name)
@@ -1058,9 +1058,9 @@ def analyse_checklist(path):
         })
     return normalized
 
-# ---------------------------------------------------------------------------
+ 
 # COMPONENT MATCHING + SPATIAL COMPARISON
-# ---------------------------------------------------------------------------
+ 
 
 def compute_relative_positions(components):
     positioned = [c for c in components if c.get("position")]
@@ -1304,9 +1304,9 @@ def compare_components(image_data, drawing_data, cfg, alignment=None):
 
     return results, missing_components, swapped_strings, position_checks
 
-# ---------------------------------------------------------------------------
+ 
 # QC CHECKLIST DERIVATION
-# ---------------------------------------------------------------------------
+ 
 
 def derive_qc_status(check, component_results, image_data, drawing_data, alignment=None):
     text = normalize(f"{check['id']} {check['name']}")
@@ -1386,9 +1386,9 @@ def derive_qc_status(check, component_results, image_data, drawing_data, alignme
 
     return "REVIEW", "No automated verification rule is configured for this checklist item."
 
-# ---------------------------------------------------------------------------
+ 
 # EVIDENCE GENERATION
-# ---------------------------------------------------------------------------
+ 
 
 def generate_evidence_images(inspection_id, image_path, component_results,
                              missing_components, swap_strings):
@@ -1550,9 +1550,9 @@ def generate_evidence_images(inspection_id, image_path, component_results,
 
     return evidence_list, per_result_evidence
 
-# ---------------------------------------------------------------------------
+ 
 # INSPECTION PIPELINE
-# ---------------------------------------------------------------------------
+ 
 
 def process_inspection(inspection_id):
     cfg = get_config()
@@ -1698,9 +1698,9 @@ def process_inspection(inspection_id):
 
     return report
 
-# ---------------------------------------------------------------------------
+ 
 # PDF REPORT
-# ---------------------------------------------------------------------------
+ 
 
 def _wrap_text(text, max_chars):
     words = str(text).split()
@@ -1834,9 +1834,9 @@ def create_pdf_report(data):
     c.save()
     return path
 
-# ---------------------------------------------------------------------------
+ 
 # FLASK ROUTES
-# ---------------------------------------------------------------------------
+ 
 
 @app.route("/", methods=["GET"])
 def home():
@@ -2042,9 +2042,9 @@ def get_evidence(inspection_id, filename):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-# ---------------------------------------------------------------------------
+ 
 # MAIN
-# ---------------------------------------------------------------------------
+ 
 
 if __name__ == "__main__":
     logger.info("Starting CabinSpect BEAST SOTA 5.0")
