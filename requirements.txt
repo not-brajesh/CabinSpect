@@ -5,11 +5,14 @@ opencv-python-headless>=4.10.0.84
 numpy>=1.26.4
 pandas>=2.2.2
 openpyxl==3.1.2
-pytesseract==0.3.13
 PyMuPDF>=1.24.9
 reportlab==4.2.2
 pillow>=10.2.0
 werkzeug==3.0.3
+
+# SOTA OCR & Detection Upgrades
+easyocr>=1.7.1
+ultralytics>=8.1.0
 
 # AI & Performance Optimizations
 transformers>=4.45,<5
@@ -18,3 +21,4 @@ timm>=1.0
 einops>=0.8
 torch>=2.2.0
 torchvision>=0.17.0
+
