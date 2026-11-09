@@ -7,3 +7,4 @@ temp/
 reports/
 .DS_Store
 .env
+.pt
