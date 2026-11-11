@@ -1,0 +1,277 @@
+{
+  "project": "CABINSPECT",
+  "title": "QUALITY CONTROL CHECKLIST",
+  "panel": "PLC-Based VFD Motor Control Panel",
+  "inspection_type": "Physical Inspection & Engineering Drawing Verification",
+
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "Actual Cabinet - Physical QC Checklist",
+      "inspection_items": [
+        {
+          "s_no": 1,
+          "component": "Panel Enclosure",
+          "criteria": "Check cabinet body and overall condition",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 2,
+          "component": "Panel Door",
+          "criteria": "Check door alignment and opening/closing",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 3,
+          "component": "Door Hinges",
+          "criteria": "Check hinge mounting and movement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 4,
+          "component": "Main Isolator",
+          "criteria": "Check mounting, handle and connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 5,
+          "component": "MCB",
+          "criteria": "Check mounting, rating and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 6,
+          "component": "VFD",
+          "criteria": "Check mounting, display and wiring connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 7,
+          "component": "PLC",
+          "criteria": "Check PLC mounting and module connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 8,
+          "component": "Contactor C1",
+          "criteria": "Check mounting and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 9,
+          "component": "Contactor C2",
+          "criteria": "Check mounting and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 10,
+          "component": "Contactor C3",
+          "criteria": "Check mounting and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 11,
+          "component": "Relay Module",
+          "criteria": "Check relay mounting and wiring",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 12,
+          "component": "I/O Module",
+          "criteria": "Check module mounting and connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 13,
+          "component": "Terminal Blocks",
+          "criteria": "Check terminal tightness and alignment",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 14,
+          "component": "Earth Busbar",
+          "criteria": "Check earthing connections and continuity",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 15,
+          "component": "Cable Duct",
+          "criteria": "Check duct mounting and covers",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 16,
+          "component": "DIN Rail",
+          "criteria": "Check rail mounting and alignment",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 17,
+          "component": "Power Wiring",
+          "criteria": "Check wire routing and connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 18,
+          "component": "Control Wiring",
+          "criteria": "Check wire routing and termination",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 19,
+          "component": "Wire Ferrules",
+          "criteria": "Check ferrule crimping and identification",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 20,
+          "component": "Cable Colour Coding",
+          "criteria": "Check R-Y-B and control wire identification",
+          "status": ["OK", "Not OK"]
+        }
+      ]
+    },
+
+    {
+      "section_id": 2,
+      "section_name": "Engineering Drawing - QC Checklist",
+      "inspection_items": [
+        {
+          "s_no": 1,
+          "component": "Panel Outline",
+          "criteria": "Check cabinet drawing layout",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 2,
+          "component": "Main Isolator",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 3,
+          "component": "MCB",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 4,
+          "component": "VFD",
+          "criteria": "Verify mounting position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 5,
+          "component": "PLC",
+          "criteria": "Verify PLC and module arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 6,
+          "component": "Contactor C1",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 7,
+          "component": "Contactor C2",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 8,
+          "component": "Contactor C3",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 9,
+          "component": "Relay Module",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 10,
+          "component": "I/O Module",
+          "criteria": "Verify component position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 11,
+          "component": "Terminal Blocks",
+          "criteria": "Verify terminal block arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 12,
+          "component": "Earth Connection",
+          "criteria": "Verify earth busbar representation",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 13,
+          "component": "Cable Duct",
+          "criteria": "Verify cable duct arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 14,
+          "component": "DIN Rail",
+          "criteria": "Verify component mounting arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 15,
+          "component": "Wiring Layout",
+          "criteria": "Verify wiring routing and connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 16,
+          "component": "Component Labels",
+          "criteria": "Verify component identification labels",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 17,
+          "component": "Drawing Comparison",
+          "criteria": "Compare drawing with actual cabinet",
+          "status": ["OK", "Not OK"]
+        }
+      ]
+    }
+  ],
+
+  "final_inspection_summary": [
+    {
+      "inspection": "Physical Inspection",
+      "result": ["Pass", "Fail"]
+    },
+    {
+      "inspection": "Drawing Verification",
+      "result": ["Pass", "Fail"]
+    },
+    {
+      "inspection": "Component Identification",
+      "result": ["Pass", "Fail"]
+    },
+    {
+      "inspection": "Wiring Inspection",
+      "result": ["Pass", "Fail"]
+    },
+    {
+      "inspection": "Earthing Inspection",
+      "result": ["Pass", "Fail"]
+    },
+    {
+      "inspection": "Final QC Approval",
+      "result": ["Approved", "Rejected"]
+    }
+  ],
+
+  "inspector_details": {
+    "inspector_name": "",
+    "inspection_date": "",
+    "remarks": ""
+  }
+}

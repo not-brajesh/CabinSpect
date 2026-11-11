@@ -1,0 +1,271 @@
+{
+  "project": "CABINSPECT",
+  "panel": "MCCB-Based Electrical Distribution Panel",
+  "mccb_rating": "400 A",
+  "system": "3-Phase (R-Y-B)",
+  "inspection_type": "Visual, Physical & Drawing Verification",
+
+  "actual_cabinet_physical_qc": [
+    {
+      "s_no": 1,
+      "component": "Panel Enclosure",
+      "inspection_criteria": "Check cabinet body and finishing",
+      "status": "To Check"
+    },
+    {
+      "s_no": 2,
+      "component": "Panel Door",
+      "inspection_criteria": "Check hinges and door locking",
+      "status": "To Check"
+    },
+    {
+      "s_no": 3,
+      "component": "MCCB",
+      "inspection_criteria": "Check 400 A MCCB mounting",
+      "status": "To Check"
+    },
+    {
+      "s_no": 4,
+      "component": "MCCB Handle",
+      "inspection_criteria": "Check ON/OFF indication",
+      "status": "To Check"
+    },
+    {
+      "s_no": 5,
+      "component": "R Phase Busbar",
+      "inspection_criteria": "Check red busbar condition",
+      "status": "To Check"
+    },
+    {
+      "s_no": 6,
+      "component": "Y Phase Busbar",
+      "inspection_criteria": "Check yellow busbar condition",
+      "status": "To Check"
+    },
+    {
+      "s_no": 7,
+      "component": "B Phase Busbar",
+      "inspection_criteria": "Check blue busbar condition",
+      "status": "To Check"
+    },
+    {
+      "s_no": 8,
+      "component": "Busbar Bolts",
+      "inspection_criteria": "Check tightness and proper fitting",
+      "status": "To Check"
+    },
+    {
+      "s_no": 9,
+      "component": "Bottom Busbar",
+      "inspection_criteria": "Check mounting and connections",
+      "status": "To Check"
+    },
+    {
+      "s_no": 10,
+      "component": "Auxiliary Module",
+      "inspection_criteria": "Check mounting and wiring",
+      "status": "To Check"
+    },
+    {
+      "s_no": 11,
+      "component": "Side Mounting Plate",
+      "inspection_criteria": "Check proper fixing",
+      "status": "To Check"
+    },
+    {
+      "s_no": 12,
+      "component": "Insulation",
+      "inspection_criteria": "Check for cracks or damage",
+      "status": "To Check"
+    },
+    {
+      "s_no": 13,
+      "component": "Cable Connections",
+      "inspection_criteria": "Check proper termination",
+      "status": "To Check"
+    },
+    {
+      "s_no": 14,
+      "component": "Earthing Wire",
+      "inspection_criteria": "Check green-yellow earth connection",
+      "status": "To Check"
+    },
+    {
+      "s_no": 15,
+      "component": "Internal Wiring",
+      "inspection_criteria": "Check routing and insulation",
+      "status": "To Check"
+    },
+    {
+      "s_no": 16,
+      "component": "Fasteners",
+      "inspection_criteria": "Check all screws and nuts",
+      "status": "To Check"
+    },
+    {
+      "s_no": 17,
+      "component": "Component Labels",
+      "inspection_criteria": "Check identification markings",
+      "status": "To Check"
+    },
+    {
+      "s_no": 18,
+      "component": "Internal Clearance",
+      "inspection_criteria": "Check spacing and accessibility",
+      "status": "To Check"
+    }
+  ],
+
+  "engineering_drawing_qc": [
+    {
+      "s_no": 1,
+      "component": "Panel Outline",
+      "inspection_criteria": "Verify enclosure representation",
+      "status": "To Check"
+    },
+    {
+      "s_no": 2,
+      "component": "MCCB Position",
+      "inspection_criteria": "Verify central mounting position",
+      "status": "To Check"
+    },
+    {
+      "s_no": 3,
+      "component": "MCCB Rating",
+      "inspection_criteria": "Verify 400 A marking",
+      "status": "To Check"
+    },
+    {
+      "s_no": 4,
+      "component": "R Phase",
+      "inspection_criteria": "Verify red phase arrangement",
+      "status": "To Check"
+    },
+    {
+      "s_no": 5,
+      "component": "Y Phase",
+      "inspection_criteria": "Verify yellow phase arrangement",
+      "status": "To Check"
+    },
+    {
+      "s_no": 6,
+      "component": "B Phase",
+      "inspection_criteria": "Verify blue phase arrangement",
+      "status": "To Check"
+    },
+    {
+      "s_no": 7,
+      "component": "Incoming Busbars",
+      "inspection_criteria": "Verify top busbar arrangement",
+      "status": "To Check"
+    },
+    {
+      "s_no": 8,
+      "component": "Outgoing Connections",
+      "inspection_criteria": "Verify bottom connections",
+      "status": "To Check"
+    },
+    {
+      "s_no": 9,
+      "component": "Load Busbar",
+      "inspection_criteria": "Verify horizontal busbar arrangement",
+      "status": "To Check"
+    },
+    {
+      "s_no": 10,
+      "component": "Auxiliary Module",
+      "inspection_criteria": "Verify right-side module position",
+      "status": "To Check"
+    },
+    {
+      "s_no": 11,
+      "component": "Mounting Plates",
+      "inspection_criteria": "Verify side plate arrangement",
+      "status": "To Check"
+    },
+    {
+      "s_no": 12,
+      "component": "Bolts & Fasteners",
+      "inspection_criteria": "Verify bolt locations",
+      "status": "To Check"
+    },
+    {
+      "s_no": 13,
+      "component": "Cable Routing",
+      "inspection_criteria": "Verify cable routing representation",
+      "status": "To Check"
+    },
+    {
+      "s_no": 14,
+      "component": "Earthing",
+      "inspection_criteria": "Verify earth connection representation",
+      "status": "To Check"
+    },
+    {
+      "s_no": 15,
+      "component": "Component Labels",
+      "inspection_criteria": "Verify component identification",
+      "status": "To Check"
+    },
+    {
+      "s_no": 16,
+      "component": "Layout Matching",
+      "inspection_criteria": "Compare drawing with actual cabinet",
+      "status": "To Check"
+    }
+  ],
+
+  "actual_vs_drawing_comparison": [
+    {
+      "s_no": 1,
+      "inspection_point": "MCCB",
+      "observation": "Present in both"
+    },
+    {
+      "s_no": 2,
+      "inspection_point": "R-Y-B Busbars",
+      "observation": "Present in both"
+    },
+    {
+      "s_no": 3,
+      "inspection_point": "Auxiliary Module",
+      "observation": "Present in actual cabinet and represented in drawing"
+    },
+    {
+      "s_no": 4,
+      "inspection_point": "Side Mounting Plate",
+      "observation": "Represented in both"
+    },
+    {
+      "s_no": 5,
+      "inspection_point": "Bottom Busbar",
+      "observation": "Present in both"
+    },
+    {
+      "s_no": 6,
+      "inspection_point": "ON/OFF Handle",
+      "observation": "Present in both"
+    },
+    {
+      "s_no": 7,
+      "inspection_point": "Bolted Connections",
+      "observation": "Present in both"
+    },
+    {
+      "s_no": 8,
+      "inspection_point": "Earthing",
+      "observation": "Actual wiring visible; drawing representation needs verification"
+    }
+  ],
+
+  "qc_remarks": [
+    "Actual cabinet and drawing should be checked for component-position matching.",
+    "MCCB rating is visibly marked 400 A in the actual cabinet.",
+    "Verify R-Y-B phase sequence and polarity.",
+    "Verify the horizontal red busbar arrangement carefully. Ensure R, Y and B phases are electrically isolated and not shorted.",
+    "Verify all terminal torque values according to manufacturer specifications.",
+    "Electrical insulation, continuity and earthing tests must be performed before approval."
+  ],
+
+  "qc_status": "Pending QC Approval"
+}

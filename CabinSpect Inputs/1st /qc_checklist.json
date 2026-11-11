@@ -1,0 +1,175 @@
+{
+  "project": "CABINSPECT",
+  "title": "QC CHECKLIST",
+  "panel": "Control Panel - Front View",
+  "panel_size": {
+    "width": "500 mm",
+    "height": "600 mm"
+  },
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "Main Components Inspection",
+      "checks": [
+        {
+          "tag": "MCB.001",
+          "criteria": "MCB installed and mounted correctly",
+          "status": "PASS"
+        },
+        {
+          "tag": "PS.DC.001",
+          "criteria": "24V DC Power Supply installed correctly",
+          "status": "PASS"
+        },
+        {
+          "tag": "PLC.001",
+          "criteria": "PLC installed and secured properly",
+          "status": "PASS"
+        },
+        {
+          "tag": "CT.K1.001",
+          "criteria": "Contactor K1 installed correctly",
+          "status": "PASS"
+        },
+        {
+          "tag": "CT.K2.001",
+          "criteria": "Contactor K2 installed correctly",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "section_id": 2,
+      "section_name": "Component Label Verification",
+      "checks": [
+        {
+          "tag": "MCB.001",
+          "criteria": "MCB label readable and correct",
+          "status": "PASS"
+        },
+        {
+          "tag": "PS.DC.001",
+          "criteria": "Power Supply label readable and correct",
+          "status": "PASS"
+        },
+        {
+          "tag": "PLC.001",
+          "criteria": "PLC label readable and correct",
+          "status": "PASS"
+        },
+        {
+          "tag": "CT.K1.001",
+          "criteria": "K1 label readable and correct",
+          "status": "PASS"
+        },
+        {
+          "tag": "CT.K2.001",
+          "criteria": "K2 label readable and correct",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "section_id": 3,
+      "section_name": "Engineering Drawing Verification",
+      "checks": [
+        {
+          "tag": "DWG.001",
+          "criteria": "MCB position matches drawing",
+          "status": "PASS"
+        },
+        {
+          "tag": "DWG.002",
+          "criteria": "Power Supply position matches drawing",
+          "status": "PASS"
+        },
+        {
+          "tag": "DWG.003",
+          "criteria": "PLC position matches drawing",
+          "status": "PASS"
+        },
+        {
+          "tag": "DWG.004",
+          "criteria": "Contactor K1 position matches drawing",
+          "status": "PASS"
+        },
+        {
+          "tag": "DWG.005",
+          "criteria": "Contactor K2 position matches drawing",
+          "status": "PASS"
+        },
+        {
+          "tag": "DWG.006",
+          "criteria": "Component arrangement matches panel layout",
+          "status": "PASS"
+        },
+        {
+          "tag": "DWG.007",
+          "criteria": "Component quantities match BOM",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "section_id": 4,
+      "section_name": "Physical & Safety Inspection",
+      "checks": [
+        {
+          "tag": "PHY.001",
+          "criteria": "Cabinet enclosure free from visible damage",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.002",
+          "criteria": "Panel dimensions 500 × 600 mm verified",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.003",
+          "criteria": "DIN Rail properly installed",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.004",
+          "criteria": "Components properly mounted on DIN Rail",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.005",
+          "criteria": "Wiring ducts properly secured",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.006",
+          "criteria": "Adequate component clearance maintained",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.007",
+          "criteria": "Earthing connection properly provided",
+          "status": "PASS"
+        },
+        {
+          "tag": "PHY.008",
+          "criteria": "No foreign objects inside cabinet",
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "final_qc_summary": {
+    "total_main_components": 5,
+    "total_inspection_sections": 4,
+    "supply_voltage": "230V AC",
+    "control_voltage": "24V DC",
+    "panel_dimensions": "500 mm × 600 mm"
+  },
+  "remarks": "Wiring section removed. All remaining items manually verified and marked as PASS.",
+  "inspector_name": "System Approved",
+  "final_status": "PASS",
+  "allowed_status_values": [
+    "PASS",
+    "FAIL",
+    "REVIEW"
+  ]
+}

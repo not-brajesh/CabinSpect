@@ -1,0 +1,337 @@
+
+{
+  "project": "CABINSPECT",
+  "inspection_title": "QUALITY CONTROL CHECKLIST",
+  "panel": "PLC-Based VFD Motor Control Panel",
+  "inspection_type": [
+    "Physical Inspection",
+    "Visual Inspection",
+    "Engineering Drawing Verification"
+  ],
+  "reference": [
+    "Actual Cabinet Photograph",
+    "Engineering Front View Drawing"
+  ],
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "ACTUAL CABINET - PHYSICAL QC CHECKLIST",
+      "total_items": 22,
+      "checklist": [
+        {
+          "id": 1,
+          "component": "Panel Enclosure",
+          "inspection_criteria": "Check cabinet body and overall condition",
+          "status": "PENDING"
+        },
+        {
+          "id": 2,
+          "component": "Panel Door",
+          "inspection_criteria": "Check door alignment and locking",
+          "status": "PENDING"
+        },
+        {
+          "id": 3,
+          "component": "Door Hinges",
+          "inspection_criteria": "Check proper mounting and movement",
+          "status": "PENDING"
+        },
+        {
+          "id": 4,
+          "component": "MCB",
+          "inspection_criteria": "Check mounting, rating and condition",
+          "status": "PENDING"
+        },
+        {
+          "id": 5,
+          "component": "Contactor",
+          "inspection_criteria": "Check mounting and terminal connections",
+          "status": "PENDING"
+        },
+        {
+          "id": 6,
+          "component": "VFD (Delta)",
+          "inspection_criteria": "Check mounting, display and keypad condition",
+          "status": "PENDING"
+        },
+        {
+          "id": 7,
+          "component": "24V DC Power Supply",
+          "inspection_criteria": "Check mounting, output terminals and indicator",
+          "status": "PENDING"
+        },
+        {
+          "id": 8,
+          "component": "OLR",
+          "inspection_criteria": "Check mounting and overload adjustment dial",
+          "status": "PENDING"
+        },
+        {
+          "id": 9,
+          "component": "Relay R1",
+          "inspection_criteria": "Check mounting and terminal connections",
+          "status": "PENDING"
+        },
+        {
+          "id": 10,
+          "component": "Relay R2",
+          "inspection_criteria": "Check mounting and terminal connections",
+          "status": "PENDING"
+        },
+        {
+          "id": 11,
+          "component": "PLC (Siemens S7-1200)",
+          "inspection_criteria": "Check mounting, LEDs and I/O connections",
+          "status": "PENDING"
+        },
+        {
+          "id": 12,
+          "component": "Terminal Blocks",
+          "inspection_criteria": "Check mounting and terminal condition",
+          "status": "PENDING"
+        },
+        {
+          "id": 13,
+          "component": "Earth Terminal",
+          "inspection_criteria": "Check PE terminal and grounding connection",
+          "status": "PENDING"
+        },
+        {
+          "id": 14,
+          "component": "Neutral / Control Terminals",
+          "inspection_criteria": "Check terminal identification and connections",
+          "status": "PENDING"
+        },
+        {
+          "id": 15,
+          "component": "DIN Rails",
+          "inspection_criteria": "Check alignment and component mounting",
+          "status": "PENDING"
+        },
+        {
+          "id": 16,
+          "component": "Wiring Duct",
+          "inspection_criteria": "Check cable routing and duct condition",
+          "status": "PENDING"
+        },
+        {
+          "id": 17,
+          "component": "Power Wiring",
+          "inspection_criteria": "Check R-Y-B phase wire identification",
+          "status": "PENDING"
+        },
+        {
+          "id": 18,
+          "component": "Control Wiring",
+          "inspection_criteria": "Check proper routing and connections",
+          "status": "PENDING"
+        },
+        {
+          "id": 19,
+          "component": "Wire Ferrules",
+          "inspection_criteria": "Check proper crimping and termination",
+          "status": "PENDING"
+        },
+        {
+          "id": 20,
+          "component": "Wire Markers",
+          "inspection_criteria": "Check cable numbers and identification",
+          "status": "PENDING"
+        },
+        {
+          "id": 21,
+          "component": "Cable Management",
+          "inspection_criteria": "Check loose wires and proper dressing",
+          "status": "PENDING"
+        },
+        {
+          "id": 22,
+          "component": "Internal Cleanliness",
+          "inspection_criteria": "Check dust, foreign objects and finishing",
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "section_id": 2,
+      "section_name": "ENGINEERING DRAWING - FRONT VIEW QC CHECKLIST",
+      "total_items": 15,
+      "checklist": [
+        {
+          "id": 1,
+          "component": "Cabinet Outline",
+          "inspection_criteria": "Verify enclosure representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 2,
+          "component": "MCB",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 3,
+          "component": "Contactor",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 4,
+          "component": "VFD",
+          "inspection_criteria": "Verify position and front-panel representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 5,
+          "component": "24V DC Power Supply",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 6,
+          "component": "OLR",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 7,
+          "component": "Relay R1",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 8,
+          "component": "Relay R2",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 9,
+          "component": "PLC S7-1200",
+          "inspection_criteria": "Verify position and representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 10,
+          "component": "Terminal Blocks",
+          "inspection_criteria": "Verify arrangement and quantity",
+          "status": "PENDING"
+        },
+        {
+          "id": 11,
+          "component": "Earth Terminal",
+          "inspection_criteria": "Verify earth terminal representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 12,
+          "component": "DIN Rails",
+          "inspection_criteria": "Verify component mounting arrangement",
+          "status": "PENDING"
+        },
+        {
+          "id": 13,
+          "component": "Component Labels",
+          "inspection_criteria": "Verify component names and identification",
+          "status": "PENDING"
+        },
+        {
+          "id": 14,
+          "component": "Component Spacing",
+          "inspection_criteria": "Verify mounting positions and clearances",
+          "status": "PENDING"
+        },
+        {
+          "id": 15,
+          "component": "Drawing Layout",
+          "inspection_criteria": "Verify front-view arrangement against actual cabinet",
+          "status": "PENDING"
+        }
+      ]
+    },
+    {
+      "section_id": 3,
+      "section_name": "ACTUAL CABINET VS ENGINEERING DRAWING - COMPARISON",
+      "total_items": 9,
+      "checklist": [
+        {
+          "id": 1,
+          "parameter": "Component Matching",
+          "inspection_criteria": "All actual components represented in drawing",
+          "status": "PENDING"
+        },
+        {
+          "id": 2,
+          "parameter": "Component Position",
+          "inspection_criteria": "Physical and drawing positions match",
+          "status": "PENDING"
+        },
+        {
+          "id": 3,
+          "parameter": "Component Quantity",
+          "inspection_criteria": "Verify component count",
+          "status": "PENDING"
+        },
+        {
+          "id": 4,
+          "parameter": "Component Identification",
+          "inspection_criteria": "Verify component names and tags",
+          "status": "PENDING"
+        },
+        {
+          "id": 5,
+          "parameter": "Terminal Arrangement",
+          "inspection_criteria": "Verify terminal block arrangement",
+          "status": "PENDING"
+        },
+        {
+          "id": 6,
+          "parameter": "Earthing Arrangement",
+          "inspection_criteria": "Verify PE terminal representation",
+          "status": "PENDING"
+        },
+        {
+          "id": 7,
+          "parameter": "Mounting Arrangement",
+          "inspection_criteria": "Verify DIN rail and mounting positions",
+          "status": "PENDING"
+        },
+        {
+          "id": 8,
+          "parameter": "Wiring Arrangement",
+          "inspection_criteria": "Verify wiring representation against actual panel",
+          "status": "PENDING"
+        },
+        {
+          "id": 9,
+          "parameter": "Overall Layout",
+          "inspection_criteria": "Verify complete front-view layout",
+          "status": "PENDING"
+        }
+      ]
+    }
+  ],
+  "final_qc_summary": {
+    "total_components_inspected": 22,
+    "inspection_results": {
+      "actual_cabinet_inspection": "PENDING",
+      "engineering_drawing_inspection": "PENDING",
+      "drawing_vs_actual_matching": "PENDING",
+      "wiring_inspection": "PENDING",
+      "earthing_inspection": "PENDING"
+    },
+    "final_qc_result": "PENDING",
+    "remarks": ""
+  },
+  "allowed_status_values": [
+    "OK",
+    "NOT_OK",
+    "PENDING"
+  ],
+  "allowed_final_results": [
+    "APPROVED",
+    "REJECTED",
+    "REWORK_REQUIRED",
+    "PENDING"
+  ]
+}

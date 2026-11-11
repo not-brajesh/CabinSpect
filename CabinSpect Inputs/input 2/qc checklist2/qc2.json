@@ -1,0 +1,75 @@
+
+{
+  "project": "CABINSPECT",
+  "document": "Quality Control Checklist",
+  "panel": {
+    "name": "VFD-Based Motor Control Panel",
+    "size": "500 x 600 x 200 mm"
+  },
+  "actual_cabinet_qc": {
+    "inspection_type": "Visual and Physical Inspection",
+    "checklist": [
+      {"s_no": 1, "component": "Panel Enclosure", "criteria": "Check cabinet body condition", "status": ""},
+      {"s_no": 2, "component": "Panel Door", "criteria": "Check door alignment and hinges", "status": ""},
+      {"s_no": 3, "component": "MCB", "criteria": "Verify 3-Pole MCB installation", "status": ""},
+      {"s_no": 4, "component": "MCB", "criteria": "Check C32 rating and labelling", "status": ""},
+      {"s_no": 5, "component": "VFD", "criteria": "Verify INVT GD20 installation", "status": ""},
+      {"s_no": 6, "component": "VFD", "criteria": "Check display and keypad condition", "status": ""},
+      {"s_no": 7, "component": "K1 Contactor", "criteria": "Check mounting and terminal connections", "status": ""},
+      {"s_no": 8, "component": "K2 Contactor", "criteria": "Check mounting and terminal connections", "status": ""},
+      {"s_no": 9, "component": "Power Wiring", "criteria": "Check wire routing and connections", "status": ""},
+      {"s_no": 10, "component": "Cable Colour", "criteria": "Verify phase colour identification", "status": ""},
+      {"s_no": 11, "component": "Cable Duct", "criteria": "Check cable duct installation", "status": ""},
+      {"s_no": 12, "component": "Cable Ties", "criteria": "Check cable dressing and fastening", "status": ""},
+      {"s_no": 13, "component": "Ferrules", "criteria": "Verify wire identification markers", "status": ""},
+      {"s_no": 14, "component": "Terminals", "criteria": "Check terminal tightness", "status": ""},
+      {"s_no": 15, "component": "Earthing", "criteria": "Verify protective earth connection", "status": ""},
+      {"s_no": 16, "component": "Mounting", "criteria": "Check component mounting screws", "status": ""},
+      {"s_no": 17, "component": "Panel Finishing", "criteria": "Check cleanliness and paint condition", "status": ""},
+      {"s_no": 18, "component": "Safety", "criteria": "Check exposed wires and loose connections", "status": ""}
+    ],
+    "final_inspection": ""
+  },
+  "engineering_drawing_qc": {
+    "drawing": "VFD-Based Motor Control Panel - Front View",
+    "drawing_number": "MCP-001",
+    "inspection_type": "Drawing Verification",
+    "checklist": [
+      {"s_no": 1, "element": "Panel Outline", "criteria": "Check cabinet front-view outline", "status": ""},
+      {"s_no": 2, "element": "MCB", "criteria": "Verify MCB position", "status": ""},
+      {"s_no": 3, "element": "VFD", "criteria": "Verify VFD position", "status": ""},
+      {"s_no": 4, "element": "K1", "criteria": "Verify K1 contactor position", "status": ""},
+      {"s_no": 5, "element": "K2", "criteria": "Verify K2 contactor position", "status": ""},
+      {"s_no": 6, "element": "Component Labels", "criteria": "Check all component tags", "status": ""},
+      {"s_no": 7, "element": "Cable Duct", "criteria": "Verify cable duct representation", "status": ""},
+      {"s_no": 8, "element": "Power Wiring", "criteria": "Check wiring representation", "status": ""},
+      {"s_no": 9, "element": "Terminal Connections", "criteria": "Verify terminal representation", "status": ""},
+      {"s_no": 10, "element": "Cable Routing", "criteria": "Check wire routing and separation", "status": ""},
+      {"s_no": 11, "element": "Mounting", "criteria": "Verify component mounting arrangement", "status": ""},
+      {"s_no": 12, "element": "Drawing Title", "criteria": "Check FRONT VIEW title", "status": ""},
+      {"s_no": 13, "element": "Drawing Number", "criteria": "Verify drawing identification", "status": ""},
+      {"s_no": 14, "element": "Dimensions", "criteria": "Verify dimensions against approved design", "status": ""},
+      {"s_no": 15, "element": "Drawing Accuracy", "criteria": "Compare drawing with actual cabinet", "status": ""}
+    ],
+    "final_inspection": ""
+  },
+  "inspection_approval": {
+    "actual_cabinet": {
+      "inspected_by": "",
+      "checked_by": "",
+      "date": "",
+      "final_status": "",
+      "remarks": ""
+    },
+    "engineering_drawing": {
+      "inspected_by": "",
+      "checked_by": "",
+      "date": "",
+      "final_status": "",
+      "remarks": ""
+    }
+  },
+  "status_options": ["Pass", "Fail", "N/A"],
+  "note": "Final approval requires physical inspection, drawing verification and electrical testing against the approved design."
+}
+```

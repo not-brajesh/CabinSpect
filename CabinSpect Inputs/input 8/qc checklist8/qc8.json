@@ -1,0 +1,337 @@
+{
+  "project": "CABINSPECT",
+  "document": "QUALITY CONTROL CHECKLIST",
+  "panel": "PLC-Based VFD Motor Control Panel",
+  "inspection_type": "Physical, Visual & Engineering Drawing Verification",
+
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "Actual Cabinet - Physical QC Checklist",
+      "items": [
+        {
+          "s_no": 1,
+          "component": "Panel Enclosure",
+          "inspection_criteria": "Check cabinet body and overall condition",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 2,
+          "component": "Panel Door",
+          "inspection_criteria": "Check door alignment and locking",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 3,
+          "component": "Panel Hinges",
+          "inspection_criteria": "Check proper mounting and movement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 4,
+          "component": "MCB",
+          "inspection_criteria": "Check mounting, rating and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 5,
+          "component": "Contactor",
+          "inspection_criteria": "Check mounting and power terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 6,
+          "component": "VFD (Delta VFD-B)",
+          "inspection_criteria": "Check mounting, display and keypad condition",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 7,
+          "component": "24V DC Power Supply",
+          "inspection_criteria": "Check input/output terminals and indicator",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 8,
+          "component": "OLR (Overload Relay)",
+          "inspection_criteria": "Check mounting and overload setting",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 9,
+          "component": "Relay R1",
+          "inspection_criteria": "Check relay mounting and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 10,
+          "component": "Relay R2",
+          "inspection_criteria": "Check relay mounting and terminal connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 11,
+          "component": "PLC (Siemens S7-1200)",
+          "inspection_criteria": "Check mounting, wiring and status LEDs",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 12,
+          "component": "Terminal Blocks",
+          "inspection_criteria": "Check mounting and wire termination",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 13,
+          "component": "Earth Terminal",
+          "inspection_criteria": "Check earth connection and continuity",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 14,
+          "component": "DIN Rail",
+          "inspection_criteria": "Check proper mounting and alignment",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 15,
+          "component": "Cable Duct",
+          "inspection_criteria": "Check cover, alignment and cable arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 16,
+          "component": "Internal Wiring",
+          "inspection_criteria": "Check wire routing and insulation",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 17,
+          "component": "Wire Ferrules",
+          "inspection_criteria": "Check ferrule crimping and identification",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 18,
+          "component": "Cable Markers",
+          "inspection_criteria": "Check wire numbering and identification",
+          "status": ["OK", "Not OK"]
+        }
+      ]
+    },
+
+    {
+      "section_id": 2,
+      "section_name": "Engineering Drawing - QC Checklist",
+      "items": [
+        {
+          "s_no": 1,
+          "component": "Cabinet Layout",
+          "inspection_criteria": "Verify component arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 2,
+          "component": "MCB",
+          "inspection_criteria": "Verify correct position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 3,
+          "component": "Contactor",
+          "inspection_criteria": "Verify correct position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 4,
+          "component": "VFD",
+          "inspection_criteria": "Verify correct position and orientation",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 5,
+          "component": "24V DC Supply",
+          "inspection_criteria": "Verify correct position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 6,
+          "component": "OLR",
+          "inspection_criteria": "Verify correct position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 7,
+          "component": "Relay R1 & R2",
+          "inspection_criteria": "Verify relay arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 8,
+          "component": "PLC S7-1200",
+          "inspection_criteria": "Verify PLC position",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 9,
+          "component": "Terminal Blocks",
+          "inspection_criteria": "Verify terminal block arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 10,
+          "component": "Earthing",
+          "inspection_criteria": "Verify earth terminal location",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 11,
+          "component": "DIN Rails",
+          "inspection_criteria": "Verify rail arrangement",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 12,
+          "component": "Cable Ducts",
+          "inspection_criteria": "Verify cable duct routing",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 13,
+          "component": "Component Labels",
+          "inspection_criteria": "Verify component identification",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 14,
+          "component": "Wiring Layout",
+          "inspection_criteria": "Verify wiring routing with actual cabinet",
+          "status": ["OK", "Not OK"]
+        }
+      ]
+    },
+
+    {
+      "section_id": 3,
+      "section_name": "Wiring & Electrical QC Checklist",
+      "items": [
+        {
+          "s_no": 1,
+          "component": "Incoming Supply",
+          "inspection_criteria": "Check R-Y-B phase connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 2,
+          "component": "MCB Output",
+          "inspection_criteria": "Check outgoing power connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 3,
+          "component": "Contactor Wiring",
+          "inspection_criteria": "Check input and output connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 4,
+          "component": "VFD Input",
+          "inspection_criteria": "Verify incoming supply connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 5,
+          "component": "VFD Output",
+          "inspection_criteria": "Verify motor output connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 6,
+          "component": "SMPS Output",
+          "inspection_criteria": "Verify 24V DC polarity",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 7,
+          "component": "PLC Wiring",
+          "inspection_criteria": "Check power and I/O connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 8,
+          "component": "OLR Wiring",
+          "inspection_criteria": "Check overload protection connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 9,
+          "component": "Relay Wiring",
+          "inspection_criteria": "Check coil and contact connections",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 10,
+          "component": "Earthing",
+          "inspection_criteria": "Check protective earth continuity",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 11,
+          "component": "Wire Tightness",
+          "inspection_criteria": "Check terminal screw tightness",
+          "status": ["OK", "Not OK"]
+        },
+        {
+          "s_no": 12,
+          "component": "Short Circuit",
+          "inspection_criteria": "Verify absence of short circuit",
+          "status": ["OK", "Not OK"]
+        }
+      ],
+      "safety_note": "Electrical testing should be performed by qualified personnel with appropriate isolation and safety procedures."
+    },
+
+    {
+      "section_id": 4,
+      "section_name": "Final QC Inspection",
+      "items": [
+        {
+          "s_no": 1,
+          "inspection_parameter": "Physical Inspection Completed",
+          "status": ["Yes", "No"]
+        },
+        {
+          "s_no": 2,
+          "inspection_parameter": "Drawing Verification Completed",
+          "status": ["Yes", "No"]
+        },
+        {
+          "s_no": 3,
+          "inspection_parameter": "Wiring Inspection Completed",
+          "status": ["Yes", "No"]
+        },
+        {
+          "s_no": 4,
+          "inspection_parameter": "Electrical Testing Completed",
+          "status": ["Yes", "No"]
+        },
+        {
+          "s_no": 5,
+          "inspection_parameter": "Panel Ready for Approval",
+          "status": ["Yes", "No"]
+        }
+      ]
+    }
+  ],
+
+  "inspection_details": {
+    "inspector_name": "",
+    "date": "",
+    "remarks": "",
+    "final_approval": [
+      "Approved",
+      "Rejected",
+      "Rework Required"
+    ]
+  }
+}

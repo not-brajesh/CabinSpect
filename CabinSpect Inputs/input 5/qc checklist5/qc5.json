@@ -1,0 +1,84 @@
+{
+  "project": "CABINSPECT",
+  "panel": "PLC-Based Industrial Control Panel",
+  "qc_checklists": [
+    {
+      "section": "Actual Cabinet - Physical QC Checklist",
+      "inspection_type": "Visual & Physical Inspection",
+      "items": [
+        {"s_no": 1, "component": "Panel Enclosure", "criteria": "Check cabinet body and overall condition", "status": "Pending"},
+        {"s_no": 2, "component": "Panel Door", "criteria": "Check door alignment and locking", "status": "Pending"},
+        {"s_no": 3, "component": "MCB", "criteria": "Check mounting, rating and terminal connections", "status": "Pending"},
+        {"s_no": 4, "component": "24V DC Power Supply", "criteria": "Check mounting, ventilation and terminals", "status": "Pending"},
+        {"s_no": 5, "component": "PLC", "criteria": "Check mounting, model and I/O connections", "status": "Pending"},
+        {"s_no": 6, "component": "HMI", "criteria": "Check display, mounting and connections", "status": "Pending"},
+        {"s_no": 7, "component": "Contactor K1", "criteria": "Check mounting and wiring", "status": "Pending"},
+        {"s_no": 8, "component": "Contactor K2", "criteria": "Check mounting and wiring", "status": "Pending"},
+        {"s_no": 9, "component": "Contactor K3", "criteria": "Check mounting and wiring", "status": "Pending"},
+        {"s_no": 10, "component": "Contactor K4", "criteria": "Check mounting and wiring", "status": "Pending"},
+        {"s_no": 11, "component": "Terminal Blocks (Left)", "criteria": "Check mounting and terminal tightness", "status": "Pending"},
+        {"s_no": 12, "component": "Relay R1", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 13, "component": "Relay R2", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 14, "component": "Relay R3", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 15, "component": "Relay R4", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 16, "component": "Terminal Blocks (Right)", "criteria": "Check mounting and wiring", "status": "Pending"},
+        {"s_no": 17, "component": "Earth Bar", "criteria": "Check earthing connections", "status": "Pending"},
+        {"s_no": 18, "component": "DIN Rails", "criteria": "Check proper mounting and alignment", "status": "Pending"},
+        {"s_no": 19, "component": "Cable Ducts", "criteria": "Check covers and cable routing", "status": "Pending"},
+        {"s_no": 20, "component": "Power Wiring", "criteria": "Check wire colour and termination", "status": "Pending"},
+        {"s_no": 21, "component": "Control Wiring", "criteria": "Check wire identification and connections", "status": "Pending"},
+        {"s_no": 22, "component": "Wire Ferrules", "criteria": "Check proper ferrule crimping", "status": "Pending"},
+        {"s_no": 23, "component": "Cable Management", "criteria": "Check proper wire arrangement", "status": "Pending"},
+        {"s_no": 24, "component": "Overall Inspection", "criteria": "Check cleanliness and loose connections", "status": "Pending"}
+      ]
+    },
+    {
+      "section": "Engineering Drawing - QC Checklist",
+      "drawing": "PLC Control Panel - Front View",
+      "inspection_type": "Engineering Drawing Verification",
+      "items": [
+        {"s_no": 1, "component": "Cabinet Outline", "criteria": "Verify enclosure dimensions and shape", "status": "Pending"},
+        {"s_no": 2, "component": "MCB", "criteria": "Verify position and component identification", "status": "Pending"},
+        {"s_no": 3, "component": "Power Supply", "criteria": "Verify 24V DC power supply position", "status": "Pending"},
+        {"s_no": 4, "component": "PLC", "criteria": "Verify PLC position and identification", "status": "Pending"},
+        {"s_no": 5, "component": "HMI", "criteria": "Verify HMI position and mounting layout", "status": "Pending"},
+        {"s_no": 6, "component": "K1", "criteria": "Verify contactor position and tag", "status": "Pending"},
+        {"s_no": 7, "component": "K2", "criteria": "Verify contactor position and tag", "status": "Pending"},
+        {"s_no": 8, "component": "K3", "criteria": "Verify contactor position and tag", "status": "Pending"},
+        {"s_no": 9, "component": "K4", "criteria": "Verify contactor position and tag", "status": "Pending"},
+        {"s_no": 10, "component": "Terminal Blocks", "criteria": "Verify terminal block arrangement", "status": "Pending"},
+        {"s_no": 11, "component": "R1", "criteria": "Verify relay position and tag", "status": "Pending"},
+        {"s_no": 12, "component": "R2", "criteria": "Verify relay position and tag", "status": "Pending"},
+        {"s_no": 13, "component": "R3", "criteria": "Verify relay position and tag", "status": "Pending"},
+        {"s_no": 14, "component": "R4", "criteria": "Verify relay position and tag", "status": "Pending"},
+        {"s_no": 15, "component": "Earth Bar", "criteria": "Verify earth bar position and symbol", "status": "Pending"},
+        {"s_no": 16, "component": "DIN Rails", "criteria": "Verify component mounting arrangement", "status": "Pending"},
+        {"s_no": 17, "component": "Cable Ducts", "criteria": "Verify cable duct layout", "status": "Pending"},
+        {"s_no": 18, "component": "Component Labels", "criteria": "Verify all component tags", "status": "Pending"},
+        {"s_no": 19, "component": "Component Spacing", "criteria": "Verify component clearance", "status": "Pending"},
+        {"s_no": 20, "component": "Drawing Revision", "criteria": "Verify drawing number and revision", "status": "Pending"}
+      ]
+    },
+    {
+      "section": "Actual Cabinet vs Engineering Drawing - Cross Verification",
+      "items": [
+        {"s_no": 1, "verification_item": "Component Quantity", "expected_result": "Actual and drawing quantities match", "status": "Pending"},
+        {"s_no": 2, "verification_item": "Component Position", "expected_result": "Component locations match", "status": "Pending"},
+        {"s_no": 3, "verification_item": "Component Tags", "expected_result": "All tags match", "status": "Pending"},
+        {"s_no": 4, "verification_item": "DIN Rail Arrangement", "expected_result": "Mounting layout matches", "status": "Pending"},
+        {"s_no": 5, "verification_item": "Terminal Block Position", "expected_result": "Position matches", "status": "Pending"},
+        {"s_no": 6, "verification_item": "Relay Arrangement", "expected_result": "R1-R4 arrangement matches", "status": "Pending"},
+        {"s_no": 7, "verification_item": "Contactor Arrangement", "expected_result": "K1-K4 arrangement matches", "status": "Pending"},
+        {"s_no": 8, "verification_item": "Earth Bar Position", "expected_result": "Earthing arrangement matches", "status": "Pending"},
+        {"s_no": 9, "verification_item": "Cable Duct Layout", "expected_result": "Physical and drawing layout match", "status": "Pending"},
+        {"s_no": 10, "verification_item": "Overall Layout", "expected_result": "Actual cabinet matches front view", "status": "Pending"}
+      ]
+    }
+  ],
+  "status_options": [
+    "Pending",
+    "OK",
+    "Not OK",
+    "N/A"
+  ]
+}

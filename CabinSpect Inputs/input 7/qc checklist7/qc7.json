@@ -1,0 +1,307 @@
+{
+  "project": "CABINSPECT",
+  "document": "QUALITY CONTROL CHECKLIST",
+  "panel": "PLC-Based Industrial Control Panel",
+  "inspection_type": "Physical Inspection & Engineering Drawing Verification",
+
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "Actual Cabinet - Physical QC Checklist",
+      "inspection_items": [
+        {
+          "s_no": 1,
+          "component": "Panel Enclosure",
+          "inspection_criteria": "Check cabinet body and overall condition",
+          "status": null
+        },
+        {
+          "s_no": 2,
+          "component": "Panel Door",
+          "inspection_criteria": "Check door alignment and condition",
+          "status": null
+        },
+        {
+          "s_no": 3,
+          "component": "MCB",
+          "inspection_criteria": "Check mounting, rating and terminal connections",
+          "status": null
+        },
+        {
+          "s_no": 4,
+          "component": "24V DC SMPS",
+          "inspection_criteria": "Check mounting, output terminals and connections",
+          "status": null
+        },
+        {
+          "s_no": 5,
+          "component": "PLC (Siemens S7-1200)",
+          "inspection_criteria": "Check mounting, wiring and terminal connections",
+          "status": null
+        },
+        {
+          "s_no": 6,
+          "component": "Cooling Fan",
+          "inspection_criteria": "Check fan mounting and ventilation",
+          "status": null
+        },
+        {
+          "s_no": 7,
+          "component": "Contactor K1",
+          "inspection_criteria": "Check mounting and power connections",
+          "status": null
+        },
+        {
+          "s_no": 8,
+          "component": "Contactor K2",
+          "inspection_criteria": "Check mounting and power connections",
+          "status": null
+        },
+        {
+          "s_no": 9,
+          "component": "Timer T1",
+          "inspection_criteria": "Check mounting and timer setting",
+          "status": null
+        },
+        {
+          "s_no": 10,
+          "component": "Relay R1",
+          "inspection_criteria": "Check mounting and wiring connections",
+          "status": null
+        },
+        {
+          "s_no": 11,
+          "component": "Earth Terminal",
+          "inspection_criteria": "Check earthing connection and tightness",
+          "status": null
+        },
+        {
+          "s_no": 12,
+          "component": "Grey Terminal Blocks (TB1)",
+          "inspection_criteria": "Check terminal mounting and wiring",
+          "status": null
+        },
+        {
+          "s_no": 13,
+          "component": "Blue Terminal Blocks (TB2)",
+          "inspection_criteria": "Check terminal mounting and wiring",
+          "status": null
+        },
+        {
+          "s_no": 14,
+          "component": "Orange Terminal Blocks (TB3)",
+          "inspection_criteria": "Check terminal mounting and wiring",
+          "status": null
+        },
+        {
+          "s_no": 15,
+          "component": "DIN Rail",
+          "inspection_criteria": "Check mounting and component alignment",
+          "status": null
+        },
+        {
+          "s_no": 16,
+          "component": "Wiring Duct",
+          "inspection_criteria": "Check cable routing and duct cover",
+          "status": null
+        },
+        {
+          "s_no": 17,
+          "component": "Wire Ferrules",
+          "inspection_criteria": "Check ferrule fitting and wire numbering",
+          "status": null
+        },
+        {
+          "s_no": 18,
+          "component": "Cable Management",
+          "inspection_criteria": "Check proper wire dressing and connections",
+          "status": null
+        }
+      ]
+    },
+    {
+      "section_id": 2,
+      "section_name": "Engineering Drawing - Front View Verification",
+      "inspection_items": [
+        {
+          "s_no": 1,
+          "component": "Cabinet Outline",
+          "inspection_criteria": "Verify cabinet front-view layout",
+          "status": null
+        },
+        {
+          "s_no": 2,
+          "component": "MCB",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 3,
+          "component": "24V DC SMPS",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 4,
+          "component": "PLC",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 5,
+          "component": "Cooling Fan",
+          "inspection_criteria": "Verify fan location with actual cabinet",
+          "status": null
+        },
+        {
+          "s_no": 6,
+          "component": "Contactor K1",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 7,
+          "component": "Contactor K2",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 8,
+          "component": "Timer T1",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 9,
+          "component": "Relay R1",
+          "inspection_criteria": "Verify component position",
+          "status": null
+        },
+        {
+          "s_no": 10,
+          "component": "Earth Terminal",
+          "inspection_criteria": "Verify bottom-row location",
+          "status": null
+        },
+        {
+          "s_no": 11,
+          "component": "TB1, TB2, TB3",
+          "inspection_criteria": "Verify terminal block arrangement",
+          "status": null
+        },
+        {
+          "s_no": 12,
+          "component": "DIN Rail",
+          "inspection_criteria": "Verify component mounting arrangement",
+          "status": null
+        },
+        {
+          "s_no": 13,
+          "component": "Wiring Duct",
+          "inspection_criteria": "Verify duct layout and routing",
+          "status": null
+        },
+        {
+          "s_no": 14,
+          "component": "Component Labels",
+          "inspection_criteria": "Verify component identification tags",
+          "status": null
+        }
+      ]
+    },
+    {
+      "section_id": 3,
+      "section_name": "Actual Cabinet vs Engineering Drawing",
+      "inspection_items": [
+        {
+          "s_no": 1,
+          "verification_point": "Component Arrangement",
+          "observation": "Compare actual and drawing layout",
+          "status": null
+        },
+        {
+          "s_no": 2,
+          "verification_point": "Component Identification",
+          "observation": "Verify all component tags",
+          "status": null
+        },
+        {
+          "s_no": 3,
+          "verification_point": "Component Quantity",
+          "observation": "Verify installed components",
+          "status": null
+        },
+        {
+          "s_no": 4,
+          "verification_point": "Fan Location",
+          "observation": "Actual side-mounted; drawing shows front view",
+          "status": null
+        },
+        {
+          "s_no": 5,
+          "verification_point": "Terminal Arrangement",
+          "observation": "Compare grey, blue and orange terminals",
+          "status": null
+        },
+        {
+          "s_no": 6,
+          "verification_point": "Mounting Position",
+          "observation": "Verify DIN rail positions",
+          "status": null
+        },
+        {
+          "s_no": 7,
+          "verification_point": "Cable Routing",
+          "observation": "Compare wiring arrangement",
+          "status": null
+        }
+      ]
+    },
+    {
+      "section_id": 4,
+      "section_name": "Final QC Inspection",
+      "inspection_items": [
+        {
+          "s_no": 1,
+          "inspection_parameter": "Physical Inspection Completed",
+          "status": null,
+          "options": ["Yes", "No"]
+        },
+        {
+          "s_no": 2,
+          "inspection_parameter": "Drawing Verification Completed",
+          "status": null,
+          "options": ["Yes", "No"]
+        },
+        {
+          "s_no": 3,
+          "inspection_parameter": "Wiring Inspection Completed",
+          "status": null,
+          "options": ["Yes", "No"]
+        },
+        {
+          "s_no": 4,
+          "inspection_parameter": "Component Identification Completed",
+          "status": null,
+          "options": ["Yes", "No"]
+        },
+        {
+          "s_no": 5,
+          "inspection_parameter": "Electrical Testing Completed",
+          "status": null,
+          "options": ["Yes", "No"]
+        },
+        {
+          "s_no": 6,
+          "inspection_parameter": "Final QC Approval",
+          "status": null,
+          "options": ["Approved", "Rejected"]
+        }
+      ]
+    }
+  ],
+
+  "qc_remarks": "",
+  "final_result": null,
+  "final_result_options": ["PASS", "FAIL"]
+}

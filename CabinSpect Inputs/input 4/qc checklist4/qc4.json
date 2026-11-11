@@ -1,0 +1,90 @@
+{
+  "project": "CABINSPECT",
+  "title": "QUALITY CONTROL CHECKLIST",
+  "panel": {
+    "type": "PLC-Based Electrical Control Panel",
+    "plc": "Siemens SIMATIC S7-1200",
+    "mcb": "Schneider C32",
+    "contactor": "Schneider LC1D09"
+  },
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "ACTUAL CABINET - PHYSICAL QC CHECKLIST",
+      "checklist": [
+        {"s_no": 1, "component": "Panel Enclosure", "criteria": "Check cabinet body, frame and overall condition", "status": ""},
+        {"s_no": 2, "component": "Panel Door", "criteria": "Check door alignment and opening/closing", "status": ""},
+        {"s_no": 3, "component": "Door Hinges", "criteria": "Check hinge mounting and proper movement", "status": ""},
+        {"s_no": 4, "component": "MCB1", "criteria": "Check Schneider C32 MCB mounting and condition", "status": ""},
+        {"s_no": 5, "component": "MCB2", "criteria": "Check Schneider C32 MCB mounting and condition", "status": ""},
+        {"s_no": 6, "component": "PLC", "criteria": "Check Siemens SIMATIC S7-1200 PLC mounting", "status": ""},
+        {"s_no": 7, "component": "PLC Expansion Modules", "criteria": "Check module alignment and proper fitting", "status": ""},
+        {"s_no": 8, "component": "KM1", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 9, "component": "KM2", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 10, "component": "KM3", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 11, "component": "KM4", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 12, "component": "KM5", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 13, "component": "KM6", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 14, "component": "KM7", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 15, "component": "KM8", "criteria": "Check Schneider LC1D09 contactor mounting", "status": ""},
+        {"s_no": 16, "component": "DIN Rail", "criteria": "Check mounting rail alignment and fixing", "status": ""},
+        {"s_no": 17, "component": "Cable Duct", "criteria": "Check duct installation and covers", "status": ""},
+        {"s_no": 18, "component": "Internal Wiring", "criteria": "Check loose, damaged or exposed wires", "status": ""},
+        {"s_no": 19, "component": "Wire Ferrules", "criteria": "Check ferrule crimping and wire termination", "status": ""},
+        {"s_no": 20, "component": "Wire Colour", "criteria": "Check R-Y-B phase colour identification", "status": ""},
+        {"s_no": 21, "component": "Terminal Connections", "criteria": "Check terminal tightness and connections", "status": ""},
+        {"s_no": 22, "component": "Component Labels", "criteria": "Check MCB1, MCB2 and KM1-KM8 labels", "status": ""},
+        {"s_no": 23, "component": "Earthing", "criteria": "Check protective earth connection and continuity", "status": ""},
+        {"s_no": 24, "component": "Cable Management", "criteria": "Check proper wire routing and dressing", "status": ""}
+      ]
+    },
+    {
+      "section_id": 2,
+      "section_name": "ENGINEERING DRAWING - VERIFICATION CHECKLIST",
+      "checklist": [
+        {"s_no": 1, "component": "Panel Layout", "criteria": "Verify overall component arrangement", "status": ""},
+        {"s_no": 2, "component": "MCB1", "criteria": "Verify MCB1 position in top row", "status": ""},
+        {"s_no": 3, "component": "MCB2", "criteria": "Verify MCB2 position in top row", "status": ""},
+        {"s_no": 4, "component": "PLC", "criteria": "Verify Siemens PLC position", "status": ""},
+        {"s_no": 5, "component": "PLC Modules", "criteria": "Verify expansion module arrangement", "status": ""},
+        {"s_no": 6, "component": "KM1-KM4", "criteria": "Verify four contactors in middle row", "status": ""},
+        {"s_no": 7, "component": "KM5-KM8", "criteria": "Verify four contactors in bottom row", "status": ""},
+        {"s_no": 8, "component": "DIN Rail", "criteria": "Verify component mounting arrangement", "status": ""},
+        {"s_no": 9, "component": "Cable Duct", "criteria": "Verify cable duct arrangement against actual cabinet", "status": ""},
+        {"s_no": 10, "component": "Component Identification", "criteria": "Verify all component tags and labels", "status": ""},
+        {"s_no": 11, "component": "Component Alignment", "criteria": "Verify horizontal and vertical alignment", "status": ""},
+        {"s_no": 12, "component": "Overall Layout", "criteria": "Compare actual cabinet with front-view drawing", "status": ""}
+      ]
+    },
+    {
+      "section_id": 3,
+      "section_name": "ELECTRICAL & WIRING QC CHECKLIST",
+      "checklist": [
+        {"s_no": 1, "component": "MCB Input Wiring", "criteria": "Check incoming phase connections", "status": ""},
+        {"s_no": 2, "component": "MCB Output Wiring", "criteria": "Check outgoing wire connections", "status": ""},
+        {"s_no": 3, "component": "PLC Power Supply", "criteria": "Verify rated supply as per PLC specification", "status": ""},
+        {"s_no": 4, "component": "PLC I/O Wiring", "criteria": "Check input and output terminal connections", "status": ""},
+        {"s_no": 5, "component": "Contactor Input", "criteria": "Check L1, L2 and L3 connections", "status": ""},
+        {"s_no": 6, "component": "Contactor Output", "criteria": "Check T1, T2 and T3 connections", "status": ""},
+        {"s_no": 7, "component": "Contactor Coil", "criteria": "Verify A1 and A2 coil connections", "status": ""},
+        {"s_no": 8, "component": "Wire Identification", "criteria": "Verify wire numbers and terminal markings", "status": ""},
+        {"s_no": 9, "component": "Continuity Test", "criteria": "Check electrical continuity as per wiring diagram", "status": ""},
+        {"s_no": 10, "component": "Insulation Test", "criteria": "Perform insulation resistance test as per applicable procedure", "status": ""},
+        {"s_no": 11, "component": "Functional Test", "criteria": "Verify PLC and contactor operation as per control logic", "status": ""}
+      ]
+    }
+  ],
+  "final_qc_inspection_summary": [
+    {"category": "Physical Inspection", "result": ""},
+    {"category": "Engineering Drawing Verification", "result": ""},
+    {"category": "Electrical Wiring Inspection", "result": ""},
+    {"category": "Functional Inspection", "result": ""},
+    {"category": "Final QC Approval", "result": ""}
+  ],
+  "inspection_details": {
+    "inspector_name": "",
+    "inspection_date": "",
+    "remarks": "",
+    "qc_engineer_signature": ""
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "project": "CABINSPECT",
+  "document_type": "QUALITY CONTROL CHECKLIST",
+  "panel": "PLC-Based VFD Motor Control Panel",
+  "inspection_type": "Physical, Visual & Engineering Drawing Verification",
+
+  "sections": [
+    {
+      "section_id": 1,
+      "section_name": "Actual Cabinet - Physical QC Checklist",
+      "inspection_items": [
+        {"s_no": 1, "component": "Panel Enclosure", "criteria": "Check cabinet body and overall condition", "status": "Pending"},
+        {"s_no": 2, "component": "Panel Door", "criteria": "Check door alignment and locking", "status": "Pending"},
+        {"s_no": 3, "component": "Main MCCB", "criteria": "Check mounting, rating and ON/OFF operation", "status": "Pending"},
+        {"s_no": 4, "component": "Contactor", "criteria": "Check mounting and terminal connections", "status": "Pending"},
+        {"s_no": 5, "component": "VFD", "criteria": "Check mounting, display and keypad condition", "status": "Pending"},
+        {"s_no": 6, "component": "24V DC SMPS", "criteria": "Check mounting and output voltage", "status": "Pending"},
+        {"s_no": 7, "component": "MCB1", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 8, "component": "MCB2", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 9, "component": "MCB3", "criteria": "Check mounting and connections", "status": "Pending"},
+        {"s_no": 10, "component": "PLC", "criteria": "Check mounting and power indication", "status": "Pending"},
+        {"s_no": 11, "component": "PLC I/O Modules", "criteria": "Check module alignment and connections", "status": "Pending"},
+        {"s_no": 12, "component": "Terminal Blocks", "criteria": "Check mounting and wire termination", "status": "Pending"},
+        {"s_no": 13, "component": "Earth Terminal", "criteria": "Check earthing connection", "status": "Pending"},
+        {"s_no": 14, "component": "DIN Rails", "criteria": "Check mounting and alignment", "status": "Pending"},
+        {"s_no": 15, "component": "Wiring Ducts", "criteria": "Check cable routing and duct covers", "status": "Pending"},
+        {"s_no": 16, "component": "Power Wiring", "criteria": "Check R-Y-B phase wiring and insulation", "status": "Pending"},
+        {"s_no": 17, "component": "Control Wiring", "criteria": "Check wire connections and ferrules", "status": "Pending"},
+        {"s_no": 18, "component": "Cable Ties", "criteria": "Check proper wire dressing and bundling", "status": "Pending"},
+        {"s_no": 19, "component": "Wire Labels", "criteria": "Check wire identification and numbering", "status": "Pending"},
+        {"s_no": 20, "component": "Overall Wiring", "criteria": "Check loose wires and unwanted exposed conductors", "status": "Pending"}
+      ]
+    },
+
+    {
+      "section_id": 2,
+      "section_name": "Engineering Drawing - QC Checklist",
+      "inspection_items": [
+        {"s_no": 1, "component": "Panel Layout", "criteria": "Verify component positions with actual cabinet", "status": "Pending"},
+        {"s_no": 2, "component": "Main MCCB", "criteria": "Verify location and representation", "status": "Pending"},
+        {"s_no": 3, "component": "Contactor", "criteria": "Verify location and representation", "status": "Pending"},
+        {"s_no": 4, "component": "VFD", "criteria": "Verify location and dimensions", "status": "Pending"},
+        {"s_no": 5, "component": "SMPS", "criteria": "Verify location and representation", "status": "Pending"},
+        {"s_no": 6, "component": "MCB1-MCB3", "criteria": "Verify quantity and arrangement", "status": "Pending"},
+        {"s_no": 7, "component": "PLC", "criteria": "Verify CPU position", "status": "Pending"},
+        {"s_no": 8, "component": "PLC I/O Modules", "criteria": "Verify module quantity and arrangement", "status": "Pending"},
+        {"s_no": 9, "component": "Terminal Blocks", "criteria": "Verify terminal block arrangement", "status": "Pending"},
+        {"s_no": 10, "component": "Earthing", "criteria": "Verify earth terminal representation", "status": "Pending"},
+        {"s_no": 11, "component": "DIN Rails", "criteria": "Verify mounting positions", "status": "Pending"},
+        {"s_no": 12, "component": "Labels", "criteria": "Verify component identification", "status": "Pending"}
+      ]
+    },
+
+    {
+      "section_id": 3,
+      "section_name": "Functional QC Checklist",
+      "inspection_items": [
+        {"s_no": 1, "test_parameter": "Main Supply", "criteria": "Verify incoming 3-phase supply", "status": "Pending"},
+        {"s_no": 2, "test_parameter": "MCCB Operation", "criteria": "Check ON/OFF and protection", "status": "Pending"},
+        {"s_no": 3, "test_parameter": "MCB Operation", "criteria": "Check individual MCB operation", "status": "Pending"},
+        {"s_no": 4, "test_parameter": "SMPS Output", "criteria": "Verify 24V DC output", "status": "Pending"},
+        {"s_no": 5, "test_parameter": "PLC Operation", "criteria": "Verify PLC power and RUN status", "status": "Pending"},
+        {"s_no": 6, "test_parameter": "VFD Display", "criteria": "Verify display and parameter setting", "status": "Pending"},
+        {"s_no": 7, "test_parameter": "Contactor Operation", "criteria": "Verify coil energization and switching", "status": "Pending"},
+        {"s_no": 8, "test_parameter": "Emergency Stop", "criteria": "Verify emergency shutdown, if provided", "status": "Pending"},
+        {"s_no": 9, "test_parameter": "Earthing Test", "criteria": "Verify protective earth continuity", "status": "Pending"},
+        {"s_no": 10, "test_parameter": "Motor Operation", "criteria": "Verify motor RUN/STOP operation", "status": "Pending"}
+      ]
+    }
+  ],
+
+  "final_inspection_summary": {
+    "total_inspection_sections": 3,
+    "visual_inspection": "Pending",
+    "drawing_verification": "Pending",
+    "functional_testing": "Pending",
+    "final_qc_result": "Pending",
+    "remarks": ""
+  },
+
+  "status_options": [
+    "OK",
+    "Not OK",
+    "Pending"
+  ]
+}
