@@ -153,6 +153,10 @@ http://127.0.0.1:8000
 
 The application port depends on the Flask configuration.
 
+# To download the required AI model run:
+python download_model.py
+
+
 ## Inspection Workflow
 
 1. Open the CabinSpect interface.
