@@ -1,4 +1,4 @@
-# CabinSpect BEAST
+# CabinSpect 
 
 ### AI-Powered Industrial Electrical Cabinet Inspection System
 
